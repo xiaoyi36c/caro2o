@@ -47,7 +47,7 @@ public class CustomerVisit extends BaseEntity
 
     /** 录入人 */
     @Excel(name = "录入人")
-    private Long inputUser;
+    private String inputUser;
 
     /** 录入时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -117,12 +117,12 @@ public class CustomerVisit extends BaseEntity
     {
         return visitDate;
     }
-    public void setInputUser(Long inputUser) 
+    public void setInputUser(String inputUser)
     {
         this.inputUser = inputUser;
     }
 
-    public Long getInputUser() 
+    public String getInputUser()
     {
         return inputUser;
     }
