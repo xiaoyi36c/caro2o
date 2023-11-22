@@ -95,6 +95,11 @@
         set audit_state = #{passTheAudit}
         where id = #{id}
     </update>
+    <update id="updateCancellation">
+        update contract
+        set nullify_state = #{cancellation}
+        where id = #{id}
+    </update>
 
     <delete id="deleteContractById" parameterType="String">
         delete from contract where id = #{id}

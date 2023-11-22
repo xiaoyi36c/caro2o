@@ -63,4 +63,7 @@ public interface ContractMapper
 
 
     void updateApprove(@Param("id") Long id, @Param("passTheAudit") long passTheAudit);
+
+
+    void updateCancellation(@Param("id") Long id, @Param("cancellation") long cancellation);
 }

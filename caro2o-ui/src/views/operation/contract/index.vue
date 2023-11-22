@@ -116,7 +116,7 @@
             size="mini"
             type="text"
             icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
+            @click="handleCancellation(scope.row)"
             v-hasPermi="['system:contract:remove']"
           >作废</el-button>
         </template>
@@ -182,7 +182,7 @@
 </template>
 
 <script>
-import { listContract, getContract, delContract, addContract, updateContract, putApprove } from "@/api/operation/contract";
+import { listContract, getContract, delContract, addContract, updateContract, putApprove, putContract } from "@/api/operation/contract";
 
 export default {
   name: "Contract",
@@ -230,6 +230,15 @@ export default {
     this.getList();
   },
   methods: {
+    /** 作废 */
+    handleCancellation(row) {
+      this.$modal.confirm('是否确认作废此合同？').then(function() {
+        return putContract(row.id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("作废成功");
+      }).catch(() => {});
+    },
     /** 审批不通过 */
     handleFail(row) {
       this.$modal.confirm('是否确认不通过此合同？').then(function() {

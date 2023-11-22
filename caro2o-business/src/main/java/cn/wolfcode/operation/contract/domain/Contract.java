@@ -16,6 +16,7 @@ import cn.wolfcode.common.core.domain.BaseEntity;
  */
 public class Contract extends BaseEntity
 {
+    public static final long CANCELLATION = -1;
     private static final long serialVersionUID = 1L;
 
     public static final long UNREVIEWED = 0;

@@ -62,4 +62,6 @@ public interface IContractService
     public int deleteContractById(String id);
 
     int putAudit(Long id, String type);
+
+    int putContract(Long id);
 }

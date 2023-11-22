@@ -50,3 +50,11 @@ export function putApprove(id,type) {
     method: 'put'
   })
 }
+
+// 通过
+export function putContract(id) {
+  return request({
+    url: `/system/contract/${id}`,
+    method: 'put'
+  })
+}
