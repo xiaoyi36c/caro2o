@@ -7,6 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import cn.wolfcode.common.annotation.Excel;
 import cn.wolfcode.common.core.domain.BaseEntity;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 客户联系人对象 customer_linkmane
  * 
@@ -17,49 +19,47 @@ public class CustomerLinkmane extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /**  */
-    @Excel(name = "")
+    /** 序号 id */
     private Long id;
 
     /** 客户id */
-    @Excel(name = "客户id")
+    @NotNull(message = "客户不能为空")
     private Long customerId;
 
     /** 联系人名字 */
-    @Excel(name = "联系人名字")
+    @NotNull(message = "联系人名字不能为空")
     private String linkman;
 
     /** 性别 */
-    @Excel(name = "性别")
+    @NotNull(message = "性别不能为空")
     private Integer gender;
 
     /** 年龄 */
-    @Excel(name = "年龄")
+    @NotNull(message = "年龄不能为空")
     private Integer age;
 
     /** 联系人电话 */
-    @Excel(name = "联系人电话")
+    @NotNull(message = "联系人电话不能为空")
     private String phone;
 
     /** 职位 */
-    @Excel(name = "职位")
+    @NotNull(message = "职位不能为空")
     private String position;
 
     /** 任职状态 */
-    @Excel(name = "任职状态")
+    @NotNull(message = "任职状态不能为空")
     private Integer positionState;
 
     /** 部门 */
-    @Excel(name = "部门")
+    @NotNull(message = "部门不能为空")
     private String department;
 
     /** 录入人 */
-    @Excel(name = "录入人")
-    private Long inputUser;
+
+    private String inputUser;
 
     /** 录入时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "录入时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date inputTime;
 
     public void setId(Long id) 
@@ -143,12 +143,12 @@ public class CustomerLinkmane extends BaseEntity
     {
         return department;
     }
-    public void setInputUser(Long inputUser) 
+    public void setInputUser(String inputUser)
     {
         this.inputUser = inputUser;
     }
 
-    public Long getInputUser() 
+    public String getInputUser()
     {
         return inputUser;
     }

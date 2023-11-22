@@ -2,8 +2,11 @@ package cn.wolfcode.client.contact.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.wolfcode.client.contact.domain.vo.UpdateCustomerLinkmane;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,9 +78,9 @@ public class CustomerLinkmaneController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:contact:add')")
     @Log(title = "客户联系人", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody CustomerLinkmane customerLinkmane)
+    public AjaxResult add(@RequestBody @Validated UpdateCustomerLinkmane updateCustomerLinkmane)
     {
-        return toAjax(customerLinkmaneService.insertCustomerLinkmane(customerLinkmane));
+        return toAjax(customerLinkmaneService.insertCustomerLinkmane(updateCustomerLinkmane));
     }
 
     /**
@@ -86,9 +89,9 @@ public class CustomerLinkmaneController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:contact:edit')")
     @Log(title = "客户联系人", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody CustomerLinkmane customerLinkmane)
+    public AjaxResult edit(@RequestBody @Validated UpdateCustomerLinkmane updateCustomerLinkmane)
     {
-        return toAjax(customerLinkmaneService.updateCustomerLinkmane(customerLinkmane));
+        return toAjax(customerLinkmaneService.updateCustomerLinkmane(updateCustomerLinkmane));
     }
 
     /**
