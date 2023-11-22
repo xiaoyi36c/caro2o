@@ -1,11 +1,14 @@
 package cn.wolfcode.operation.contract.web.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.wolfcode.common.utils.poi.ExcelUtil;
 import cn.wolfcode.operation.contract.domain.Contract;
 import cn.wolfcode.operation.contract.service.IContractService;
+import org.apache.xmlbeans.impl.common.IOUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +62,29 @@ public class ContractController extends BaseController
         ExcelUtil<Contract> util = new ExcelUtil<Contract>(Contract.class);
         util.exportExcel(response, list, "合同信息数据");
     }
+
+    /**
+     *  下载合同信息
+     */
+
+    @PreAuthorize("@ss.hasPermi('system:contract:download')")
+    @Log(title = "合同信息", businessType = BusinessType.EXPORT)
+    @GetMapping("/download/{id}")
+    public void download(HttpServletResponse response, @PathVariable("id") String id)
+    {
+        InputStream inputStream = contractService.download(id);
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("UTF-8");
+       try {
+            IOUtil.copyCompletely(inputStream, response.getOutputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
 
     /**
      * 获取合同信息详细信息

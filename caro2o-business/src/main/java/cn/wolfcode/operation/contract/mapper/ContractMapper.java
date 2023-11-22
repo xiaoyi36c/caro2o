@@ -1,6 +1,7 @@
 package cn.wolfcode.operation.contract.mapper;
 
 import cn.wolfcode.operation.contract.domain.Contract;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2023-11-22
  */
+@Mapper
 public interface ContractMapper 
 {
     /**
