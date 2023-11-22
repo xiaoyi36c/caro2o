@@ -133,6 +133,12 @@
     <!-- 添加或修改拜访信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="客户" prop="customerId">
+          <el-input v-model="form.customerId" placeholder="请输入客户" />
+        </el-form-item>
+        <el-form-item label="联系人" prop="linkmanId">
+          <el-input v-model="form.linkmanId" placeholder="请输入联系人" />
+        </el-form-item>
         <el-form-item label="拜访方式" prop="visitType">
           <el-select v-model="form.visitType" placeholder="请选择拜访方式">
             <el-option
@@ -146,8 +152,8 @@
         <el-form-item label="拜访原因" prop="visitReason">
           <el-input v-model="form.visitReason" placeholder="请输入拜访原因" />
         </el-form-item>
-        <el-form-item label="交流内容">
-          <editor v-model="form.content" :min-height="192"/>
+        <el-form-item label="交流内容" prop="content">
+          <el-input v-model="form.content" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="拜访时间" prop="visitDate">
           <el-date-picker clearable

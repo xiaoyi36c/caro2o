@@ -64,7 +64,7 @@ public class CustomerVisitController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('client:record:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") String id)
+    public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return success(customerVisitService.selectCustomerVisitById(id));
     }
@@ -97,7 +97,7 @@ public class CustomerVisitController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:record:remove')")
     @Log(title = "拜访信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable String[] ids)
+    public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(customerVisitService.deleteCustomerVisitByIds(ids));
     }

@@ -17,7 +17,7 @@ public interface CustomerVisitMapper
      * @param id 拜访信息主键
      * @return 拜访信息
      */
-    public CustomerVisit selectCustomerVisitById(String id);
+    public CustomerVisit selectCustomerVisitById(Long id);
 
     /**
      * 查询拜访信息列表
@@ -49,7 +49,7 @@ public interface CustomerVisitMapper
      * @param id 拜访信息主键
      * @return 结果
      */
-    public int deleteCustomerVisitById(String id);
+    public int deleteCustomerVisitById(Long id);
 
     /**
      * 批量删除拜访信息
@@ -57,5 +57,5 @@ public interface CustomerVisitMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteCustomerVisitByIds(String[] ids);
+    public int deleteCustomerVisitByIds(Long[] ids);
 }
