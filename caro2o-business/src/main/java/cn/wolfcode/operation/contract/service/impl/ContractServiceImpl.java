@@ -96,6 +96,8 @@ public class ContractServiceImpl implements IContractService
     public int putAudit(Long id, String type) {
         if (type != null){
             contractMapper.updateApprove(id,Contract.PASS_THE_AUDIT);
+        }else {
+            contractMapper.updateApprove(id,Contract.FAIL_THE_AUDIT);
         }
         return 1;
     }
