@@ -1,0 +1,13 @@
+cn\wolfcode\generator\controller\GenController.class
+cn\wolfcode\generator\service\GenTableServiceImpl.class
+cn\wolfcode\generator\config\GenConfig.class
+cn\wolfcode\generator\service\GenTableColumnServiceImpl.class
+cn\wolfcode\generator\service\IGenTableService.class
+cn\wolfcode\generator\mapper\GenTableColumnMapper.class
+cn\wolfcode\generator\domain\GenTableColumn.class
+cn\wolfcode\generator\service\IGenTableColumnService.class
+cn\wolfcode\generator\util\GenUtils.class
+cn\wolfcode\generator\util\VelocityUtils.class
+cn\wolfcode\generator\mapper\GenTableMapper.class
+cn\wolfcode\generator\domain\GenTable.class
+cn\wolfcode\generator\util\VelocityInitializer.class
