@@ -2,6 +2,8 @@ package cn.wolfcode.client.record.service;
 
 import java.util.List;
 import cn.wolfcode.client.record.domain.CustomerVisit;
+import cn.wolfcode.client.record.domain.vo.ClientAndLinkman;
+import cn.wolfcode.client.record.domain.vo.CustomerVisitVo;
 
 /**
  * 拜访信息Service接口
@@ -30,10 +32,10 @@ public interface ICustomerVisitService
     /**
      * 新增拜访信息
      * 
-     * @param customerVisit 拜访信息
+     * @param customerVisitVo 拜访信息
      * @return 结果
      */
-    public int insertCustomerVisit(CustomerVisit customerVisit);
+    public int insertCustomerVisit(CustomerVisitVo customerVisitVo);
 
     /**
      * 修改拜访信息
@@ -58,4 +60,6 @@ public interface ICustomerVisitService
      * @return 结果
      */
     public int deleteCustomerVisitById(Long id);
+
+    ClientAndLinkman selectClientLinkman();
 }

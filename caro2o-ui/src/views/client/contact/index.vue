@@ -124,11 +124,10 @@
     <template>
       <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-
           <el-row>
             <el-col :span="12">
               <el-form-item label="所属客户" prop="customerId">
-                <el-select v-model="customerId" placeholder="请选择所属客户" style="width: 300px">
+                <el-select v-model="form.customerId" placeholder="请选择所属客户" style="width: 300px">
                   <el-option
                     v-for="customer in customerList"
                     :key="customer.id"
@@ -247,11 +246,38 @@ export default {
       },
       customerId: null,
       // 表单参数
-      form: {},
+      form: {
+        age: 0,
+      },
       // 客户列表
       customerList: [],
       // 表单校验
-      rules: {}
+      rules: {
+        customerId: [
+          {required: true, message: "请选择所属客户", trigger: "blur"}
+        ],
+        name: [
+          {required: true, message: "请输入联系人名字", trigger: "blur"},
+          {max: 30, message: "长度在 30 个字符 以内", trigger: "blur"}
+        ],
+        phone: [
+          {required: true, message: "请输入联系人电话", trigger: "blur"},
+          {type: "string", pattern:/^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$/, message: "请输入正确的手机号码", trigger: "blur"}
+        ],
+        gender: [
+          {required: true, message: "请选择性别", trigger: "blur"}
+        ],
+        department: [
+          {max: 20, message: "长度在 20 个字符 以内", trigger: "blur"}
+        ],
+        position: [
+          {max: 20, message: "长度在 20 个字符 以内", trigger: "blur"}
+        ],
+        positionState: [
+          {required: true, message: "请选择任职状态", trigger: "blur"}
+        ],
+
+      }
     };
   },
   created() {
@@ -284,7 +310,7 @@ export default {
         customer: {id: null},
         linkman: null,
         gender: null,
-        age: null,
+        age: 0,
         phone: null,
         position: null,
         positionState: null,
@@ -329,16 +355,21 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
-        this.form.customer.id = this.customerId
+        let params = {
+          ...this.form,
+        }
+        params.customer.id = params.customerId
+        delete params.customerId
+
         if (valid) {
-          if (this.form.id != null) {
-            updateContact(this.form).then(response => {
+          if (params.id != null) {
+            updateContact(params).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addContact(this.form).then(response => {
+            addContact(params).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
