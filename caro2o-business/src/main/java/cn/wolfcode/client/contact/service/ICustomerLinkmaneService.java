@@ -2,6 +2,7 @@ package cn.wolfcode.client.contact.service;
 
 import java.util.List;
 import cn.wolfcode.client.contact.domain.CustomerLinkmane;
+import cn.wolfcode.client.contact.domain.vo.UpdateCustomerLinkmane;
 
 /**
  * 客户联系人Service接口
@@ -33,15 +34,15 @@ public interface ICustomerLinkmaneService
      * @param customerLinkmane 客户联系人
      * @return 结果
      */
-    public int insertCustomerLinkmane(CustomerLinkmane customerLinkmane);
+    public int insertCustomerLinkmane(UpdateCustomerLinkmane customerLinkmane);
 
     /**
      * 修改客户联系人
-     * 
-     * @param customerLinkmane 客户联系人
+     *
+     * @param updateCustomerLinkmane 客户联系人
      * @return 结果
      */
-    public int updateCustomerLinkmane(CustomerLinkmane customerLinkmane);
+    public int updateCustomerLinkmane(UpdateCustomerLinkmane updateCustomerLinkmane);
 
     /**
      * 批量删除客户联系人

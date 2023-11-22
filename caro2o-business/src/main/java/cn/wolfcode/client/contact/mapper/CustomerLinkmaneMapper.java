@@ -2,6 +2,7 @@ package cn.wolfcode.client.contact.mapper;
 
 import java.util.List;
 import cn.wolfcode.client.contact.domain.CustomerLinkmane;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 客户联系人Mapper接口
@@ -9,6 +10,8 @@ import cn.wolfcode.client.contact.domain.CustomerLinkmane;
  * @author BaiShuai
  * @date 2023-11-22
  */
+
+@Mapper
 public interface CustomerLinkmaneMapper 
 {
     /**

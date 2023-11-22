@@ -91,4 +91,14 @@ public class ContractServiceImpl implements IContractService
     {
         return contractMapper.deleteContractById(id);
     }
+
+    @Override
+    public int putAudit(Long id, String type) {
+        if ("1".equals(type)){
+            contractMapper.updateApprove(id,Contract.PASS_THE_AUDIT);
+        }else {
+            contractMapper.updateApprove(id,Contract.FAIL_THE_AUDIT);
+        }
+        return 1;
+    }
 }
