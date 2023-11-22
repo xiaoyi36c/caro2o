@@ -85,11 +85,7 @@
       </el-table-column>
       <el-table-column label="部门" align="center" prop="department"/>
       <el-table-column label="录入人" align="center" prop="inputUser"/>
-      <el-table-column label="录入时间" align="center" prop="inputTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.inputTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="录入时间" align="center" prop="inputTime" width="180"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="160px">
         <template slot-scope="scope">
           <el-button
