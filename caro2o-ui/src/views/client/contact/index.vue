@@ -17,6 +17,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="任职状态" prop="positionState">
+        <el-select v-model="queryParams.positionState" placeholder="请选择任职状态" clearable>
+          <el-option
+            v-for="dict in dict.type.client_contact_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -56,6 +66,16 @@
           v-hasPermi="['client:linkmane:remove']"
         >删除</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['client:linkmane:export']"
+        >导出</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -68,7 +88,11 @@
       <el-table-column label="年龄" align="center" prop="age" />
       <el-table-column label="联系人电话" align="center" prop="phone" />
       <el-table-column label="职位" align="center" prop="position" />
-      <el-table-column label="任职状态" align="center" prop="positionState" />
+      <el-table-column label="任职状态" align="center" prop="positionState">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.client_contact_status" :value="scope.row.positionState"/>
+        </template>
+      </el-table-column>
       <el-table-column label="部门" align="center" prop="department" />
       <el-table-column label="录入人" align="center" prop="inputUser" />
       <el-table-column label="录入时间" align="center" prop="inputTime" width="180">
@@ -122,6 +146,16 @@
         <el-form-item label="职位" prop="position">
           <el-input v-model="form.position" placeholder="请输入职位" />
         </el-form-item>
+        <el-form-item label="任职状态" prop="positionState">
+          <el-select v-model="form.positionState" placeholder="请选择任职状态">
+            <el-option
+              v-for="dict in dict.type.client_contact_status"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="部门" prop="department">
           <el-input v-model="form.department" placeholder="请输入部门" />
         </el-form-item>
@@ -135,10 +169,11 @@
 </template>
 
 <script>
-import { listLinkmane, getLinkmane, delLinkmane, addLinkmane, updateLinkmane } from "@/api/client/linkmane";
+import { listLinkmane, getLinkmane, delLinkmane, addLinkmane, updateLinkmane } from "@/api/client/contact";
 
 export default {
   name: "Linkmane",
+  dicts: ['client_contact_status'],
   data() {
     return {
       // 遮罩层
