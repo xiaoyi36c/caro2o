@@ -1,4 +1,4 @@
-package cn.wolfcode.client.controller;
+package cn.wolfcode.client.contact.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,8 @@ import cn.wolfcode.common.annotation.Log;
 import cn.wolfcode.common.core.controller.BaseController;
 import cn.wolfcode.common.core.domain.AjaxResult;
 import cn.wolfcode.common.enums.BusinessType;
-import cn.wolfcode.client.domain.CustomerLinkmane;
-import cn.wolfcode.client.service.ICustomerLinkmaneService;
+import cn.wolfcode.client.contact.domain.CustomerLinkmane;
+import cn.wolfcode.client.contact.service.ICustomerLinkmaneService;
 import cn.wolfcode.common.utils.poi.ExcelUtil;
 import cn.wolfcode.common.core.page.TableDataInfo;
 

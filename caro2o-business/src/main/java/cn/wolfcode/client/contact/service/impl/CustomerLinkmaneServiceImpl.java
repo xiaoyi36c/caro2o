@@ -1,11 +1,13 @@
-package cn.wolfcode.client.service.impl;
+package cn.wolfcode.client.contact.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.wolfcode.client.mapper.CustomerLinkmaneMapper;
-import cn.wolfcode.client.domain.CustomerLinkmane;
-import cn.wolfcode.client.service.ICustomerLinkmaneService;
+import cn.wolfcode.client.contact.mapper.CustomerLinkmaneMapper;
+import cn.wolfcode.client.contact.domain.CustomerLinkmane;
+import cn.wolfcode.client.contact.service.ICustomerLinkmaneService;
+
+import javax.annotation.Resource;
 
 /**
  * 客户联系人Service业务层处理
@@ -16,7 +18,7 @@ import cn.wolfcode.client.service.ICustomerLinkmaneService;
 @Service
 public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService 
 {
-    @Autowired
+    @Resource
     private CustomerLinkmaneMapper customerLinkmaneMapper;
 
     /**

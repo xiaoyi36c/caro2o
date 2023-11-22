@@ -1,15 +1,15 @@
-package cn.wolfcode.client.service;
+package cn.wolfcode.client.contact.mapper;
 
 import java.util.List;
-import cn.wolfcode.client.domain.CustomerLinkmane;
+import cn.wolfcode.client.contact.domain.CustomerLinkmane;
 
 /**
- * 客户联系人Service接口
+ * 客户联系人Mapper接口
  * 
  * @author BaiShuai
  * @date 2023-11-22
  */
-public interface ICustomerLinkmaneService 
+public interface CustomerLinkmaneMapper 
 {
     /**
      * 查询客户联系人
@@ -44,18 +44,18 @@ public interface ICustomerLinkmaneService
     public int updateCustomerLinkmane(CustomerLinkmane customerLinkmane);
 
     /**
-     * 批量删除客户联系人
-     * 
-     * @param ids 需要删除的客户联系人主键集合
-     * @return 结果
-     */
-    public int deleteCustomerLinkmaneByIds(String[] ids);
-
-    /**
-     * 删除客户联系人信息
+     * 删除客户联系人
      * 
      * @param id 客户联系人主键
      * @return 结果
      */
     public int deleteCustomerLinkmaneById(String id);
+
+    /**
+     * 批量删除客户联系人
+     * 
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteCustomerLinkmaneByIds(String[] ids);
 }

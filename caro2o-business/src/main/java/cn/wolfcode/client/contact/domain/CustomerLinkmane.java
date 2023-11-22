@@ -1,4 +1,4 @@
-package cn.wolfcode.client.domain;
+package cn.wolfcode.client.contact.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
