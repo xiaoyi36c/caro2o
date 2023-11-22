@@ -59,6 +59,10 @@ public class CustomerServiceImpl implements ICustomerService
     public int insertCustomer(CustomerVo customerVo)
     {
         Assert.notNull(customerVo,"参数错误");
+        //企业名字不能重复；
+        String customerName = customerVo.getCustomerName();
+        Long id = customerMapper.selectcustomerName(customerName);
+        Assert.state(id==null,"当前企业已存在");
 
         Customer customer = new Customer();
         //将前端接受到的数据复制给完整实体类
