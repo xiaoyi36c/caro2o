@@ -1,18 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="联系人名字" prop="linkman">
+      <el-form-item label="关键字" prop="keyword">
         <el-input
-          v-model="queryParams.linkman"
-          placeholder="请输入联系人名字"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="联系人电话" prop="phone">
-        <el-input
-          v-model="queryParams.phone"
-          placeholder="请输入联系人电话"
+          v-model="queryParams.keyword"
+          placeholder="请输入联系人名字/电话"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -119,7 +111,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -198,8 +190,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        linkman: null,
-        phone: null,
+        keyword: null,
         positionState: null,
       },
       // 表单参数
