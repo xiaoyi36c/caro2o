@@ -26,7 +26,7 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
      * @return 拜访信息
      */
     @Override
-    public CustomerVisit selectCustomerVisitById(String id)
+    public CustomerVisit selectCustomerVisitById(Long id)
     {
         return customerVisitMapper.selectCustomerVisitById(id);
     }
@@ -74,7 +74,7 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
      * @return 结果
      */
     @Override
-    public int deleteCustomerVisitByIds(String[] ids)
+    public int deleteCustomerVisitByIds(Long[] ids)
     {
         return customerVisitMapper.deleteCustomerVisitByIds(ids);
     }
@@ -86,7 +86,7 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
      * @return 结果
      */
     @Override
-    public int deleteCustomerVisitById(String id)
+    public int deleteCustomerVisitById(Long id)
     {
         return customerVisitMapper.deleteCustomerVisitById(id);
     }

@@ -18,7 +18,7 @@ public class CustomerVisit extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 唯一id */
-    private String id;
+    private Long id;
 
     /** 客户 */
     @Excel(name = "客户")
@@ -54,12 +54,12 @@ public class CustomerVisit extends BaseEntity
     @Excel(name = "录入时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date inputTime;
 
-    public void setId(String id) 
+    public void setId(Long id) 
     {
         this.id = id;
     }
 
-    public String getId() 
+    public Long getId() 
     {
         return id;
     }
