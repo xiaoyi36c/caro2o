@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+<!--    查询-->
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="拜访方式" prop="visitType">
         <el-select v-model="queryParams.visitType" placeholder="请选择拜访方式" clearable>
@@ -32,7 +33,7 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-
+<!--按钮-->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
@@ -78,10 +79,10 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
+<!--列表-->
     <el-table v-loading="loading" :data="recordList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="唯一id" align="center" prop="id" />
+      <el-table-column label="序号" align="center" prop="id" />
       <el-table-column label="客户" align="center" prop="customerId" />
       <el-table-column label="联系人" align="center" prop="linkmanId" />
       <el-table-column label="拜访方式" align="center" prop="visitType">
@@ -97,31 +98,9 @@
         </template>
       </el-table-column>
       <el-table-column label="录入人" align="center" prop="inputUser" />
-      <el-table-column label="录入时间" align="center" prop="inputTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.inputTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['client:record:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['client:record:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
+      <el-table-column label="录入时间" align="center" prop="inputTime" width="180"/>
     </el-table>
-    
+<!--    分页-->
     <pagination
       v-show="total>0"
       :total="total"

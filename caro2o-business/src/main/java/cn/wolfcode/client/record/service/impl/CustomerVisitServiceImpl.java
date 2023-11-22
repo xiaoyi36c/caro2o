@@ -1,6 +1,9 @@
 package cn.wolfcode.client.record.service.impl;
 
 import java.util.List;
+
+import cn.wolfcode.common.constant.UserConstants;
+import cn.wolfcode.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.client.record.mapper.CustomerVisitMapper;
@@ -40,6 +43,7 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
     @Override
     public List<CustomerVisit> selectCustomerVisitList(CustomerVisit customerVisit)
     {
+        System.out.println(SecurityUtils.getUserId());
         return customerVisitMapper.selectCustomerVisitList(customerVisit);
     }
 

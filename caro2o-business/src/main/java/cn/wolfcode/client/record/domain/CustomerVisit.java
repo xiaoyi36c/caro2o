@@ -50,7 +50,7 @@ public class CustomerVisit extends BaseEntity
     private Long inputUser;
 
     /** 录入时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "录入时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date inputTime;
 
