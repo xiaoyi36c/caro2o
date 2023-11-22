@@ -67,10 +67,9 @@ public class CustomerServiceImpl implements ICustomerService
         customer.setInputTime(new Date());
         //查询到登录用户id
         Long userId = SecurityUtils.getUserId();
-        //感觉用户id查询用户昵称
+        //根据用户id查询用户昵称
         String LoginUsername = customerMapper.selelctLoginUsername(userId);
         customer.setInputUser(LoginUsername);
-        customer.setMarketUser(LoginUsername);
         return customerMapper.insertCustomer(customer);
     }
 
