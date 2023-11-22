@@ -61,9 +61,13 @@ public class CustomerServiceImpl implements ICustomerService
         Assert.notNull(customerVo,"参数错误");
 
         Customer customer = new Customer();
+        //将前端接受到的数据复制给完整实体类
         BeanUtils.copyProperties(customerVo,customer);
+        //设置录入时间
         customer.setInputTime(new Date());
+        //查询到登录用户id
         Long userId = SecurityUtils.getUserId();
+        //根据用户id查询用户昵称
         String LoginUsername = customerMapper.selelctLoginUsername(userId);
         customer.setInputUser(LoginUsername);
         return customerMapper.insertCustomer(customer);

@@ -25,7 +25,7 @@
             v-for="dict in dict.type.china_sheng"
             :key="dict.value"
             :label="dict.label"
-            :value="dict.value"
+            :value="parseInt(dict.value)"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -92,7 +92,7 @@
         </template>
       </el-table-column>
       <el-table-column label="录入人" align="center" prop="inputUser" />
-      <el-table-column label="营销人" align="center" prop="marketUser" />
+      <el-table-column label="营销人" align="center" prop="inputUser" />
       <el-table-column label="录入时间" align="center" prop="inputTime" width="180">
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
