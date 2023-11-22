@@ -109,7 +109,7 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
+            @click="handleFail(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >审核不通过</el-button>
           <el-button
@@ -230,6 +230,15 @@ export default {
     this.getList();
   },
   methods: {
+    /** 审批不通过 */
+    handleFail(row) {
+      this.$modal.confirm('是否确认不通过此合同？').then(function() {
+        return putApprove(row.id,"2");
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("通过成功");
+      }).catch(() => {});
+    },
     /** 审批通过*/
     handleApprove(row) {
       this.$modal.confirm('是否确认通过此合同？').then(function() {
