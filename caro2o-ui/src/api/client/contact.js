@@ -1,44 +1,44 @@
 import request from '@/utils/request'
 
 // 查询客户联系人列表
-export function listLinkmane(query) {
+export function listContact(query) {
   return request({
-    url: '/client/linkmane/list',
+    url: '/client/contact/list',
     method: 'get',
     params: query
   })
 }
 
 // 查询客户联系人详细
-export function getLinkmane(id) {
+export function getContact(id) {
   return request({
-    url: '/client/linkmane/' + id,
+    url: '/client/contact/' + id,
     method: 'get'
   })
 }
 
 // 新增客户联系人
-export function addLinkmane(data) {
+export function addContact(data) {
   return request({
-    url: '/client/linkmane',
+    url: '/client/contact',
     method: 'post',
     data: data
   })
 }
 
 // 修改客户联系人
-export function updateLinkmane(data) {
+export function updateContact(data) {
   return request({
-    url: '/client/linkmane',
+    url: '/client/contact',
     method: 'put',
     data: data
   })
 }
 
 // 删除客户联系人
-export function delLinkmane(id) {
+export function delContact(id) {
   return request({
-    url: '/client/linkmane/' + id,
+    url: '/client/contact/' + id,
     method: 'delete'
   })
 }

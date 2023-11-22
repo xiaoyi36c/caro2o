@@ -7,8 +7,6 @@ import cn.wolfcode.client.contact.mapper.CustomerLinkmaneMapper;
 import cn.wolfcode.client.contact.domain.CustomerLinkmane;
 import cn.wolfcode.client.contact.service.ICustomerLinkmaneService;
 
-import javax.annotation.Resource;
-
 /**
  * 客户联系人Service业务层处理
  * 
@@ -18,7 +16,7 @@ import javax.annotation.Resource;
 @Service
 public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService 
 {
-    @Resource
+    @Autowired
     private CustomerLinkmaneMapper customerLinkmaneMapper;
 
     /**
@@ -28,7 +26,7 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
      * @return 客户联系人
      */
     @Override
-    public CustomerLinkmane selectCustomerLinkmaneById(String id)
+    public CustomerLinkmane selectCustomerLinkmaneById(Long id)
     {
         return customerLinkmaneMapper.selectCustomerLinkmaneById(id);
     }
@@ -76,7 +74,7 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
      * @return 结果
      */
     @Override
-    public int deleteCustomerLinkmaneByIds(String[] ids)
+    public int deleteCustomerLinkmaneByIds(Long[] ids)
     {
         return customerLinkmaneMapper.deleteCustomerLinkmaneByIds(ids);
     }
@@ -88,7 +86,7 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
      * @return 结果
      */
     @Override
-    public int deleteCustomerLinkmaneById(String id)
+    public int deleteCustomerLinkmaneById(Long id)
     {
         return customerLinkmaneMapper.deleteCustomerLinkmaneById(id);
     }

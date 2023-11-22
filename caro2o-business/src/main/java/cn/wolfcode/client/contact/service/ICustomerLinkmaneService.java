@@ -17,7 +17,7 @@ public interface ICustomerLinkmaneService
      * @param id 客户联系人主键
      * @return 客户联系人
      */
-    public CustomerLinkmane selectCustomerLinkmaneById(String id);
+    public CustomerLinkmane selectCustomerLinkmaneById(Long id);
 
     /**
      * 查询客户联系人列表
@@ -49,7 +49,7 @@ public interface ICustomerLinkmaneService
      * @param ids 需要删除的客户联系人主键集合
      * @return 结果
      */
-    public int deleteCustomerLinkmaneByIds(String[] ids);
+    public int deleteCustomerLinkmaneByIds(Long[] ids);
 
     /**
      * 删除客户联系人信息
@@ -57,5 +57,5 @@ public interface ICustomerLinkmaneService
      * @param id 客户联系人主键
      * @return 结果
      */
-    public int deleteCustomerLinkmaneById(String id);
+    public int deleteCustomerLinkmaneById(Long id);
 }

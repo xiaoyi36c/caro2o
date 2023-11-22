@@ -41,7 +41,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['client:linkmane:add']"
+          v-hasPermi="['client:contact:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -52,7 +52,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['client:linkmane:edit']"
+          v-hasPermi="['client:contact:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -63,7 +63,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['client:linkmane:remove']"
+          v-hasPermi="['client:contact:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -73,16 +73,16 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['client:linkmane:export']"
+          v-hasPermi="['client:contact:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="linkmaneList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="contactList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="id" />
-      <el-table-column label="客户" align="center" prop="customerId" />
+      <el-table-column label="" align="center" prop="id" />
+      <el-table-column label="客户id" align="center" prop="customerId" />
       <el-table-column label="联系人名字" align="center" prop="linkman" />
       <el-table-column label="性别" align="center" prop="gender" />
       <el-table-column label="年龄" align="center" prop="age" />
@@ -107,19 +107,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['client:linkmane:edit']"
+            v-hasPermi="['client:contact:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['client:linkmane:remove']"
+            v-hasPermi="['client:contact:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+    
     <pagination
       v-show="total>0"
       :total="total"
@@ -169,10 +169,10 @@
 </template>
 
 <script>
-import { listLinkmane, getLinkmane, delLinkmane, addLinkmane, updateLinkmane } from "@/api/client/contact";
+import { listContact, getContact, delContact, addContact, updateContact } from "@/api/client/contact";
 
 export default {
-  name: "Linkmane",
+  name: "Contact",
   dicts: ['client_contact_status'],
   data() {
     return {
@@ -189,7 +189,7 @@ export default {
       // 总条数
       total: 0,
       // 客户联系人表格数据
-      linkmaneList: [],
+      contactList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -198,7 +198,6 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        customerId: null,
         linkman: null,
         phone: null,
         positionState: null,
@@ -217,8 +216,8 @@ export default {
     /** 查询客户联系人列表 */
     getList() {
       this.loading = true;
-      listLinkmane(this.queryParams).then(response => {
-        this.linkmaneList = response.rows;
+      listContact(this.queryParams).then(response => {
+        this.contactList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -271,7 +270,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getLinkmane(id).then(response => {
+      getContact(id).then(response => {
         this.form = response.data;
         this.open = true;
         this.title = "修改客户联系人";
@@ -282,13 +281,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateLinkmane(this.form).then(response => {
+            updateContact(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addLinkmane(this.form).then(response => {
+            addContact(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -301,7 +300,7 @@ export default {
     handleDelete(row) {
       const ids = row.id || this.ids;
       this.$modal.confirm('是否确认删除客户联系人编号为"' + ids + '"的数据项？').then(function() {
-        return delLinkmane(ids);
+        return delContact(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -309,9 +308,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('client/linkmane/export', {
+      this.download('client/contact/export', {
         ...this.queryParams
-      }, `linkmane_${new Date().getTime()}.xlsx`)
+      }, `contact_${new Date().getTime()}.xlsx`)
     }
   }
 };

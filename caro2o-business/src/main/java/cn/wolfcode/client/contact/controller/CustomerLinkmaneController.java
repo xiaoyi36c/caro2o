@@ -28,7 +28,7 @@ import cn.wolfcode.common.core.page.TableDataInfo;
  * @date 2023-11-22
  */
 @RestController
-@RequestMapping("/client/linkmane")
+@RequestMapping("/client/contact")
 public class CustomerLinkmaneController extends BaseController
 {
     @Autowired
@@ -37,7 +37,7 @@ public class CustomerLinkmaneController extends BaseController
     /**
      * 查询客户联系人列表
      */
-    @PreAuthorize("@ss.hasPermi('client:linkmane:list')")
+    @PreAuthorize("@ss.hasPermi('client:contact:list')")
     @GetMapping("/list")
     public TableDataInfo list(CustomerLinkmane customerLinkmane)
     {
@@ -49,7 +49,7 @@ public class CustomerLinkmaneController extends BaseController
     /**
      * 导出客户联系人列表
      */
-    @PreAuthorize("@ss.hasPermi('client:linkmane:export')")
+    @PreAuthorize("@ss.hasPermi('client:contact:export')")
     @Log(title = "客户联系人", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, CustomerLinkmane customerLinkmane)
@@ -62,9 +62,9 @@ public class CustomerLinkmaneController extends BaseController
     /**
      * 获取客户联系人详细信息
      */
-    @PreAuthorize("@ss.hasPermi('client:linkmane:query')")
+    @PreAuthorize("@ss.hasPermi('client:contact:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") String id)
+    public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return success(customerLinkmaneService.selectCustomerLinkmaneById(id));
     }
@@ -72,7 +72,7 @@ public class CustomerLinkmaneController extends BaseController
     /**
      * 新增客户联系人
      */
-    @PreAuthorize("@ss.hasPermi('client:linkmane:add')")
+    @PreAuthorize("@ss.hasPermi('client:contact:add')")
     @Log(title = "客户联系人", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CustomerLinkmane customerLinkmane)
@@ -83,7 +83,7 @@ public class CustomerLinkmaneController extends BaseController
     /**
      * 修改客户联系人
      */
-    @PreAuthorize("@ss.hasPermi('client:linkmane:edit')")
+    @PreAuthorize("@ss.hasPermi('client:contact:edit')")
     @Log(title = "客户联系人", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CustomerLinkmane customerLinkmane)
@@ -94,10 +94,10 @@ public class CustomerLinkmaneController extends BaseController
     /**
      * 删除客户联系人
      */
-    @PreAuthorize("@ss.hasPermi('client:linkmane:remove')")
+    @PreAuthorize("@ss.hasPermi('client:contact:remove')")
     @Log(title = "客户联系人", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable String[] ids)
+    public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(customerLinkmaneService.deleteCustomerLinkmaneByIds(ids));
     }
