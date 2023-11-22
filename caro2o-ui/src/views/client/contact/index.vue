@@ -169,7 +169,7 @@
 </template>
 
 <script>
-import { listLinkmane, getLinkmane, delLinkmane, addLinkmane, updateLinkmane } from "@/api/client/linkmane";
+import { listLinkmane, getLinkmane, delLinkmane, addLinkmane, updateLinkmane } from "@/api/client/contact";
 
 export default {
   name: "Linkmane",
