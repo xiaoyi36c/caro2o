@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.client.customer.mapper.CustomerMapper">
+    
+    <resultMap type="Customer" id="CustomerResult">
+        <result property="id"    column="id"    />
+        <result property="customerName"    column="customer_name"    />
+        <result property="legalLeader"    column="legal_leader"    />
+        <result property="registerDate"    column="register_date"    />
+        <result property="openState"    column="open_state"    />
+        <result property="province"    column="province"    />
+        <result property="regCapital"    column="reg_capital"    />
+        <result property="industry"    column="industry"    />
+        <result property="scope"    column="scope"    />
+        <result property="regAddr"    column="reg_addr"    />
+        <result property="inputTime"    column="input_time"    />
+        <result property="inputUser"    column="input_user"    />
+    </resultMap>
+
+    <sql id="selectCustomerVo">
+        select id, customer_name, legal_leader, register_date, open_state, province, reg_capital, industry, scope, reg_addr, input_time, input_user from customer
+    </sql>
+
+    <select id="selectCustomerList" parameterType="Customer" resultMap="CustomerResult">
+        <include refid="selectCustomerVo"/>
+        <where>  
+            <if test="customerName != null  and customerName != ''"> and customer_name like concat('%', #{customerName}, '%')</if>
+            <if test="legalLeader != null  and legalLeader != ''"> and legal_leader like concat('%', #{legalLeader}, '%')</if>
+            <if test="openState != null "> and open_state = #{openState}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="industry != null  and industry != ''"> and industry like concat('%', #{industry}, '%')</if>
+            <if test="params.beginInputTime != null and params.beginInputTime != '' and params.endInputTime != null and params.endInputTime != ''"> and input_time between #{params.beginInputTime} and #{params.endInputTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerById" parameterType="String" resultMap="CustomerResult">
+        <include refid="selectCustomerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomer" parameterType="Customer">
+        insert into customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="customerName != null">customer_name,</if>
+            <if test="legalLeader != null">legal_leader,</if>
+            <if test="registerDate != null">register_date,</if>
+            <if test="openState != null">open_state,</if>
+            <if test="province != null">province,</if>
+            <if test="regCapital != null">reg_capital,</if>
+            <if test="industry != null">industry,</if>
+            <if test="scope != null">scope,</if>
+            <if test="regAddr != null">reg_addr,</if>
+            <if test="inputTime != null">input_time,</if>
+            <if test="inputUser != null">input_user,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="customerName != null">#{customerName},</if>
+            <if test="legalLeader != null">#{legalLeader},</if>
+            <if test="registerDate != null">#{registerDate},</if>
+            <if test="openState != null">#{openState},</if>
+            <if test="province != null">#{province},</if>
+            <if test="regCapital != null">#{regCapital},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="scope != null">#{scope},</if>
+            <if test="regAddr != null">#{regAddr},</if>
+            <if test="inputTime != null">#{inputTime},</if>
+            <if test="inputUser != null">#{inputUser},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomer" parameterType="Customer">
+        update customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerName != null">customer_name = #{customerName},</if>
+            <if test="legalLeader != null">legal_leader = #{legalLeader},</if>
+            <if test="registerDate != null">register_date = #{registerDate},</if>
+            <if test="openState != null">open_state = #{openState},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="regCapital != null">reg_capital = #{regCapital},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="scope != null">scope = #{scope},</if>
+            <if test="regAddr != null">reg_addr = #{regAddr},</if>
+            <if test="inputTime != null">input_time = #{inputTime},</if>
+            <if test="inputUser != null">input_user = #{inputUser},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerById" parameterType="String">
+        delete from customer where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerByIds" parameterType="String">
+        delete from customer where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
