@@ -61,7 +61,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="contactList" @selection-change="handleSelectionChange" style="font-size: 12px">
+    <el-table v-loading="loading" border :data="contactList" @selection-change="handleSelectionChange" style="font-size: 12px">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="id" />
       <el-table-column label="客户id" align="center" prop="customerId" />
@@ -116,10 +116,23 @@
 
     <!-- 添加或修改客户联系人对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+
+        <el-form-item lable="所属客户" prop="customerId">
+          <el-select v-model="form.customerId" placeholder="请选择所属客户">
+            <el-option
+              v-for="customer in customerList"
+              :key="customer.id"
+              :label="customer.customerName"
+              :value="customer.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="联系人名字" prop="linkman">
           <el-input v-model="form.linkman" placeholder="请输入联系人名字" />
         </el-form-item>
+
         <el-form-item label="性别" prop="gender">
           <el-radio-group v-model="form.gender">
             <el-radio
@@ -129,15 +142,19 @@
             >{{dict.label}}</el-radio>
           </el-radio-group>
         </el-form-item>
+
         <el-form-item label="年龄" prop="age">
           <el-input v-model="form.age" placeholder="请输入年龄" />
         </el-form-item>
+
         <el-form-item label="联系人电话" prop="phone">
           <el-input v-model="form.phone" placeholder="请输入联系人电话" />
         </el-form-item>
+
         <el-form-item label="职位" prop="position">
           <el-input v-model="form.position" placeholder="请输入职位" />
         </el-form-item>
+
         <el-form-item label="任职状态" prop="positionState">
           <el-select v-model="form.positionState" placeholder="请选择任职状态">
             <el-option
@@ -148,10 +165,12 @@
             ></el-option>
           </el-select>
         </el-form-item>
+
         <el-form-item label="部门" prop="department">
           <el-input v-model="form.department" placeholder="请输入部门" />
         </el-form-item>
       </el-form>
+
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
@@ -162,6 +181,7 @@
 
 <script>
 import { listContact, getContact, delContact, addContact, updateContact } from "@/api/client/contact";
+import {listCustomer} from "@/api/client/customer";
 
 export default {
   name: "Contact",
@@ -195,6 +215,8 @@ export default {
       },
       // 表单参数
       form: {},
+      // 客户列表
+      customerList: [],
       // 表单校验
       rules: {
       }
@@ -202,6 +224,10 @@ export default {
   },
   created() {
     this.getList();
+    // 获取客户列表
+    listCustomer().then(response => {
+      this.customerList = response.data;
+    });
   },
   methods: {
     /** 查询客户联系人列表 */
