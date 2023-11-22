@@ -10,7 +10,7 @@ import cn.wolfcode.common.core.domain.BaseEntity;
 
 /**
  * 客户信息对象 customer
- * 
+ *
  * @author ruoyi
  * @date 2023-11-22
  */
@@ -59,119 +59,119 @@ public class Customer extends BaseEntity
     private String regAddr;
 
     /** 录入时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "录入时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date inputTime;
 
     /** 录入人 */
     @Excel(name = "录入人")
-    private Long inputUser;
+    private String inputUser;
 
-    public void setId(String id) 
+    public void setId(String id)
     {
         this.id = id;
     }
 
-    public String getId() 
+    public String getId()
     {
         return id;
     }
-    public void setCustomerName(String customerName) 
+    public void setCustomerName(String customerName)
     {
         this.customerName = customerName;
     }
 
-    public String getCustomerName() 
+    public String getCustomerName()
     {
         return customerName;
     }
-    public void setLegalLeader(String legalLeader) 
+    public void setLegalLeader(String legalLeader)
     {
         this.legalLeader = legalLeader;
     }
 
-    public String getLegalLeader() 
+    public String getLegalLeader()
     {
         return legalLeader;
     }
-    public void setRegisterDate(Date registerDate) 
+    public void setRegisterDate(Date registerDate)
     {
         this.registerDate = registerDate;
     }
 
-    public Date getRegisterDate() 
+    public Date getRegisterDate()
     {
         return registerDate;
     }
-    public void setOpenState(Integer openState) 
+    public void setOpenState(Integer openState)
     {
         this.openState = openState;
     }
 
-    public Integer getOpenState() 
+    public Integer getOpenState()
     {
         return openState;
     }
-    public void setProvince(String province) 
+    public void setProvince(String province)
     {
         this.province = province;
     }
 
-    public String getProvince() 
+    public String getProvince()
     {
         return province;
     }
-    public void setRegCapital(BigDecimal regCapital) 
+    public void setRegCapital(BigDecimal regCapital)
     {
         this.regCapital = regCapital;
     }
 
-    public BigDecimal getRegCapital() 
+    public BigDecimal getRegCapital()
     {
         return regCapital;
     }
-    public void setIndustry(String industry) 
+    public void setIndustry(String industry)
     {
         this.industry = industry;
     }
 
-    public String getIndustry() 
+    public String getIndustry()
     {
         return industry;
     }
-    public void setScope(String scope) 
+    public void setScope(String scope)
     {
         this.scope = scope;
     }
 
-    public String getScope() 
+    public String getScope()
     {
         return scope;
     }
-    public void setRegAddr(String regAddr) 
+    public void setRegAddr(String regAddr)
     {
         this.regAddr = regAddr;
     }
 
-    public String getRegAddr() 
+    public String getRegAddr()
     {
         return regAddr;
     }
-    public void setInputTime(Date inputTime) 
+    public void setInputTime(Date inputTime)
     {
         this.inputTime = inputTime;
     }
 
-    public Date getInputTime() 
+    public Date getInputTime()
     {
         return inputTime;
     }
-    public void setInputUser(Long inputUser) 
+    public void setInputUser(String inputUser)
     {
         this.inputUser = inputUser;
     }
 
-    public Long getInputUser() 
+    public String getInputUser()
     {
         return inputUser;
     }
@@ -179,18 +179,18 @@ public class Customer extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("customerName", getCustomerName())
-            .append("legalLeader", getLegalLeader())
-            .append("registerDate", getRegisterDate())
-            .append("openState", getOpenState())
-            .append("province", getProvince())
-            .append("regCapital", getRegCapital())
-            .append("industry", getIndustry())
-            .append("scope", getScope())
-            .append("regAddr", getRegAddr())
-            .append("inputTime", getInputTime())
-            .append("inputUser", getInputUser())
-            .toString();
+                .append("id", getId())
+                .append("customerName", getCustomerName())
+                .append("legalLeader", getLegalLeader())
+                .append("registerDate", getRegisterDate())
+                .append("openState", getOpenState())
+                .append("province", getProvince())
+                .append("regCapital", getRegCapital())
+                .append("industry", getIndustry())
+                .append("scope", getScope())
+                .append("regAddr", getRegAddr())
+                .append("inputTime", getInputTime())
+                .append("inputUser", getInputUser())
+                .toString();
     }
 }

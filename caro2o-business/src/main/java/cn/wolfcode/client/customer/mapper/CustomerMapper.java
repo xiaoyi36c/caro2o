@@ -2,18 +2,20 @@ package cn.wolfcode.client.customer.mapper;
 
 import java.util.List;
 import cn.wolfcode.client.customer.domain.Customer;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 客户信息Mapper接口
- * 
+ *
  * @author ruoyi
  * @date 2023-11-22
  */
-public interface CustomerMapper 
+@Mapper
+public interface CustomerMapper
 {
     /**
      * 查询客户信息
-     * 
+     *
      * @param id 客户信息主键
      * @return 客户信息
      */
@@ -21,7 +23,7 @@ public interface CustomerMapper
 
     /**
      * 查询客户信息列表
-     * 
+     *
      * @param customer 客户信息
      * @return 客户信息集合
      */
@@ -29,7 +31,7 @@ public interface CustomerMapper
 
     /**
      * 新增客户信息
-     * 
+     *
      * @param customer 客户信息
      * @return 结果
      */
@@ -37,7 +39,7 @@ public interface CustomerMapper
 
     /**
      * 修改客户信息
-     * 
+     *
      * @param customer 客户信息
      * @return 结果
      */
@@ -45,7 +47,7 @@ public interface CustomerMapper
 
     /**
      * 删除客户信息
-     * 
+     *
      * @param id 客户信息主键
      * @return 结果
      */
@@ -53,9 +55,11 @@ public interface CustomerMapper
 
     /**
      * 批量删除客户信息
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteCustomerByIds(String[] ids);
+
+    String selelctLoginUsername(Long userId);
 }

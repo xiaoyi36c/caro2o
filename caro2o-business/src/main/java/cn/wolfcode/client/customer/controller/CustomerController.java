@@ -2,6 +2,8 @@ package cn.wolfcode.client.customer.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.wolfcode.client.customer.domain.vo.CustomerVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,7 @@ import cn.wolfcode.common.core.page.TableDataInfo;
 
 /**
  * 客户信息Controller
- * 
+ *
  * @author ruoyi
  * @date 2023-11-22
  */
@@ -75,9 +77,9 @@ public class CustomerController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:customer:add')")
     @Log(title = "客户信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Customer customer)
+    public AjaxResult add(@RequestBody CustomerVo customerVo)
     {
-        return toAjax(customerService.insertCustomer(customer));
+        return toAjax(customerService.insertCustomer(customerVo));
     }
 
     /**
@@ -96,7 +98,7 @@ public class CustomerController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('client:customer:remove')")
     @Log(title = "客户信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
+    @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable String[] ids)
     {
         return toAjax(customerService.deleteCustomerByIds(ids));
