@@ -73,7 +73,7 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
         // 设置录入人
         customerLinkmane.setInputUser(SecurityUtils.getUsername());
         // 设置录入时间
-        customerLinkmane.setCreateTime(new Date());
+        customerLinkmane.setInputTime(new Date());
         return customerLinkmaneMapper.insertCustomerLinkmane(customerLinkmane);
     }
 
