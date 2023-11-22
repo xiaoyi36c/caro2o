@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.operation.contract.mapper.ContractMapper">
+
+    <resultMap type="Contract" id="ContractResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="contractName"    column="contract_name"    />
+        <result property="contractCode"    column="contract_code"    />
+        <result property="amounts"    column="amounts"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="appendix"    column="appendix"    />
+        <result property="affixSealState"    column="affix_seal_state"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="nullifyState"    column="nullify_state"    />
+        <result property="inputUser"    column="input_user"    />
+        <result property="inputTime"    column="input_time"    />
+    </resultMap>
+
+    <sql id="selectContractVo">
+        select id, customer_id, contract_name, contract_code, amounts, start_date, end_date, appendix, affix_seal_state, audit_state, nullify_state, input_user, input_time from contract
+    </sql>
+
+    <select id="selectContractList" parameterType="Contract" resultMap="ContractResult">
+        <include refid="selectContractVo"/>
+        <where>
+            <if test="contractName != null  and contractName != ''"> and contract_name like concat('%', #{contractName}, '%')</if>
+            <if test="auditState != null "> and audit_state = #{auditState}</if>
+            <if test="params.beginInputTime != null and params.beginInputTime != '' and params.endInputTime != null and params.endInputTime != ''"> and input_time between #{params.beginInputTime} and #{params.endInputTime}</if>
+        </where>
+    </select>
+
+    <select id="selectContractById" parameterType="String" resultMap="ContractResult">
+        <include refid="selectContractVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertContract" parameterType="Contract">
+        insert into contract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="contractName != null">contract_name,</if>
+            <if test="contractCode != null">contract_code,</if>
+            <if test="amounts != null">amounts,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="appendix != null">appendix,</if>
+            <if test="affixSealState != null">affix_seal_state,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="nullifyState != null">nullify_state,</if>
+            <if test="inputUser != null">input_user,</if>
+            <if test="inputTime != null">input_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="contractName != null">#{contractName},</if>
+            <if test="contractCode != null">#{contractCode},</if>
+            <if test="amounts != null">#{amounts},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="appendix != null">#{appendix},</if>
+            <if test="affixSealState != null">#{affixSealState},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="nullifyState != null">#{nullifyState},</if>
+            <if test="inputUser != null">#{inputUser},</if>
+            <if test="inputTime != null">#{inputTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateContract" parameterType="Contract">
+        update contract
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="contractName != null">contract_name = #{contractName},</if>
+            <if test="contractCode != null">contract_code = #{contractCode},</if>
+            <if test="amounts != null">amounts = #{amounts},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="appendix != null">appendix = #{appendix},</if>
+            <if test="affixSealState != null">affix_seal_state = #{affixSealState},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="nullifyState != null">nullify_state = #{nullifyState},</if>
+            <if test="inputUser != null">input_user = #{inputUser},</if>
+            <if test="inputTime != null">input_time = #{inputTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteContractById" parameterType="String">
+        delete from contract where id = #{id}
+    </delete>
+
+    <delete id="deleteContractByIds" parameterType="String">
+        delete from contract where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
