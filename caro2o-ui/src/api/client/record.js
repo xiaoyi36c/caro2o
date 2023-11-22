@@ -16,6 +16,13 @@ export function getRecord(id) {
     method: 'get'
   })
 }
+// 查询客户和联系人
+export function getClientLinkman() {
+  return request({
+    url: '/client/record/ClientLinkman',
+    method: 'get'
+  })
+}
 
 // 新增拜访信息
 export function addRecord(data) {

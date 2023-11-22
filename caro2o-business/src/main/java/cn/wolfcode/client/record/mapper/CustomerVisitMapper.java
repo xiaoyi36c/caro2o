@@ -1,6 +1,9 @@
 package cn.wolfcode.client.record.mapper;
 
 import java.util.List;
+
+import cn.wolfcode.client.contact.domain.CustomerLinkmane;
+import cn.wolfcode.client.customer.domain.Customer;
 import cn.wolfcode.client.record.domain.CustomerVisit;
 
 /**
@@ -58,4 +61,8 @@ public interface CustomerVisitMapper
      * @return 结果
      */
     public int deleteCustomerVisitByIds(Long[] ids);
+
+    List<Customer> selectCustomerList();
+
+    List<CustomerLinkmane> selectCustomerLinkmaneList();
 }
