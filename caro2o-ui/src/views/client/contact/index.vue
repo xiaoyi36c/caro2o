@@ -58,25 +58,19 @@
           v-hasPermi="['client:contact:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['client:contact:export']"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="contactList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="contactList" @selection-change="handleSelectionChange" style="font-size: 12px">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="" align="center" prop="id" />
+      <el-table-column label="序号" align="center" prop="id" />
       <el-table-column label="客户id" align="center" prop="customerId" />
       <el-table-column label="联系人名字" align="center" prop="linkman" />
-      <el-table-column label="性别" align="center" prop="gender" />
+      <el-table-column label="性别" align="center" prop="gender">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.client_contact_sex" :value="scope.row.gender"/>
+        </template>
+      </el-table-column>
       <el-table-column label="年龄" align="center" prop="age" />
       <el-table-column label="联系人电话" align="center" prop="phone" />
       <el-table-column label="职位" align="center" prop="position" />
@@ -92,7 +86,7 @@
           <span>{{ parseTime(scope.row.inputTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="160px">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -127,7 +121,13 @@
           <el-input v-model="form.linkman" placeholder="请输入联系人名字" />
         </el-form-item>
         <el-form-item label="性别" prop="gender">
-          <el-input v-model="form.gender" placeholder="请输入性别" />
+          <el-radio-group v-model="form.gender">
+            <el-radio
+              v-for="dict in dict.type.client_contact_sex"
+              :key="dict.value"
+              :label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="年龄" prop="age">
           <el-input v-model="form.age" placeholder="请输入年龄" />
@@ -165,7 +165,7 @@ import { listContact, getContact, delContact, addContact, updateContact } from "
 
 export default {
   name: "Contact",
-  dicts: ['client_contact_status'],
+  dicts: ['client_contact_status','client_contact_sex'],
   data() {
     return {
       // 遮罩层
