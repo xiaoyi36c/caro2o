@@ -67,6 +67,17 @@ public class Customer extends BaseEntity
     @Excel(name = "录入人")
     private String inputUser;
 
+    public String getMarketUser() {
+        return marketUser;
+    }
+
+    public void setMarketUser(String marketUser) {
+        this.marketUser = marketUser;
+    }
+
+    //营销人
+    private String marketUser;
+
     public void setId(String id)
     {
         this.id = id;
