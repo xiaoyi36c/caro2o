@@ -34,7 +34,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['client:contact:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -45,7 +46,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['client:contact:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -56,31 +58,33 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['client:contact:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="contactList" @selection-change="handleSelectionChange" style="font-size: 12px">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="id" />
-      <el-table-column label="客户id" align="center" prop="customerId" />
-      <el-table-column label="联系人名字" align="center" prop="linkman" />
+    <el-table v-loading="loading" border :data="contactList" @selection-change="handleSelectionChange"
+              style="font-size: 12px">
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="序号" align="center" prop="id"/>
+      <el-table-column label="客户id" align="center" prop="customer.customerName"/>
+      <el-table-column label="联系人名字" align="center" prop="linkman"/>
       <el-table-column label="性别" align="center" prop="gender">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.client_contact_sex" :value="scope.row.gender"/>
         </template>
       </el-table-column>
-      <el-table-column label="年龄" align="center" prop="age" />
-      <el-table-column label="联系人电话" align="center" prop="phone" />
-      <el-table-column label="职位" align="center" prop="position" />
+      <el-table-column label="年龄" align="center" prop="age"/>
+      <el-table-column label="联系人电话" align="center" prop="phone"/>
+      <el-table-column label="职位" align="center" prop="position"/>
       <el-table-column label="任职状态" align="center" prop="positionState">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.client_contact_status" :value="scope.row.positionState"/>
         </template>
       </el-table-column>
-      <el-table-column label="部门" align="center" prop="department" />
-      <el-table-column label="录入人" align="center" prop="inputUser" />
+      <el-table-column label="部门" align="center" prop="department"/>
+      <el-table-column label="录入人" align="center" prop="inputUser"/>
       <el-table-column label="录入时间" align="center" prop="inputTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.inputTime, '{y}-{m}-{d}') }}</span>
@@ -94,14 +98,16 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['client:contact:edit']"
-          >修改</el-button>
+          >修改
+          </el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['client:contact:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -115,57 +121,103 @@
     />
 
     <!-- 添加或修改客户联系人对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="联系人名字" prop="linkman">
-          <el-input v-model="form.linkman" placeholder="请输入联系人名字" />
-        </el-form-item>
-        <el-form-item label="性别" prop="gender">
-          <el-radio-group v-model="form.gender">
-            <el-radio
-              v-for="dict in dict.type.client_contact_sex"
-              :key="dict.value"
-              :label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model="form.age" placeholder="请输入年龄" />
-        </el-form-item>
-        <el-form-item label="联系人电话" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入联系人电话" />
-        </el-form-item>
-        <el-form-item label="职位" prop="position">
-          <el-input v-model="form.position" placeholder="请输入职位" />
-        </el-form-item>
-        <el-form-item label="任职状态" prop="positionState">
-          <el-select v-model="form.positionState" placeholder="请选择任职状态">
-            <el-option
-              v-for="dict in dict.type.client_contact_status"
-              :key="dict.value"
-              :label="dict.label"
-              :value="parseInt(dict.value)"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="部门" prop="department">
-          <el-input v-model="form.department" placeholder="请输入部门" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
+    <template>
+      <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="所属客户" prop="customerId">
+                <el-select v-model="customerId" placeholder="请选择所属客户" style="width: 300px">
+                  <el-option
+                    v-for="customer in customerList"
+                    :key="customer.id"
+                    :label="customer.customerName"
+                    :value="customer.id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12">
+              <el-form-item label="联系人" prop="linkman" label-tooltip >
+                <el-input v-model="form.linkman" placeholder="请输入联系人名字"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="电话" prop="phone">
+                <el-input v-model="form.phone" placeholder="请输入联系人电话"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="性别" prop="gender">
+                <el-radio-group v-model="form.gender">
+                  <el-radio
+                    v-for="dict in dict.type.client_contact_sex"
+                    :key="dict.value"
+                    :label="parseInt(dict.value)"
+                  >{{ dict.label }}
+                  </el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="年龄" prop="age">
+                  <el-input v-model="form.age" placeholder="请输入年龄"/>
+                </el-form-item>
+              </el-col>
+
+            <el-col :span="12">
+              <el-form-item label="部门" prop="department">
+                <el-input v-model="form.department" placeholder="请输入部门"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="职位" prop="position">
+                <el-input v-model="form.position" placeholder="请输入职位"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="任职状态" prop="positionState">
+                <el-select v-model="form.positionState" placeholder="请选择任职状态" style="width: 300px">
+                  <el-option
+                    v-for="dict in dict.type.client_contact_status"
+                    :key="dict.value"
+                    :label="dict.label"
+                    :value="parseInt(dict.value)"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitForm">确 定</el-button>
+          <el-button @click="cancel">取 消</el-button>
+        </div>
+      </el-dialog>
+    </template>
+
   </div>
 </template>
 
 <script>
-import { listContact, getContact, delContact, addContact, updateContact } from "@/api/client/contact";
+import {listContact, getContact, delContact, addContact, updateContact} from "@/api/client/contact";
+import {listCustomer} from "@/api/client/customer";
 
 export default {
   name: "Contact",
-  dicts: ['client_contact_status','client_contact_sex'],
+  dicts: ['client_contact_status', 'client_contact_sex'],
   data() {
     return {
       // 遮罩层
@@ -193,15 +245,21 @@ export default {
         params: {}, // 搜索参数
         positionState: null,
       },
+      customerId: null,
       // 表单参数
       form: {},
+      // 客户列表
+      customerList: [],
       // 表单校验
-      rules: {
-      }
+      rules: {}
     };
   },
   created() {
     this.getList();
+    // 获取客户列表
+    listCustomer().then(response => {
+      this.customerList = response.rows;
+    });
   },
   methods: {
     /** 查询客户联系人列表 */
@@ -223,6 +281,7 @@ export default {
       this.form = {
         id: null,
         customerId: null,
+        customer: {id: null},
         linkman: null,
         gender: null,
         age: null,
@@ -248,7 +307,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -270,6 +329,7 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
+        this.form.customer.id = this.customerId
         if (valid) {
           if (this.form.id != null) {
             updateContact(this.form).then(response => {
@@ -290,12 +350,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除客户联系人编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除客户联系人编号为"' + ids + '"的数据项？').then(function () {
         return delContact(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

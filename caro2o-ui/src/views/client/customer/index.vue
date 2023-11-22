@@ -22,10 +22,10 @@
       <el-form-item label="所属地区" prop="industry">
         <el-select v-model="queryParams.province" placeholder="请选择所属地区" clearable>
           <el-option
-            v-for="item in queryParams.province"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="dict in dict.type.china_sheng"
+            :key="dict.value"
+            :label="dict.label"
+            :value="parseInt(dict.value)"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -82,6 +82,9 @@
       </el-table-column>
       <el-table-column label="所属行业" align="center" prop="industry" />
       <el-table-column label="所属地区" align="center" prop="province">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.china_sheng" :value="scope.row.province"/>
+        </template>
       </el-table-column>
       <el-table-column label="经营状态" align="center" prop="openState">
         <template slot-scope="scope">
@@ -89,7 +92,7 @@
         </template>
       </el-table-column>
       <el-table-column label="录入人" align="center" prop="inputUser" />
-      <el-table-column label="营销人" align="center" prop="marketUser" />
+      <el-table-column label="营销人" align="center" prop="inputUser" />
       <el-table-column label="录入时间" align="center" prop="inputTime" width="180">
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -154,10 +157,10 @@
         <el-form-item label="所属地区" prop="province">
           <el-select v-model="form.province" placeholder="请选择所属地区">
             <el-option
-              v-for="item in queryParams.province"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="dict in dict.type.china_sheng"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -184,7 +187,7 @@ import { listCustomer, getCustomer, delCustomer, addCustomer, updateCustomer } f
 
 export default {
   name: "Customer",
-  dicts: ['client_customer_tinyint'],
+  dicts: ['client_customer_tinyint','china_sheng'],
   data() {
     return {
       // 遮罩层
@@ -222,6 +225,7 @@ export default {
       form: {},
       // 表单校验
       rules: {
+
       }
     };
   },
