@@ -62,4 +62,7 @@ public interface CustomerMapper
     public int deleteCustomerByIds(String[] ids);
 
     String selelctLoginUsername(Long userId);
+
+    //<!--根据企业名从数据库查询,以此判断其中是否有这个企业名 -->
+    Long selectcustomerName(String customerName);
 }

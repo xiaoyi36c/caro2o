@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.wolfcode.client.customer.domain.vo.CustomerVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -77,7 +78,7 @@ public class CustomerController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:customer:add')")
     @Log(title = "客户信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody CustomerVo customerVo)
+    public AjaxResult add(@RequestBody @Validated CustomerVo customerVo)
     {
         return toAjax(customerService.insertCustomer(customerVo));
     }
@@ -88,9 +89,9 @@ public class CustomerController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:customer:edit')")
     @Log(title = "客户信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Customer customer)
+    public AjaxResult edit(@RequestBody @Validated CustomerVo customerVo)
     {
-        return toAjax(customerService.updateCustomer(customer));
+        return toAjax(customerService.updateCustomer(customerVo));
     }
 
     /**

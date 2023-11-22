@@ -39,10 +39,10 @@ public interface ICustomerService
     /**
      * 修改客户信息
      *
-     * @param customer 客户信息
+     * @param customerVo 客户信息
      * @return 结果
      */
-    public int updateCustomer(Customer customer);
+    public int updateCustomer(CustomerVo customerVo);
 
     /**
      * 批量删除客户信息

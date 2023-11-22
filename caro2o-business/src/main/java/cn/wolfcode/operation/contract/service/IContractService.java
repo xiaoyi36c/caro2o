@@ -60,4 +60,6 @@ public interface IContractService
      * @return 结果
      */
     public int deleteContractById(String id);
+
+    int putAudit(Long id, String type);
 }
