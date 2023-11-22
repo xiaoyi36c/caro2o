@@ -42,3 +42,11 @@ export function delContract(id) {
     method: 'delete'
   })
 }
+
+// 通过
+export function putApprove(id,type) {
+  return request({
+    url: `/system/contract/${id}/${type}`,
+    method: 'put'
+  })
+}

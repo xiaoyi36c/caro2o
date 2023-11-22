@@ -1,6 +1,7 @@
 package cn.wolfcode.operation.contract.mapper;
 
 import cn.wolfcode.operation.contract.domain.Contract;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -59,4 +60,7 @@ public interface ContractMapper
      * @return 结果
      */
     public int deleteContractByIds(String[] ids);
+
+
+    void updateApprove(@Param("id") Long id, @Param("passTheAudit") long passTheAudit);
 }

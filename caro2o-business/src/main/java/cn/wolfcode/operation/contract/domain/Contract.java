@@ -18,6 +18,10 @@ public class Contract extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+    public static final long UNREVIEWED = 0;
+    public static final long PASS_THE_AUDIT = 1;
+    public static final long FAIL_THE_AUDIT = 2;
+
     /** $column.columnComment */
     private String id;
 

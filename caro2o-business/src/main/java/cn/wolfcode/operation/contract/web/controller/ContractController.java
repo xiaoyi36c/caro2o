@@ -102,4 +102,16 @@ public class ContractController extends BaseController
     {
         return toAjax(contractService.deleteContractByIds(ids));
     }
+
+    /**
+     * 审核通过
+     */
+    @PreAuthorize("@ss.hasPermi('system:contract:audit')")
+    @Log(title = "合同信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/{id}/{type}")
+    public AjaxResult putAudit(@PathVariable Long id, @PathVariable String type)
+    {
+        return toAjax(contractService.putAudit(id,type));
+    }
+
 }
