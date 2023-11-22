@@ -63,6 +63,23 @@ public class CustomerServiceImpl implements ICustomerService
         String customerName = customerVo.getCustomerName();
         Long id = customerMapper.selectcustomerName(customerName);
         Assert.state(id==null,"当前企业已存在");
+        //企业名称：必填 100字以内
+
+        //法定代表人：必填 30字以内
+
+        //成立日期：必填，xxxx年xx月xx日
+
+        //经营状态：必选，（开业、注销、破产）新增时默认开业
+
+        //所属省份：必选（全国所有省份选择）
+
+        //注册资本：必填、正数，保留两位小数（单位：万元）
+
+        //所属行业：必填 30 字以内
+
+        //注册地址：500字以内
+
+        //经营范围：500字以内
 
         Customer customer = new Customer();
         //将前端接受到的数据复制给完整实体类
@@ -80,12 +97,15 @@ public class CustomerServiceImpl implements ICustomerService
     /**
      * 修改客户信息
      *
-     * @param customer 客户信息
+     * @param customerVo 客户信息
      * @return 结果
      */
     @Override
-    public int updateCustomer(Customer customer)
+    public int updateCustomer(CustomerVo customerVo)
     {
+        Customer customer = new Customer();
+        //将前端接受到的数据复制给完整实体类
+        BeanUtils.copyProperties(customerVo,customer);
         return customerMapper.updateCustomer(customer);
     }
 
