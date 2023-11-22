@@ -96,6 +96,11 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
         Assert.notNull(customerLinkmane,"参数错误");
         // 2. 格式校验
         Assert.state(ValidateUtils.validPhone(updateCustomerLinkmane.getPhone()),"手机号格式不正确");
+        Assert.state(updateCustomerLinkmane.getLinkman().length()<30 && updateCustomerLinkmane.getLinkman().length()>0,"名字太长");
+        Assert.state(updateCustomerLinkmane.getDepartment().length()<20 && updateCustomerLinkmane.getDepartment().length()>0,"部门名字太长");
+        Assert.state(updateCustomerLinkmane.getPosition().length()<20 && updateCustomerLinkmane.getPosition().length()>0,"职位名字太长");
+        Assert.state(updateCustomerLinkmane.getAge() > 0 && updateCustomerLinkmane.getAge() < 100,"年龄不合法");
+
         // 3. 参数拷贝
         CustomerLinkmane cus = new CustomerLinkmane();
         BeanUtils.copyProperties(updateCustomerLinkmane,cus);
