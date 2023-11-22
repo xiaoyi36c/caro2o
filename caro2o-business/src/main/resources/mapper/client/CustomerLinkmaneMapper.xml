@@ -25,14 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectCustomerLinkmaneList" parameterType="CustomerLinkmane" resultMap="CustomerLinkmaneResult">
         <include refid="selectCustomerLinkmaneVo"/>
         <where>  
-            <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
             <if test="linkman != null  and linkman != ''"> and linkman like concat('%', #{linkman}, '%')</if>
             <if test="phone != null  and phone != ''"> and phone like concat('%', #{phone}, '%')</if>
             <if test="positionState != null "> and position_state = #{positionState}</if>
         </where>
     </select>
     
-    <select id="selectCustomerLinkmaneById" parameterType="String" resultMap="CustomerLinkmaneResult">
+    <select id="selectCustomerLinkmaneById" parameterType="Long" resultMap="CustomerLinkmaneResult">
         <include refid="selectCustomerLinkmaneVo"/>
         where id = #{id}
     </select>
@@ -84,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteCustomerLinkmaneById" parameterType="String">
+    <delete id="deleteCustomerLinkmaneById" parameterType="Long">
         delete from customer_linkmane where id = #{id}
     </delete>
 

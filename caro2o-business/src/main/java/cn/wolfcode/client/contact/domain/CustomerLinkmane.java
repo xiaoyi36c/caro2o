@@ -17,13 +17,13 @@ public class CustomerLinkmane extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 序号 */
-    @Excel(name = "序号")
-    private String id;
+    /**  */
+    @Excel(name = "")
+    private Long id;
 
-    /** 客户 */
-    @Excel(name = "客户")
-    private String customerId;
+    /** 客户id */
+    @Excel(name = "客户id")
+    private Long customerId;
 
     /** 联系人名字 */
     @Excel(name = "联系人名字")
@@ -62,21 +62,21 @@ public class CustomerLinkmane extends BaseEntity
     @Excel(name = "录入时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date inputTime;
 
-    public void setId(String id) 
+    public void setId(Long id) 
     {
         this.id = id;
     }
 
-    public String getId() 
+    public Long getId() 
     {
         return id;
     }
-    public void setCustomerId(String customerId) 
+    public void setCustomerId(Long customerId) 
     {
         this.customerId = customerId;
     }
 
-    public String getCustomerId() 
+    public Long getCustomerId() 
     {
         return customerId;
     }
