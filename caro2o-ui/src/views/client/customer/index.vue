@@ -126,7 +126,7 @@
 
     <!-- 添加或修改客户信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="企业名称" prop="customerName">
           <el-input v-model="form.customerName" placeholder="请输入企业名称" />
         </el-form-item>
@@ -154,8 +154,8 @@
         <el-form-item label="注册资本(万元)" prop="regCapital">
           <el-input v-model="form.regCapital" placeholder="请输入注册资本" />
         </el-form-item>
-        <el-form-item label="所属地区" prop="province">
-          <el-select v-model="form.province" placeholder="请选择所属地区">
+        <el-form-item label="所属省份" prop="province">
+          <el-select v-model="form.province" placeholder="请选择所属省份">
             <el-option
               v-for="dict in dict.type.china_sheng"
               :key="dict.value"
@@ -216,7 +216,7 @@ export default {
         pageSize: 10,
         customerName: null,
         legalLeader: null,
-        openState: null,
+        openState: "0",
         province: null,
         industry: null,
         inputTime: null,
@@ -225,7 +225,40 @@ export default {
       form: {},
       // 表单校验
       rules: {
-
+        customerName:[
+          {required:true,message:"请输入企业名称",trigger:"blur"},
+          { min:0, max: 100, message: '不能超过100个字', trigger: 'blur' },
+        ],
+        legalLeader:[
+          {required:true,message:"请输入法定代表人",trigger:"blur"},
+          { min:0, max:30, message: '请不要超过30个字符', trigger: 'blur' },
+        ],
+        registerDate:[
+          {required:true,message:"请选择成立时间",trigger:"change"},
+          { pattern: /^\d{4}-\d{2}-\d{2}$/, message: '请输入正确格式', trigger: 'change' }
+        ],
+        industry:[
+          {required:true,message:"请输入所属行业",trigger:"blur"},
+          { min:0, max:30, message: '请不要超过30个字符', trigger: 'blur' },
+        ],
+        province:[
+          {required:true,message:"请选择所属省份",trigger:"change"}
+        ],
+        openState:[
+          {required:true,message:"请选择经营状态",trigger:"change"}
+        ],
+        regCapital:[
+          {required:true,message:"请输入注册资本",trigger:"blur"},
+          { pattern: /^\d+(\.\d{1,2})?$/, message: '请输入整数且只能保留两位小数'}
+        ],
+        scope:[
+          {required:true,message:"请输入经营范围",trigger:"blur"},
+          { min:0, max:500, message: '请不要超过500个字符', trigger: 'blur' },
+        ],
+        regAddr:[
+          {required:true,message:"请输入注册地址",trigger:"blur"},
+          { min:0, max:500, message: '请不要超过500个字符', trigger: 'blur' },
+        ],
       }
     };
   },
