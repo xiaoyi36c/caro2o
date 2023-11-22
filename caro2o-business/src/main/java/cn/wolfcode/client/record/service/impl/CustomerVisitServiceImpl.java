@@ -43,7 +43,6 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
     @Override
     public List<CustomerVisit> selectCustomerVisitList(CustomerVisit customerVisit)
     {
-        System.out.println(SecurityUtils.getUserId());
         return customerVisitMapper.selectCustomerVisitList(customerVisit);
     }
 
