@@ -44,6 +44,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selelctLoginUsername" resultType="java.lang.String">
         SELECT nick_name from sys_user WHERE user_id = #{userId}
     </select>
+    <!--根据企业名从数据库查询,以此判断其中是否有这个企业名 -->
+    <select id="selectcustomerName" resultType="java.lang.Long">
+        SELECT id FROM customer WHERE customer_name = #{customerName}
+    </select>
 
     <insert id="insertCustomer" parameterType="Customer">
         insert into customer
