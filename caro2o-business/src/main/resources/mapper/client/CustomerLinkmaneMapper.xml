@@ -6,7 +6,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="CustomerLinkmane" id="CustomerLinkmaneResult">
         <result property="id"    column="id"    />
-        <result property="customerId"    column="customer_id"    />
         <result property="linkman"    column="linkman"    />
         <result property="gender"    column="gender"    />
         <result property="age"    column="age"    />
@@ -16,11 +15,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="department"    column="department"    />
         <result property="inputUser"    column="input_user"    />
         <result property="inputTime"    column="input_time"    />
+        <collection property="customer" columnPrefix="c_" resultMap="cn.wolfcode.client.customer.mapper.CustomerMapper.CustomerResult"/>
     </resultMap>
 
     <sql id="selectCustomerLinkmaneVo">
-        select id, customer_id, linkman, gender, age, phone, position, position_state, department, input_user, input_time from customer_linkmane
+        SELECT
+        cl.id,
+        cl.customer_id,
+        cl.linkman,
+        cl.gender,
+        cl.age,
+        cl.phone,
+        cl.position,
+        cl.position_state,
+        cl.department,
+        cl.input_user,
+        cl.input_time,
+        c.id AS c_id,
+        c.customer_name AS c_customer_name
+        FROM
+        customer_linkmane cl
+        left JOIN
+        customer c ON cl.customer_id = c.id
     </sql>
+
 
     <select id="selectCustomerLinkmaneList" parameterType="CustomerLinkmane" resultMap="CustomerLinkmaneResult">
         <include refid="selectCustomerLinkmaneVo"/>
@@ -40,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into customer_linkmane
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
-            <if test="customerId != null">customer_id,</if>
+            <if test="customer.id != null">customer_id,</if>
             <if test="linkman != null">linkman,</if>
             <if test="gender != null">gender,</if>
             <if test="age != null">age,</if>
@@ -53,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
-            <if test="customerId != null">#{customerId},</if>
+            <if test="customer.id != null">#{customer.id},</if>
             <if test="linkman != null">#{linkman},</if>
             <if test="gender != null">#{gender},</if>
             <if test="age != null">#{age},</if>
@@ -69,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateCustomerLinkmane" parameterType="CustomerLinkmane">
         update customer_linkmane
         <trim prefix="SET" suffixOverrides=",">
-            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="customer.id != null">customer_id = #{customer.id},</if>
             <if test="linkman != null">linkman = #{linkman},</if>
             <if test="gender != null">gender = #{gender},</if>
             <if test="age != null">age = #{age},</if>

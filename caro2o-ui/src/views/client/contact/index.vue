@@ -68,7 +68,7 @@
               style="font-size: 12px">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="序号" align="center" prop="id"/>
-      <el-table-column label="客户id" align="center" prop="customerId"/>
+      <el-table-column label="客户id" align="center" prop="customer.customerName"/>
       <el-table-column label="联系人名字" align="center" prop="linkman"/>
       <el-table-column label="性别" align="center" prop="gender">
         <template slot-scope="scope">
@@ -128,7 +128,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="所属客户" prop="customerId">
-                <el-select v-model="form.customerId" placeholder="请选择所属客户" style="width: 300px">
+                <el-select v-model="customerId" placeholder="请选择所属客户" style="width: 300px">
                   <el-option
                     v-for="customer in customerList"
                     :key="customer.id"
@@ -245,6 +245,7 @@ export default {
         params: {}, // 搜索参数
         positionState: null,
       },
+      customerId: null,
       // 表单参数
       form: {},
       // 客户列表
@@ -280,6 +281,7 @@ export default {
       this.form = {
         id: null,
         customerId: null,
+        customer: {id: null},
         linkman: null,
         gender: null,
         age: null,
@@ -327,6 +329,7 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
+        this.form.customer.id = this.customerId
         if (valid) {
           if (this.form.id != null) {
             updateContact(this.form).then(response => {

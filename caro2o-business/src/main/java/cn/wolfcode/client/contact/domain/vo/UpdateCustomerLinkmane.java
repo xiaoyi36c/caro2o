@@ -2,6 +2,7 @@ package cn.wolfcode.client.contact.domain.vo;
 
 import javax.validation.constraints.NotNull;
 
+import cn.wolfcode.client.customer.domain.Customer;
 import lombok.Data;
 
 @Data
@@ -13,8 +14,7 @@ public class UpdateCustomerLinkmane {
 
     /** 客户id */
     @NotNull(message = "客户不能为空")
-    private Long customerId;
-
+    private Customer customer;
     /** 联系人名字 */
     @NotNull(message = "联系人名字不能为空")
     private String linkman;
