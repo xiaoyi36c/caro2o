@@ -3,7 +3,7 @@
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="关键字" prop="keyword">
         <el-input
-          v-model="queryParams.keyword"
+          v-model="queryParams.params.keyword"
           placeholder="请输入联系人名字/电话"
           clearable
           @keyup.enter.native="handleQuery"
@@ -190,7 +190,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        keyword: null,
+        params: {}, // 搜索参数
         positionState: null,
       },
       // 表单参数
