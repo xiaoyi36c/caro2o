@@ -2,6 +2,8 @@ package cn.wolfcode.client.record.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.wolfcode.client.record.domain.vo.CustomerVisitVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,6 +70,15 @@ public class CustomerVisitController extends BaseController
     {
         return success(customerVisitService.selectCustomerVisitById(id));
     }
+    /**
+     * 查询客户和联系人
+     */
+    @PreAuthorize("@ss.hasPermi('client:record:query')")
+    @GetMapping("/ClientLinkman")
+    public AjaxResult getClientLinkman()
+    {
+        return success(customerVisitService.selectClientLinkman());
+    }
 
     /**
      * 新增拜访信息
@@ -75,9 +86,9 @@ public class CustomerVisitController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:record:add')")
     @Log(title = "拜访信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody CustomerVisit customerVisit)
+    public AjaxResult add(@RequestBody CustomerVisitVo customerVisitVo)
     {
-        return toAjax(customerVisitService.insertCustomerVisit(customerVisit));
+        return toAjax(customerVisitService.insertCustomerVisit(customerVisitVo));
     }
 
     /**

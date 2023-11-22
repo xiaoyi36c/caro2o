@@ -21,19 +21,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectCustomerVisitList" parameterType="CustomerVisit" resultMap="CustomerVisitResult">
-        <include refid="selectCustomerVisitVo"/>
+        select cv.id, c.customer_name customer_id, cl.linkman linkman_id, cv.visit_type, cv.visit_reason, cv.content, cv.visit_date, cv.input_user, cv.input_time
+        from customer_visit cv left join customer_linkmane cl on cv.linkman_id = cl.id
+        left join customer c on cv.customer_id = c.id
         <where>  
-            <if test="visitType != null "> and visit_type = #{visitType}</if>
-            <if test="visitReason != null  and visitReason != ''"> and visit_reason = #{visitReason}</if>
-            <if test="visitDate != null "> and visit_date = #{visitDate}</if>
+            <if test="visitType != null "> and cv.visit_type = #{visitType}</if>
+            <if test="visitReason != null  and visitReason != ''"> and cv.visit_reason like concat('%',
+                #{visitReason}, '%') </if>
+            <if test="params.beginVisitDate != null and params.beginVisitDate != '' and params.endVisitDate != null and params.endVisitDate != ''"> and cv.visit_date between #{params.beginVisitDate} and #{params.endVisitDate}</if>
         </where>
+        ORDER BY id
     </select>
     
     <select id="selectCustomerVisitById" parameterType="Long" resultMap="CustomerVisitResult">
         <include refid="selectCustomerVisitVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectCustomerList" resultType="cn.wolfcode.client.customer.domain.Customer">
+        select id, customer_name, legal_leader, register_date, open_state, province, reg_capital, industry, scope, reg_addr, input_time, input_user from customer
+    </select>
+    <select id="selectCustomerLinkmaneList" resultType="cn.wolfcode.client.contact.domain.CustomerLinkmane">
+        select id, customer_id, linkman, gender, age, phone, position, position_state, department, input_user, input_time from customer_linkmane
+    </select>
+
     <insert id="insertCustomerVisit" parameterType="CustomerVisit">
         insert into customer_visit
         <trim prefix="(" suffix=")" suffixOverrides=",">

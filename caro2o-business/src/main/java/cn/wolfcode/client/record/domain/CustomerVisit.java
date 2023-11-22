@@ -1,6 +1,8 @@
 package cn.wolfcode.client.record.domain;
 
 import java.util.Date;
+
+import cn.wolfcode.common.utils.SecurityUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -47,10 +49,10 @@ public class CustomerVisit extends BaseEntity
 
     /** 录入人 */
     @Excel(name = "录入人")
-    private Long inputUser;
+    private String inputUser;
 
     /** 录入时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "录入时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date inputTime;
 
@@ -117,12 +119,12 @@ public class CustomerVisit extends BaseEntity
     {
         return visitDate;
     }
-    public void setInputUser(Long inputUser) 
+    public void setInputUser(String inputUser)
     {
         this.inputUser = inputUser;
     }
 
-    public Long getInputUser() 
+    public String getInputUser()
     {
         return inputUser;
     }

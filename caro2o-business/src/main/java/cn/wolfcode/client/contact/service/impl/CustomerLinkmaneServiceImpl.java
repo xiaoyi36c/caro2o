@@ -1,5 +1,6 @@
 package cn.wolfcode.client.contact.service.impl;
 
+import java.beans.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import cn.wolfcode.client.contact.mapper.CustomerLinkmaneMapper;
 import cn.wolfcode.client.contact.domain.CustomerLinkmane;
 import cn.wolfcode.client.contact.service.ICustomerLinkmaneService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -57,6 +59,7 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertCustomerLinkmane(UpdateCustomerLinkmane updateCustomerLinkmane)
     {
         // 1.参数校验
@@ -66,6 +69,12 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
         }
         // 2. 格式校验
         Assert.state(ValidateUtils.validPhone(updateCustomerLinkmane.getPhone()),"手机号格式不正确");
+        Assert.state(updateCustomerLinkmane.getLinkman().length()<30 && updateCustomerLinkmane.getLinkman().length()>0,"名字太长");
+        Assert.state(updateCustomerLinkmane.getDepartment().length()<20 && updateCustomerLinkmane.getDepartment().length()>0,"部门名字太长");
+        Assert.state(updateCustomerLinkmane.getPosition().length()<20 && updateCustomerLinkmane.getPosition().length()>0,"职位名字太长");
+        Assert.state(updateCustomerLinkmane.getAge() > 0 && updateCustomerLinkmane.getAge() < 100,"年龄不合法");
+
+
         CustomerLinkmane customerLinkmane = new CustomerLinkmane();
         // 3. 参数拷贝
         BeanUtils.copyProperties(updateCustomerLinkmane,customerLinkmane);
@@ -84,12 +93,18 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateCustomerLinkmane(UpdateCustomerLinkmane updateCustomerLinkmane)
     {
         CustomerLinkmane customerLinkmane = customerLinkmaneMapper.selectCustomerLinkmaneById(updateCustomerLinkmane.getId());
         Assert.notNull(customerLinkmane,"参数错误");
         // 2. 格式校验
         Assert.state(ValidateUtils.validPhone(updateCustomerLinkmane.getPhone()),"手机号格式不正确");
+        Assert.state(updateCustomerLinkmane.getLinkman().length()<30 && updateCustomerLinkmane.getLinkman().length()>0,"名字太长");
+        Assert.state(updateCustomerLinkmane.getDepartment().length()<20 && updateCustomerLinkmane.getDepartment().length()>0,"部门名字太长");
+        Assert.state(updateCustomerLinkmane.getPosition().length()<20 && updateCustomerLinkmane.getPosition().length()>0,"职位名字太长");
+        Assert.state(updateCustomerLinkmane.getAge() > 0 && updateCustomerLinkmane.getAge() < 100,"年龄不合法");
+
         // 3. 参数拷贝
         CustomerLinkmane cus = new CustomerLinkmane();
         BeanUtils.copyProperties(updateCustomerLinkmane,cus);

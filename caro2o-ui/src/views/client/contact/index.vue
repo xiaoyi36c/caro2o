@@ -85,11 +85,7 @@
       </el-table-column>
       <el-table-column label="部门" align="center" prop="department"/>
       <el-table-column label="录入人" align="center" prop="inputUser"/>
-      <el-table-column label="录入时间" align="center" prop="inputTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.inputTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
+      <el-table-column label="录入时间" align="center" prop="inputTime" width="180"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="160px">
         <template slot-scope="scope">
           <el-button
@@ -168,7 +164,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="年龄" prop="age">
-                  <el-input v-model="form.age" placeholder="请输入年龄"/>
+                  <el-input v-model.number="form.age" placeholder="请输入年龄"/>
                 </el-form-item>
               </el-col>
 
@@ -263,6 +259,10 @@ export default {
         phone: [
           {required: true, message: "请输入联系人电话", trigger: "blur"},
           {type: "string", pattern:/^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$/, message: "请输入正确的手机号码", trigger: "blur"}
+        ],
+        age: [
+          {type: "number", message: "请输入正确的年龄", trigger: "blur"},
+          {pattern:  /^(?:[1-9][0-9]?|1[01][0-9]|100)$/, message: "请输入正确的年龄", trigger: "blur"}
         ],
         gender: [
           {required: true, message: "请选择性别", trigger: "blur"}
