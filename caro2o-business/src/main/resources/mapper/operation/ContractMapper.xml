@@ -90,6 +90,11 @@
         </trim>
         where id = #{id}
     </update>
+    <update id="updateApprove">
+        update contract
+        set audit_state = #{passTheAudit}
+        where id = #{id}
+    </update>
 
     <delete id="deleteContractById" parameterType="String">
         delete from contract where id = #{id}
