@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.client.record.mapper.CustomerVisitMapper">
+    
+    <resultMap type="CustomerVisit" id="CustomerVisitResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="linkmanId"    column="linkman_id"    />
+        <result property="visitType"    column="visit_type"    />
+        <result property="visitReason"    column="visit_reason"    />
+        <result property="content"    column="content"    />
+        <result property="visitDate"    column="visit_date"    />
+        <result property="inputUser"    column="input_user"    />
+        <result property="inputTime"    column="input_time"    />
+    </resultMap>
+
+    <sql id="selectCustomerVisitVo">
+        select id, customer_id, linkman_id, visit_type, visit_reason, content, visit_date, input_user, input_time from customer_visit
+    </sql>
+
+    <select id="selectCustomerVisitList" parameterType="CustomerVisit" resultMap="CustomerVisitResult">
+        <include refid="selectCustomerVisitVo"/>
+        <where>  
+            <if test="visitType != null "> and visit_type = #{visitType}</if>
+            <if test="visitReason != null  and visitReason != ''"> and visit_reason = #{visitReason}</if>
+            <if test="visitDate != null "> and visit_date = #{visitDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerVisitById" parameterType="String" resultMap="CustomerVisitResult">
+        <include refid="selectCustomerVisitVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCustomerVisit" parameterType="CustomerVisit">
+        insert into customer_visit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="linkmanId != null">linkman_id,</if>
+            <if test="visitType != null">visit_type,</if>
+            <if test="visitReason != null">visit_reason,</if>
+            <if test="content != null">content,</if>
+            <if test="visitDate != null">visit_date,</if>
+            <if test="inputUser != null">input_user,</if>
+            <if test="inputTime != null">input_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="linkmanId != null">#{linkmanId},</if>
+            <if test="visitType != null">#{visitType},</if>
+            <if test="visitReason != null">#{visitReason},</if>
+            <if test="content != null">#{content},</if>
+            <if test="visitDate != null">#{visitDate},</if>
+            <if test="inputUser != null">#{inputUser},</if>
+            <if test="inputTime != null">#{inputTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerVisit" parameterType="CustomerVisit">
+        update customer_visit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="linkmanId != null">linkman_id = #{linkmanId},</if>
+            <if test="visitType != null">visit_type = #{visitType},</if>
+            <if test="visitReason != null">visit_reason = #{visitReason},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="visitDate != null">visit_date = #{visitDate},</if>
+            <if test="inputUser != null">input_user = #{inputUser},</if>
+            <if test="inputTime != null">input_time = #{inputTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerVisitById" parameterType="String">
+        delete from customer_visit where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerVisitByIds" parameterType="String">
+        delete from customer_visit where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
