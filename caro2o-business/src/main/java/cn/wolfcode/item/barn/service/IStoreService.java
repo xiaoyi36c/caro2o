@@ -1,0 +1,61 @@
+package cn.wolfcode.item.barn.service;
+
+import java.util.List;
+import cn.wolfcode.item.barn.domain.Store;
+
+/**
+ * 仓库信息Service接口
+ * 
+ * @author ruoyi
+ * @date 2023-11-23
+ */
+public interface IStoreService 
+{
+    /**
+     * 查询仓库信息
+     * 
+     * @param id 仓库信息主键
+     * @return 仓库信息
+     */
+    public Store selectStoreById(Long id);
+
+    /**
+     * 查询仓库信息列表
+     * 
+     * @param store 仓库信息
+     * @return 仓库信息集合
+     */
+    public List<Store> selectStoreList(Store store);
+
+    /**
+     * 新增仓库信息
+     * 
+     * @param store 仓库信息
+     * @return 结果
+     */
+    public int insertStore(Store store);
+
+    /**
+     * 修改仓库信息
+     * 
+     * @param store 仓库信息
+     * @return 结果
+     */
+    public int updateStore(Store store);
+
+    /**
+     * 批量删除仓库信息
+     * 
+     * @param ids 需要删除的仓库信息主键集合
+     * @return 结果
+     */
+    public int deleteStoreByIds(Long[] ids);
+
+    /**
+     * 删除仓库信息信息
+     * 
+     * @param id 仓库信息主键
+     * @return 结果
+     */
+    public int deleteStoreById(Long id);
+}
