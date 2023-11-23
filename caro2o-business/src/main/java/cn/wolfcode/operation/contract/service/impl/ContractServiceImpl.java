@@ -2,10 +2,8 @@ package cn.wolfcode.operation.contract.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.List;
-
+import cn.wolfcode.common.utils.SecurityUtils;
 import cn.wolfcode.operation.contract.domain.Contract;
 import cn.wolfcode.operation.contract.mapper.ContractMapper;
 import cn.wolfcode.operation.contract.service.IContractService;
@@ -59,6 +57,7 @@ public class ContractServiceImpl implements IContractService
     @Override
     public int insertContract(Contract contract)
     {
+        contract.setInputUser(SecurityUtils.getUsername());
         return contractMapper.insertContract(contract);
     }
 
