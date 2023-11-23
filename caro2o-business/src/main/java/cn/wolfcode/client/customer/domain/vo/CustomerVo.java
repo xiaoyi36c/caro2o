@@ -8,6 +8,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class CustomerVo {
+
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /** 企业名称 */
     @Excel(name = "企业名称")
     @NotNull(message = "企业名称不能为空")
