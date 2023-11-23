@@ -1,22 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类名称" prop="categoryName">
+      <el-form-item label="关键字" prop="categoryName">
         <el-input
-          v-model="queryParams.categoryName"
+          v-model="queryParams.params.keyword"
           placeholder="请输入分类名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="描述" prop="categoryDesc">
-        <el-input
-          v-model="queryParams.categoryDesc"
-          placeholder="请输入描述"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="上级分类" prop="parentId">
+        <treeselect style="width: 20%" v-model="queryParams.parentId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类" />
       </el-form-item>
+
+      <el-form-item label="上级分类" prop="parentId">
+        <el-select v-model="queryParams.parentId" placeholder="请选择上级分类" clearable>
+        <treeselect  :options="sortOptions" :normalizer="normalizer" />
+        </el-select>
+      </el-form-item>
+
+
+
       <el-form-item>
 	    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -144,7 +148,9 @@ export default {
       // 查询参数
       queryParams: {
         categoryName: null,
+        params: {},
         categoryDesc: null,
+        parentId: null
       },
       // 表单参数
       form: {},
@@ -155,6 +161,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getTreeselect();
   },
   methods: {
     /** 查询物品分类信息列表 */
