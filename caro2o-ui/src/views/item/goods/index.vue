@@ -219,7 +219,7 @@ export default {
         let data = response.rows;
         // 处理数据 , 将图片转为url
         data = data.map(item => {
-          let blob = new Blob([item.goodsCover], {type: 'image/jpg + image/png + image/jpeg'});
+          let blob = new Blob([item.goodsCover], {type: 'image/jpg'});
           item.goodsCover = URL.createObjectURL(blob);
          return item;
         });

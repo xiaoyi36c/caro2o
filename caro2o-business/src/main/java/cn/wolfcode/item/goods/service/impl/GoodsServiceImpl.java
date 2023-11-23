@@ -1,5 +1,7 @@
 package cn.wolfcode.item.goods.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import cn.wolfcode.common.utils.bean.BeanUtils;
 import cn.wolfcode.item.goods.domain.vo.GoodsVO;
 import cn.wolfcode.item.goods.domain.vo.GoodsVO2;
 import org.apache.commons.collections4.BagUtils;
+import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.goods.mapper.GoodsMapper;
@@ -56,14 +59,21 @@ public class GoodsServiceImpl implements IGoodsService
      * @return 结果
      */
     @Override
-    public int insertGoods(GoodsVO goodsVO)
-    {
+    public int insertGoods(GoodsVO goodsVO) {
         GoodsVO2 goodsVO2 = new GoodsVO2();
         BeanUtils.copyBeanProp(goodsVO2, goodsVO);
-        goodsVO2.setGoodsCover(goodsVO.getInputStream());
-        if ( goodsVO.getId() == -1){
+        InputStream inputStream = goodsVO.getInputStream();
+        // 将流转换为字节数组
+        byte[] bytes;
+        try {
+            bytes = IOUtils.toByteArray(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        goodsVO2.setGoodsCover(bytes);
+        if (goodsVO.getId() == -1) {
             return goodsMapper.insertGoods(goodsVO2);
-        }else {
+        } else {
             return goodsMapper.updateGoods(goodsVO2);
         }
     }
