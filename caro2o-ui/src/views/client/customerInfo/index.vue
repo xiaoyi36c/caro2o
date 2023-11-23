@@ -3,7 +3,7 @@
     <el-container>
       <el-main>
         <!--        客户信息方块-->
-        <el-card class="box-card" style="margin-top: -12px">
+        <el-card class="box-card" style="margin-top: -12px"                       >
           <!--          客户信息-->
           <el-descriptions title="客户信息">
             <el-descriptions-item label="企业名称">{{ customer.customerName }}</el-descriptions-item>
@@ -78,8 +78,44 @@
         <!--合同信息-->
         <el-card class="box-card">
           <!--          列表-->
-
+          <el-table :data="contractList">
+          <el-table-column label="合同名称" align="center" prop="contractName"/>
+          <el-table-column label="合同编码" align="center" prop="contractCode"/>
+          <el-table-column label="合同金额" align="center" prop="amounts"/>
+          <el-table-column label="合同生效开始时间" align="center" prop="startDate" width="150">
+            <template slot-scope="scope">
+              <span>{{ parseTime(scope.row.startDate, '{y}-{m}-{d}') }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="合同生效结束时间" align="center" prop="endDate" width="150">
+            <template slot-scope="scope">
+              <span>{{ parseTime(scope.row.endDate, '{y}-{m}-{d}') }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="是否盖章" align="center" prop="affixSealState">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.affix_seal_state" :value="scope.row.affixSealState"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="审核状态 " align="center" prop="auditState">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.audit_state" :value="scope.row.auditState"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="是否作废" align="center" prop="nullifyState">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.nullify_state" :value="scope.row.nullifyState"/>
+            </template>
+          </el-table-column>
+          </el-table>
           <!--          分页-->
+          <pagination
+            v-show="total>0"
+            :total="total"
+            :page.sync="queryParams.pageNum"
+            :limit.sync="queryParams.pageSize"
+            @pagination="getList"
+          />
         </el-card>
       </el-aside>
     </el-container>
@@ -92,10 +128,12 @@
 import {getCustomer} from "@/api/client/customer";
 import {getPhone, listContact} from "@/api/client/contact";
 import {getRec, listRecord} from "@/api/client/record";
+import {listContract,getHt} from "@/api/operation/contract";
 
 export default {
   name: "CustomerInfo",
-  dicts: ['china_sheng','client_customer_tinyint','client_contact_sex','client_contact_status','see_way'],
+  dicts: ['china_sheng','client_customer_tinyint','client_contact_sex','client_contact_status',
+    'see_way','affix_seal_state','audit_state','nullify_state'],
   data() {
     return {
       //客户信息
@@ -104,6 +142,8 @@ export default {
       contact:[] ,
       //拜访信息
       recordList:[],
+      //合同信息
+      contractList:[],
       // 客户联系分页
       queryParams: {
         total: 0,
@@ -117,6 +157,15 @@ export default {
         total:0,
         pageNum: 1,
         pageSize:3,
+      },
+      //合同分页
+      htqueryParams: {
+        total:0,
+        pageNum: 1,
+        pageSize: 10,
+        contractName: null,
+        auditState: null,
+        inputTime: null
       },
     };
   },
@@ -136,7 +185,9 @@ export default {
     getRec(id).then(res=>{
       this.recordList = res.data
     });
-
+    getHt(id).then(res=>{
+      this.contractList=res.data;
+    })
   },
   methods: {
     /** 查询客户信息列表 */
@@ -144,6 +195,10 @@ export default {
       listContact(this.queryParams).then(response => {
         this.contact = response.rows;
         this.queryParams.total = response.total;
+      });
+      listContract(this.htqueryParams).then(response => {
+        this.contractList = response.rows;
+        this.htqueryParams.total = response.total;
       });
     },
     getRecList() {

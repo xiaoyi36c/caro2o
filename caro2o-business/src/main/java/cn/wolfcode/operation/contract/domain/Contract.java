@@ -37,7 +37,7 @@ public class Contract extends BaseEntity
 
     /** 客户id */
     @Excel(name = "客户id")
-    private String customerId;
+    private Long customerId;
 
     /** 合同名称 */
     @Excel(name = "合同名称")
@@ -95,12 +95,12 @@ public class Contract extends BaseEntity
     {
         return id;
     }
-    public void setCustomerId(String customerId) 
+    public void setCustomerId(Long customerId)
     {
         this.customerId = customerId;
     }
 
-    public String getCustomerId() 
+    public Long getCustomerId()
     {
         return customerId;
     }
