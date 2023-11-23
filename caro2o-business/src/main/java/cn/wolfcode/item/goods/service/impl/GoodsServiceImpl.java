@@ -58,7 +58,7 @@ public class GoodsServiceImpl implements IGoodsService
     {
         Goods goods = new Goods();
         BeanUtils.copyBeanProp(goods, goodsVO);
-        goods.setGoodsCover(goodsVO.getInputStream().toString());
+        goods.setGoodsCover(goodsVO.getInputStream());
         if ( goodsVO.getId() == -1){
             return goodsMapper.insertGoods(goods);
         }else {
