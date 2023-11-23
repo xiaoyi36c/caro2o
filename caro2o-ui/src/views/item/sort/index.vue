@@ -56,7 +56,14 @@
     >
       <el-table-column label="分类名称" prop="categoryName" />
       <el-table-column label="描述" align="center" prop="categoryDesc" />
-      <el-table-column label="上级分类id" align="center" prop="parentId" />
+      <el-table-column label="上级分类" align="center" prop="parentId">
+
+        <template slot-scope="scope">
+          <span v-if="!scope.row.parentId">顶级分类</span>
+          <span v-for="item in sortLists" v-if="parseInt(item.id) === parseInt(scope.row.parentId)">{{ item.categoryName }}</span>
+        </template>
+
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -93,7 +100,7 @@
         <el-form-item label="描述" prop="categoryDesc">
           <el-input v-model="form.categoryDesc" placeholder="请输入描述" />
         </el-form-item>
-        <el-form-item label="上级分类id" prop="parentId">
+        <el-form-item label="上级分类" prop="parentId">
           <treeselect v-model="form.parentId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类id" />
         </el-form-item>
       </el-form>
@@ -123,6 +130,7 @@ export default {
       showSearch: true,
       // 物品分类信息表格数据
       sortList: [],
+      sortLists: [], // 物品分类信息列表
       // 物品分类信息树选项
       sortOptions: [],
       // 弹出层标题
@@ -154,6 +162,7 @@ export default {
       this.loading = true;
       listSort(this.queryParams).then(response => {
         this.sortList = this.handleTree(response.data, "id", "parentId");
+        this.sortLists = response.data;
         this.loading = false;
       });
     },
