@@ -61,4 +61,6 @@ public interface CustomerLinkmaneMapper
      * @return 结果
      */
     public int deleteCustomerLinkmaneByIds(Long[] ids);
+
+    List<CustomerLinkmane> selectCustomerPhoneById(Long id);
 }

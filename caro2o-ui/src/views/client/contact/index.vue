@@ -64,8 +64,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" border :data="contactList" @selection-change="handleSelectionChange"
-              style="font-size: 12px">
+    <el-table v-loading="loading" border :data="contactList" @selection-change="handleSelectionChange" style="font-size: 12px">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="序号" align="center" prop="id"/>
       <el-table-column label="客户" align="center" prop="customer.customerName"/>

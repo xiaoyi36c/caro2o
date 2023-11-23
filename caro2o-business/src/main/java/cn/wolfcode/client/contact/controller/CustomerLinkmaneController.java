@@ -71,6 +71,15 @@ public class CustomerLinkmaneController extends BaseController
     {
         return success(customerLinkmaneService.selectCustomerLinkmaneById(id));
     }
+    /**
+     * 根据客户id去获取联系方式
+     */
+    @PreAuthorize("@ss.hasPermi('client:contact:query')")
+    @GetMapping(value = "/phone/{id}")
+    public AjaxResult getcustomerPhone(@PathVariable("id") Long id)
+    {
+        return success(customerLinkmaneService.selectCustomerPhoneById(id));
+    }
 
     /**
      * 新增客户联系人

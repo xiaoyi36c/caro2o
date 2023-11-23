@@ -59,4 +59,6 @@ public interface ICustomerLinkmaneService
      * @return 结果
      */
     public int deleteCustomerLinkmaneById(Long id);
+
+    List<CustomerLinkmane> selectCustomerPhoneById(Long id);
 }

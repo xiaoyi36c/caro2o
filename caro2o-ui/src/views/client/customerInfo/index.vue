@@ -21,18 +21,32 @@
 
         <el-card class="box-card" style="margin-top: 10px">
           <!--  联系人-->
-          <el-descriptions title="联系信息">
-          <el-descriptions-item label="年龄">{{ customer.age }}</el-descriptions-item>
-          <el-descriptions-item label="性别">
-            <dict-tag :options="dict.type.client_contact_sex" :value="customer.gender"/>
-          </el-descriptions-item>
-          <el-descriptions-item label="联系人电话">{{ customer.phone }}</el-descriptions-item>
-          <el-descriptions-item label="职位">{{ customer.position }}</el-descriptions-item>
-          <el-descriptions-item label="部门">{{ customer.department }}</el-descriptions-item>
-          <el-descriptions-item label="任职状态">
-            <dict-tag :options="dict.type.client_contact_status" :value="customer.positionState"/>
-          </el-descriptions-item>
-          </el-descriptions>
+          <el-descriptions title="客户信息联系方式"/>
+          <el-table border :data="contact" style="font-size: 12px">
+            <el-table-column label="联系人名字" align="center" prop="linkman"/>
+            <el-table-column label="性别" align="center" prop="gender">
+              <template slot-scope="scope">
+                <dict-tag :options="dict.type.client_contact_sex" :value="scope.row.gender"/>
+              </template>
+            </el-table-column>
+            <el-table-column label="年龄" align="center" prop="age"/>
+            <el-table-column label="联系人电话" align="center" prop="phone"/>
+            <el-table-column label="职位" align="center" prop="position"/>
+            <el-table-column label="任职状态" align="center" prop="positionState">
+              <template slot-scope="scope">
+                <dict-tag :options="dict.type.client_contact_status" :value="scope.row.positionState"/>
+              </template>
+            </el-table-column>
+            <el-table-column label="部门" align="center" prop="department"/>
+          </el-table>
+
+          <pagination
+            v-show="total>0"
+            :total="total"
+            :page.sync="queryParams.pageNum"
+            :limit.sync="queryParams.pageSize"
+            @pagination="getList"
+          />
         </el-card>
       </el-main>
 
@@ -65,6 +79,7 @@
 
 
 import {getCustomer, listCustomer} from "@/api/client/customer";
+import {getPhone, listContact} from "@/api/client/contact";
 
 export default {
   name: "CustomerInfo",
@@ -77,7 +92,7 @@ export default {
       //客户信息
       customer:{},
       //联系信息
-      contact:{},
+      contact:[] ,
       // 客户信息查询参数
       queryParams: {
         pageNum: 1,
@@ -98,14 +113,18 @@ export default {
     getCustomer(id).then(res =>{
       this.customer = res.data;
     });
+    //根据客户信息id去查询联系信息
+    getPhone(id).then(res=>{
+      this.contact = res.data;
+    })
 
   },
   methods: {
     /** 查询客户信息列表 */
     getList() {
       this.loading = true;
-      listCustomer(this.queryParams).then(response => {
-        this.customerList = response.rows;
+      listContact(this.queryParams).then(response => {
+        this.contactList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
