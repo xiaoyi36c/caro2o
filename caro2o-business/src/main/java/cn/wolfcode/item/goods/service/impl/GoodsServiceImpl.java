@@ -1,9 +1,11 @@
 package cn.wolfcode.item.goods.service.impl;
 
+import java.io.SequenceInputStream;
 import java.util.List;
 
 import cn.wolfcode.common.utils.bean.BeanUtils;
 import cn.wolfcode.item.goods.domain.vo.GoodsVO;
+import cn.wolfcode.item.goods.domain.vo.GoodsVO2;
 import org.apache.commons.collections4.BagUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,13 +58,13 @@ public class GoodsServiceImpl implements IGoodsService
     @Override
     public int insertGoods(GoodsVO goodsVO)
     {
-        Goods goods = new Goods();
-        BeanUtils.copyBeanProp(goods, goodsVO);
-        goods.setGoodsCover(goodsVO.getInputStream());
+        GoodsVO2 goodsVO2 = new GoodsVO2();
+        BeanUtils.copyBeanProp(goodsVO2, goodsVO);
+        goodsVO2.setGoodsCover(goodsVO.getInputStream());
         if ( goodsVO.getId() == -1){
-            return goodsMapper.insertGoods(goods);
+            return goodsMapper.insertGoods(goodsVO2);
         }else {
-            return goodsMapper.updateGoods(goods);
+            return goodsMapper.updateGoods(goodsVO2);
         }
     }
 
@@ -75,7 +77,7 @@ public class GoodsServiceImpl implements IGoodsService
     @Override
     public int updateGoods(Goods goods)
     {
-        return goodsMapper.updateGoods(goods);
+        return 0;
     }
 
     /**
