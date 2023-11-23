@@ -28,6 +28,7 @@
             </el-descriptions-item>
           </el-descriptions>
         </el-card>
+
         <!--        按钮-->
         <el-button
           size="small"
@@ -43,6 +44,7 @@
           @click="doPay()"
         >支付
         </el-button>
+
         <el-card class="box-card" style="margin-top: 10px">
           <!--          客户服务列表-->
           <el-table :data="statementItemList">
