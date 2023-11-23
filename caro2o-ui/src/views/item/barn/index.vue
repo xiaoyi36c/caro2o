@@ -1,18 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="仓库名字" prop="storeName">
+      <el-form-item label="关键字" prop="storeName">
         <el-input
-          v-model="queryParams.storeName"
-          placeholder="请输入仓库名字"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="地址" prop="storeAddress">
-        <el-input
-          v-model="queryParams.storeAddress"
-          placeholder="请输入地址"
+          v-model="queryParams.params.keyword"
+          placeholder="请输入仓库名字/地址"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -121,6 +113,7 @@ export default {
         pageSize: 10,
         storeName: null,
         storeAddress: null,
+        params: {}
       },
       // 表单参数
       form: {},

@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.wolfcode.item.barn.mapper.StoreMapper">
-    
+
     <resultMap type="Store" id="StoreResult">
-        <result property="id"    column="id"    />
-        <result property="storeName"    column="store_name"    />
-        <result property="storeAddress"    column="store_address"    />
-        <result property="state"    column="state"    />
+        <result property="id" column="id"/>
+        <result property="storeName" column="store_name"/>
+        <result property="storeAddress" column="store_address"/>
+        <result property="state" column="state"/>
     </resultMap>
 
     <sql id="selectStoreVo">
-        select id, store_name, store_address, state from store
+        select id, store_name, store_address, state
+        from store
     </sql>
 
     <select id="selectStoreList" parameterType="Store" resultMap="StoreResult">
         <include refid="selectStoreVo"/>
-        <where>  
-            <if test="storeName != null  and storeName != ''"> and store_name like concat('%', #{storeName}, '%')</if>
-            <if test="storeAddress != null  and storeAddress != ''"> and store_address like concat('%', #{storeAddress}, '%')</if>
+        <where>
+            <if test="params.keywords != null and params.keywords != ''">
+                and (store_name like concat('%', #{params.keywords}, '%') or store_address like concat('%',
+                #{params.keywords}, '%'))
+            </if>
         </where>
     </select>
-    
+
     <select id="selectStoreById" parameterType="Long" resultMap="StoreResult">
         <include refid="selectStoreVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertStore" parameterType="Store">
         insert into store
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -35,13 +38,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="storeName != null">store_name,</if>
             <if test="storeAddress != null">store_address,</if>
             <if test="state != null">state,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="storeName != null">#{storeName},</if>
             <if test="storeAddress != null">#{storeAddress},</if>
             <if test="state != null">#{state},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateStore" parameterType="Store">
@@ -55,11 +58,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteStoreById" parameterType="Long">
-        delete from store where id = #{id}
+        delete
+        from store
+        where id = #{id}
     </delete>
 
     <delete id="deleteStoreByIds" parameterType="String">
-        delete from store where id in 
+        delete from store where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
