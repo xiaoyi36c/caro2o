@@ -98,7 +98,8 @@
           <el-input v-model="form.categoryDesc" placeholder="请输入描述" />
         </el-form-item>
         <el-form-item label="上级分类" prop="parentId">
-          <treeselect v-model="form.parentId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类id" />
+          <treeselect v-model="form.parentId" :options="sortOptions"
+                      :normalizer="normalizer" placeholder="请选择上级分类id" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -157,6 +158,8 @@ export default {
     listSort().then(response => {
       this.sortLists = response.data;
     });
+    this.getTreeselect();
+
   },
   methods: {
     /** 查询物品分类信息列表 */
