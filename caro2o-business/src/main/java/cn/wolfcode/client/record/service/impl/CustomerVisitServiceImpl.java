@@ -18,6 +18,7 @@ import cn.wolfcode.client.record.mapper.CustomerVisitMapper;
 import cn.wolfcode.client.record.domain.CustomerVisit;
 import cn.wolfcode.client.record.service.ICustomerVisitService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 /**
  * 拜访信息Service业务层处理
@@ -68,6 +69,14 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
     @Override
     public int insertCustomerVisit(CustomerVisitVo customerVisitVo)
     {
+        Assert.notNull(customerVisitVo,"参数错误");
+        //拜访原因：必填，100字以内
+        Assert.state(customerVisitVo.getVisitReason().length()<=100,"请输入100字以内");
+        //交流情况：必填、1000字以内
+        Assert.state(customerVisitVo.getContent().length()<=1000,"请不要超过1000个字符");
+        //拜访时间：默认当前日期，不可超过当天
+        Assert.state(customerVisitVo.getVisitDate().compareTo(new Date())<0,"拜访时间不能超过当前时间");
+
         CustomerVisit customerVisit = new CustomerVisit();
         customerVisit.setInputUser(SecurityUtils.getUsername());
         customerVisit.setInputTime(new Date());
@@ -84,6 +93,13 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
     @Override
     public int updateCustomerVisit(CustomerVisitVo customerVisitVo)
     {
+        Assert.notNull(customerVisitVo,"参数错误");
+        //拜访原因：必填，100字以内
+        Assert.state(customerVisitVo.getVisitReason().length()<=100,"请输入100字以内");
+        //交流情况：必填、1000字以内
+        Assert.state(customerVisitVo.getContent().length()<=1000,"请不要超过1000个字符");
+        //拜访时间：默认当前日期，不可超过当天
+        Assert.state(customerVisitVo.getVisitDate().compareTo(new Date())<0,"拜访时间不能超过当前时间");
         return customerVisitMapper.updateCustomerVisit(customerVisitVo);
     }
 

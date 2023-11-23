@@ -6,6 +6,7 @@ import cn.wolfcode.client.contact.domain.CustomerLinkmane;
 import cn.wolfcode.client.customer.domain.Customer;
 import cn.wolfcode.client.record.domain.CustomerVisit;
 import cn.wolfcode.client.record.domain.vo.CustomerVisitVo;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 拜访信息Mapper接口
@@ -13,6 +14,7 @@ import cn.wolfcode.client.record.domain.vo.CustomerVisitVo;
  * @author li
  * @date 2023-11-22
  */
+@Mapper
 public interface CustomerVisitMapper 
 {
     /**
