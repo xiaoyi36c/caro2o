@@ -105,34 +105,42 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState != 1"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:contract:edit']"
-          >修改
-          </el-button>
+          >编辑</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.affixSealState === 0"
+            @click="handleStamp(scope.row)"
+            v-hasPermi="['system:contract:edit']"
+          >确认盖章</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            v-if="scope.row.auditState === 0"
             @click="handleApprove(scope.row)"
             v-hasPermi="['system:contract:edit']"
-          >审核通过
-          </el-button>
+          >审核通过</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState === 0"
             @click="handleFail(scope.row)"
             v-hasPermi="['system:contract:edit']"
-          >审核不通过
-          </el-button>
+          >审核不通过</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
+            v-if="scope.row.nullifyState === 0 && scope.row.auditState === 1"
             @click="handleCancellation(scope.row)"
             v-hasPermi="['system:contract:remove']"
-          >作废
-          </el-button>
+          >作废</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -159,13 +167,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="合同名称" prop="contractName">
-          <el-input v-model="form.contractName" placeholder="请输入合同名称"/>
+          <el-input v-model="form.contractName" placeholder="请输入合同名称" />
         </el-form-item>
         <el-form-item label="合同编码" prop="contractCode">
-          <el-input v-model="form.contractCode" placeholder="请输入合同编码"/>
+          <el-input v-model="form.contractCode" placeholder="请输入合同编码" />
         </el-form-item>
         <el-form-item label="合同金额" prop="amounts">
-          <el-input v-model="form.amounts" placeholder="请输入合同金额"/>
+          <el-input v-model="form.amounts" placeholder="请输入合同金额" />
         </el-form-item>
         <el-form-item label="合同生效开始时间" prop="startDate">
           <el-date-picker clearable
@@ -184,7 +192,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="电子附件" prop="appendix">
-          <el-input v-model="form.appendix" type="textarea" placeholder="请输入内容"/>
+          <el-input v-model="form.appendix" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -209,11 +217,11 @@ import {
 
 export default {
   name: "Contract",
-  dicts: ['audit_state', 'nullify_state', 'affix_seal_state'],
+  dicts: ['audit_state','nullify_state','affix_seal_state'],
   data() {
     return {
       options: [],
-      value: '',
+      value:'',
       // 遮罩层
       loading: true,
       // 选中数组
@@ -245,7 +253,8 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {}
+      rules: {
+      }
     };
   },
   created() {
@@ -282,33 +291,30 @@ export default {
 
     /** 作废 */
     handleCancellation(row) {
-      this.$modal.confirm('是否确认作废此合同？').then(function () {
+      this.$modal.confirm('是否确认作废此合同？').then(function() {
         return putContract(row.id);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("作废成功");
-      }).catch(() => {
-      });
+      }).catch(() => {});
     },
     /** 审批不通过 */
     handleFail(row) {
-      this.$modal.confirm('是否确认不通过此合同？').then(function () {
-        return putApprove(row.id, "2");
+      this.$modal.confirm('是否确认不通过此合同？').then(function() {
+        return putApprove(row.id,"2");
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("通过成功");
-      }).catch(() => {
-      });
+      }).catch(() => {});
     },
     /** 审批通过*/
     handleApprove(row) {
-      this.$modal.confirm('是否确认通过此合同？').then(function () {
-        return putApprove(row.id, "1");
+      this.$modal.confirm('是否确认通过此合同？').then(function() {
+        return putApprove(row.id,"1");
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("通过成功");
-      }).catch(() => {
-      });
+      }).catch(() => {});
     },
     /** 查询合同信息列表 */
     getList() {
@@ -362,7 +368,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length !== 1
+      this.single = selection.length!==1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -404,13 +410,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除合同信息编号为"' + ids + '"的数据项？').then(function () {
+      this.$modal.confirm('是否确认删除合同信息编号为"' + ids + '"的数据项？').then(function() {
         return delContract(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {
-      });
+      }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {

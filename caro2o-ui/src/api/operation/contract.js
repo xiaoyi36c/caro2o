@@ -68,3 +68,11 @@ export function contractDownload(id) {
     method: 'get',
   })
 }
+
+// 通过
+export function putStamp(id) {
+  return request({
+    url: `/system/contract/stamp/${id}`,
+    method: 'put'
+  })
+}
