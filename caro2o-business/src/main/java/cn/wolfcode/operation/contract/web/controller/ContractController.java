@@ -104,7 +104,7 @@ public class ContractController extends BaseController
     }
 
     /**
-     * 审核通过
+     * 审核合同
      */
     @PreAuthorize("@ss.hasPermi('system:contract:audit')")
     @Log(title = "合同信息", businessType = BusinessType.UPDATE)
@@ -112,6 +112,28 @@ public class ContractController extends BaseController
     public AjaxResult putAudit(@PathVariable Long id, @PathVariable String type)
     {
         return toAjax(contractService.putAudit(id,type));
+    }
+
+    /**
+     * 作废合同
+     */
+    @PreAuthorize("@ss.hasPermi('system:contract:contract')")
+    @Log(title = "合同信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/{id}")
+    public AjaxResult putContract(@PathVariable Long id)
+    {
+        return toAjax(contractService.putContract(id));
+    }
+
+    /**
+     * 确认盖章
+     */
+    @PreAuthorize("@ss.hasPermi('system:contract:stamp')")
+    @Log(title = "合同信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/stamp/{id}")
+    public AjaxResult putStamp(@PathVariable Long id)
+    {
+        return toAjax(contractService.putStamp(id));
     }
 
 }

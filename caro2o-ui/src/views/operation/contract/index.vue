@@ -102,6 +102,13 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            @click="handleStamp(scope.row)"
+            v-hasPermi="['system:contract:edit']"
+          >确认盖章</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
             @click="handleApprove(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >审核通过</el-button>
@@ -116,7 +123,7 @@
             size="mini"
             type="text"
             icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
+            @click="handleCancellation(scope.row)"
             v-hasPermi="['system:contract:remove']"
           >作废</el-button>
         </template>
@@ -182,7 +189,7 @@
 </template>
 
 <script>
-import { listContract, getContract, delContract, addContract, updateContract, putApprove } from "@/api/operation/contract";
+import { listContract, getContract, delContract, addContract, updateContract, putApprove, putContract, putStamp } from "@/api/operation/contract";
 
 export default {
   name: "Contract",
@@ -230,6 +237,23 @@ export default {
     this.getList();
   },
   methods: {
+    handleStamp(row){
+      this.$modal.confirm('是否确认对此合同盖章？').then(function() {
+        return putStamp(row.id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("盖章成功");
+      }).catch(() => {});
+    },
+    /** 作废 */
+    handleCancellation(row) {
+      this.$modal.confirm('是否确认作废此合同？').then(function() {
+        return putContract(row.id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("作废成功");
+      }).catch(() => {});
+    },
     /** 审批不通过 */
     handleFail(row) {
       this.$modal.confirm('是否确认不通过此合同？').then(function() {

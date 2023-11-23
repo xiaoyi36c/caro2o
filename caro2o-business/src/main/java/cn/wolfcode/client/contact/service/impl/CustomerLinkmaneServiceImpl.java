@@ -1,5 +1,6 @@
 package cn.wolfcode.client.contact.service.impl;
 
+import java.beans.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import cn.wolfcode.client.contact.mapper.CustomerLinkmaneMapper;
 import cn.wolfcode.client.contact.domain.CustomerLinkmane;
 import cn.wolfcode.client.contact.service.ICustomerLinkmaneService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -57,6 +59,7 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertCustomerLinkmane(UpdateCustomerLinkmane updateCustomerLinkmane)
     {
         // 1.参数校验
@@ -90,6 +93,7 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateCustomerLinkmane(UpdateCustomerLinkmane updateCustomerLinkmane)
     {
         CustomerLinkmane customerLinkmane = customerLinkmaneMapper.selectCustomerLinkmaneById(updateCustomerLinkmane.getId());
