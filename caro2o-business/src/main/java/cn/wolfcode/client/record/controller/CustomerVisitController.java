@@ -71,6 +71,17 @@ public class CustomerVisitController extends BaseController
         return success(customerVisitService.selectCustomerVisitById(id));
     }
     /**
+     * 获取拜访信息详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('client:record:query')")
+    @GetMapping(value = "/rec/{id}")
+    public AjaxResult getRec(@PathVariable("id") Long id)
+    {
+        return success(customerVisitService.selectCustomerrecById(id));
+    }
+
+
+    /**
      * 查询客户和联系人
      */
     @PreAuthorize("@ss.hasPermi('client:record:query')")

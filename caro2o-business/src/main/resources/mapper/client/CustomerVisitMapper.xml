@@ -43,6 +43,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectCustomerLinkmaneList" resultType="cn.wolfcode.client.contact.domain.CustomerLinkmane">
         select id, customer_id, linkman, gender, age, phone, position, position_state, department, input_user, input_time from customer_linkmane
     </select>
+<!--    根据客户id查询拜访记录-->
+    <select id="selectCustomerrecById" resultMap="CustomerVisitResult">
+        select cv.id, c.customer_name customer_id, cl.linkman linkman_id, cv.visit_type, cv.visit_reason, cv.content, cv.visit_date, cv.input_user, cv.input_time
+        from customer_visit cv left join customer_linkmane cl on cv.linkman_id = cl.id
+                               left join customer c on cv.customer_id = c.id
+        where cv.customer_id = #{id}
+    </select>
 
     <insert id="insertCustomerVisit" parameterType="CustomerVisit">
         insert into customer_visit

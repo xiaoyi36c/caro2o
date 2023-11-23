@@ -236,8 +236,8 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        params: {}, // 搜索参数
         positionState: null,
+        params: {}, // 搜索参数
       },
       customerId: null,
       // 表单参数

@@ -41,8 +41,7 @@
           </el-table>
 
           <pagination
-            v-show="total>0"
-            :total="total"
+            :total="queryParams.total"
             :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize"
             @pagination="getList"
@@ -50,25 +49,37 @@
         </el-card>
       </el-main>
 
-
       <el-aside width="40%" style="margin-left: -30px">
-        <!--查询方块-->
+        <!--拜访记录-->
         <el-card class="box-card">
-          <!--          查询-->
+          <el-table :data="recordList" >
+          <el-table-column label="联系人" align="center" prop="linkmanId"/>
+          <el-table-column label="拜访方式" align="center" prop="visitType">
+            <template slot-scope="scope">
+              <dict-tag :options="dict.type.see_way" :value="scope.row.visitType"/>
+            </template>
+          </el-table-column>
+          <el-table-column label="拜访原因" align="center" prop="visitReason"/>
+          <el-table-column label="交流内容" align="center" prop="content"/>
+          <el-table-column label="拜访时间" align="center" prop="visitDate">
+            <template slot-scope="scope">
+              <span>{{ parseTime(scope.row.visitDate, '{y}-{m}-{d}') }}</span>
+            </template>
+          </el-table-column>
+          </el-table>
+          <pagination
+            :total="requeryParams.total"
+            :page.sync="requeryParams.pageNum"
+            :limit.sync="requeryParams.pageSize "
+            @pagination="getRecList"
+          />
         </el-card>
 
-        <!--列表方块-->
+        <!--合同信息-->
         <el-card class="box-card">
           <!--          列表-->
 
           <!--          分页-->
-<!--          <pagination-->
-<!--            v-show="total>0"-->
-<!--            :total="total"-->
-<!--            :page.sync="queryParams.pageNum"-->
-<!--            :limit.sync="queryParams.pageSize"-->
-<!--            @pagination="getList"-->
-<!--          />-->
         </el-card>
       </el-aside>
     </el-container>
@@ -78,36 +89,40 @@
 <script>
 
 
-import {getCustomer, listCustomer} from "@/api/client/customer";
+import {getCustomer} from "@/api/client/customer";
 import {getPhone, listContact} from "@/api/client/contact";
+import {getRec, listRecord} from "@/api/client/record";
 
 export default {
   name: "CustomerInfo",
-  dicts: ['china_sheng','client_customer_tinyint','client_contact_sex','client_contact_status'],
+  dicts: ['china_sheng','client_customer_tinyint','client_contact_sex','client_contact_status','see_way'],
   data() {
     return {
-      customerList: [],
-      total: 0,
-
       //客户信息
       customer:{},
       //联系信息
       contact:[] ,
-      // 客户信息查询参数
+      //拜访信息
+      recordList:[],
+      // 客户联系分页
       queryParams: {
+        total: 0,
         pageNum: 1,
-        pageSize: 10,
-        customerName: null,
-        legalLeader: null,
-        openState: "0",
-        province: null,
-        industry: null,
-        inputTime: null,
+        pageSize: 5,
+        params: {}, // 搜索参数
+        positionState: null,
+      },
+      //拜访记录分页
+      requeryParams: {
+        total:0,
+        pageNum: 1,
+        pageSize:3,
       },
     };
   },
   created() {
-    this.getList()
+    this.getList();
+    this.getRecList();
     //根据客户信息id查询客户信息
     let id = this.$route.params.Id;
     getCustomer(id).then(res =>{
@@ -116,17 +131,25 @@ export default {
     //根据客户信息id去查询联系信息
     getPhone(id).then(res=>{
       this.contact = res.data;
-    })
+    });
+    //根据客户id去查询拜访记录
+    getRec(id).then(res=>{
+      this.recordList = res.data
+    });
 
   },
   methods: {
     /** 查询客户信息列表 */
     getList() {
-      this.loading = true;
       listContact(this.queryParams).then(response => {
-        this.contactList = response.rows;
-        this.total = response.total;
-        this.loading = false;
+        this.contact = response.rows;
+        this.queryParams.total = response.total;
+      });
+    },
+    getRecList() {
+      listRecord(this.requeryParams).then(response => {
+        this.recordList = response.rows;
+        this.requeryParams.total = response.total;
       });
     },
   },
