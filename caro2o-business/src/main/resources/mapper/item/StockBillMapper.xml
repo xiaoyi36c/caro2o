@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.item.bill.mapper.StockBillMapper">
+    
+    <resultMap type="StockBill" id="StockBillResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="storeId"    column="store_id"    />
+        <result property="busiDate"    column="busi_date"    />
+        <result property="status"    column="status"    />
+        <result property="operateDate"    column="operate_date"    />
+        <result property="operatorId"    column="operator_id"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectStockBillVo">
+        select id, type, store_id, busi_date, status, operate_date, operator_id, remark from stock_bill
+    </sql>
+
+    <select id="selectStockBillList" parameterType="StockBill" resultMap="StockBillResult">
+        <include refid="selectStockBillVo"/>
+        <where>  
+            <if test="type != null "> and type = #{type}</if>
+            <if test="storeId != null  and storeId != ''"> and store_id = #{storeId}</if>
+            <if test="params.beginBusiDate != null and params.beginBusiDate != '' and params.endBusiDate != null and params.endBusiDate != ''"> and busi_date between #{params.beginBusiDate} and #{params.endBusiDate}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectStockBillById" parameterType="Long" resultMap="StockBillResult">
+        <include refid="selectStockBillVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStockBill" parameterType="StockBill">
+        insert into stock_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="type != null">type,</if>
+            <if test="storeId != null">store_id,</if>
+            <if test="busiDate != null">busi_date,</if>
+            <if test="status != null">status,</if>
+            <if test="operateDate != null">operate_date,</if>
+            <if test="operatorId != null">operator_id,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="type != null">#{type},</if>
+            <if test="storeId != null">#{storeId},</if>
+            <if test="busiDate != null">#{busiDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="operateDate != null">#{operateDate},</if>
+            <if test="operatorId != null">#{operatorId},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockBill" parameterType="StockBill">
+        update stock_bill
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="storeId != null">store_id = #{storeId},</if>
+            <if test="busiDate != null">busi_date = #{busiDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="operateDate != null">operate_date = #{operateDate},</if>
+            <if test="operatorId != null">operator_id = #{operatorId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStockBillById" parameterType="Long">
+        delete from stock_bill where id = #{id}
+    </delete>
+
+    <delete id="deleteStockBillByIds" parameterType="String">
+        delete from stock_bill where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
