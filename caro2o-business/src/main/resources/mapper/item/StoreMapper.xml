@@ -19,9 +19,9 @@
     <select id="selectStoreList" parameterType="Store" resultMap="StoreResult">
         <include refid="selectStoreVo"/>
         <where>
-            <if test="params.keywords != null and params.keywords != ''">
-                and (store_name like concat('%', #{params.keywords}, '%') or store_address like concat('%',
-                #{params.keywords}, '%'))
+            <if test="params.keyword != null and params.keywords != ''">
+                and (store_name like concat('%', #{params.keyword}, '%') or
+                 store_address like concat('%',#{params.keyword}, '%'))
             </if>
         </where>
     </select>
