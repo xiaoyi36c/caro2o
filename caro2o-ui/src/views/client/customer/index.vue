@@ -249,7 +249,8 @@ export default {
         ],
         regCapital:[
           {required:true,message:"请输入注册资本",trigger:"blur"},
-          { pattern: /^\d+(\.\d{1,2})?$/, message: '请输入整数且只能保留两位小数'}
+          {pattern: /^\d+(\.\d{1,2})?$/, message: '请输入正数且只能保留两位小数'},
+          { min:1, max:8, message: '请不要超过8位数', trigger: 'blur' },
         ],
         scope:[
           {required:true,message:"请输入经营范围",trigger:"blur"},

@@ -53,7 +53,6 @@
             <if test="auditState != null">audit_state,</if>
             <if test="nullifyState != null">nullify_state,</if>
             <if test="inputUser != null">input_user,</if>
-            <if test="inputTime != null">input_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
@@ -68,7 +67,7 @@
             <if test="auditState != null">#{auditState},</if>
             <if test="nullifyState != null">#{nullifyState},</if>
             <if test="inputUser != null">#{inputUser},</if>
-            <if test="inputTime != null">#{inputTime},</if>
+            inputTime = now()
         </trim>
     </insert>
 
