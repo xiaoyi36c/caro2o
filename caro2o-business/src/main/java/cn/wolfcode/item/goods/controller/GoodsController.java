@@ -2,8 +2,11 @@ package cn.wolfcode.item.goods.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.wolfcode.item.goods.domain.vo.GoodsVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -70,14 +73,14 @@ public class GoodsController extends BaseController
     }
 
     /**
-     * 新增物品信息
+     * 新增物品信息加修改
      */
     @PreAuthorize("@ss.hasPermi('item:goods:add')")
     @Log(title = "物品信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Goods goods)
+    public AjaxResult addOrUpdateGoods(@Validated GoodsVO goodsVO)
     {
-        return toAjax(goodsService.insertGoods(goods));
+        return toAjax(goodsService.insertGoods(goodsVO));
     }
 
     /**

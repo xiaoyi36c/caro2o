@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
     <select id="selectCustomerList" resultType="cn.wolfcode.client.customer.domain.Customer">
-        select id, customer_name, legal_leader, register_date, open_state, province, reg_capital, industry, scope, reg_addr, input_time, input_user from customer
+        select id, customer_name customerName, legal_leader, register_date, open_state, province, reg_capital, industry, scope, reg_addr, input_time, input_user from customer
     </select>
     <select id="selectCustomerLinkmaneList" resultType="cn.wolfcode.client.contact.domain.CustomerLinkmane">
         select id, customer_id, linkman, gender, age, phone, position, position_state, department, input_user, input_time from customer_linkmane
