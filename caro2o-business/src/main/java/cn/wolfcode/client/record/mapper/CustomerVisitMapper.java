@@ -5,6 +5,7 @@ import java.util.List;
 import cn.wolfcode.client.contact.domain.CustomerLinkmane;
 import cn.wolfcode.client.customer.domain.Customer;
 import cn.wolfcode.client.record.domain.CustomerVisit;
+import cn.wolfcode.client.record.domain.vo.CustomerVisitVo;
 
 /**
  * 拜访信息Mapper接口
@@ -41,10 +42,10 @@ public interface CustomerVisitMapper
     /**
      * 修改拜访信息
      * 
-     * @param customerVisit 拜访信息
+     * @param customerVisitVo 拜访信息
      * @return 结果
      */
-    public int updateCustomerVisit(CustomerVisit customerVisit);
+    public int updateCustomerVisit(CustomerVisitVo customerVisitVo);
 
     /**
      * 删除拜访信息

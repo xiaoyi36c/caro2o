@@ -40,10 +40,10 @@ public interface ICustomerVisitService
     /**
      * 修改拜访信息
      * 
-     * @param customerVisit 拜访信息
+     * @param customerVisitVo 拜访信息
      * @return 结果
      */
-    public int updateCustomerVisit(CustomerVisit customerVisit);
+    public int updateCustomerVisit(CustomerVisitVo customerVisitVo);
 
     /**
      * 批量删除拜访信息

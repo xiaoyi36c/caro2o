@@ -180,7 +180,29 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {}
+      rules: {
+        customerId:[
+          {required:true,message:"请输入交流内容",trigger:"blur"},
+        ],
+        linkmanId:[
+          {required:true,message:"请输入交流内容",trigger:"blur"},
+        ],
+        visitType:[
+          {required:true,message:"请输入交流内容",trigger:"change"},
+        ],
+        visitDate:[
+          {required:true,message:"请选择拜访时间",trigger:"change"},
+        ],
+        visitReason:[
+          {required:true,message:"请输入拜访原因",trigger:"blur"},
+          // {pattern: /^\d+(\.\d{1,2})?$/, message: '请输入正数且只能保留两位小数'},
+          { min:0, max:100, message: '请不要超过100位数', trigger: 'blur' },
+        ],
+        content:[
+          {required:true,message:"请输入交流内容",trigger:"blur"},
+          { min:0, max:1000, message: '请不要超过1000位数', trigger: 'blur' },
+        ],
+      }
     };
   },
   created() {

@@ -78,13 +78,13 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
     /**
      * 修改拜访信息
      * 
-     * @param customerVisit 拜访信息
+     * @param customerVisitVo 拜访信息
      * @return 结果
      */
     @Override
-    public int updateCustomerVisit(CustomerVisit customerVisit)
+    public int updateCustomerVisit(CustomerVisitVo customerVisitVo)
     {
-        return customerVisitMapper.updateCustomerVisit(customerVisit);
+        return customerVisitMapper.updateCustomerVisit(customerVisitVo);
     }
 
     /**

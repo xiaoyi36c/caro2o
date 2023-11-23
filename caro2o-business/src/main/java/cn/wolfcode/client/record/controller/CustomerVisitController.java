@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.wolfcode.client.record.domain.vo.CustomerVisitVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -97,7 +98,7 @@ public class CustomerVisitController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:record:add')")
     @Log(title = "拜访信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody CustomerVisitVo customerVisitVo)
+    public AjaxResult add(@RequestBody @Validated CustomerVisitVo customerVisitVo)
     {
         return toAjax(customerVisitService.insertCustomerVisit(customerVisitVo));
     }
@@ -108,9 +109,9 @@ public class CustomerVisitController extends BaseController
     @PreAuthorize("@ss.hasPermi('client:record:edit')")
     @Log(title = "拜访信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody CustomerVisit customerVisit)
+    public AjaxResult edit(@RequestBody @Validated CustomerVisitVo customerVisitVo)
     {
-        return toAjax(customerVisitService.updateCustomerVisit(customerVisit));
+        return toAjax(customerVisitService.updateCustomerVisit(customerVisitVo));
     }
 
     /**
