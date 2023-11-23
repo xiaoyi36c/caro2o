@@ -18,9 +18,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectGoodsCategoryList" parameterType="GoodsCategory" resultMap="GoodsCategoryResult">
         <include refid="selectGoodsCategoryVo"/>
-        <where>  
-            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
-            <if test="categoryDesc != null  and categoryDesc != ''"> and category_desc = #{categoryDesc}</if>
+        <where>
+<if test="params.keyword != null and params.keyword != ''">
+ and (category_name like concat('%', #{params.keyword}, '%')
+ or category_desc like concat('%', #{params.keyword}, '%'))</if>
+ <if test="parentId != null and parentId != ''"> and parent_id = #{parentId}</if>
+
+
+
         </where>
     </select>
     

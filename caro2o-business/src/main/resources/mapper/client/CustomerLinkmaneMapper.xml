@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCustomerLinkmaneVo"/>
         <where>  
             <if test="params.keyword != null and params.keyword != ''"> and (linkman like concat('%', #{params.keyword}, '%') or phone like concat('%', #{params.keyword}, '%'))</if>
-
+             <if test="params.customerId != null and params.customerId != ''"> and customer_id = #{params.customerId}</if>
             <if test="positionState != null "> and position_state = #{positionState}</if>
         </where>
     </select>

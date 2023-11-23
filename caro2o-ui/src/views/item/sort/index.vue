@@ -1,22 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="分类名称" prop="categoryName">
+
+      <el-form-item label="关键字" prop="categoryName">
         <el-input
-          v-model="queryParams.categoryName"
-          placeholder="请输入分类名称"
+          v-model="queryParams.params.keyword"
+          placeholder="请输入名称/描述"
           clearable
-          @keyup.enter.native="handleQuery"
-        />
+          @keyup.enter.native="handleQuery"/>
       </el-form-item>
-      <el-form-item label="描述" prop="categoryDesc">
-        <el-input
-          v-model="queryParams.categoryDesc"
-          placeholder="请输入描述"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+
+      <el-form-item label="上级分类" prop="parentId" style="display: inline-block;">
+        <treeselect aria-label="上级分类" style="width: 200px" v-model="queryParams.parentId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类" />
       </el-form-item>
+
       <el-form-item>
 	    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -101,7 +98,8 @@
           <el-input v-model="form.categoryDesc" placeholder="请输入描述" />
         </el-form-item>
         <el-form-item label="上级分类" prop="parentId">
-          <treeselect v-model="form.parentId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类id" />
+          <treeselect v-model="form.parentId" :options="sortOptions"
+                      :normalizer="normalizer" placeholder="请选择上级分类id" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -144,7 +142,9 @@ export default {
       // 查询参数
       queryParams: {
         categoryName: null,
+        params: {},
         categoryDesc: null,
+        parentId: null
       },
       // 表单参数
       form: {},
@@ -155,6 +155,11 @@ export default {
   },
   created() {
     this.getList();
+    listSort().then(response => {
+      this.sortLists = response.data;
+    });
+    this.getTreeselect();
+
   },
   methods: {
     /** 查询物品分类信息列表 */
@@ -162,7 +167,6 @@ export default {
       this.loading = true;
       listSort(this.queryParams).then(response => {
         this.sortList = this.handleTree(response.data, "id", "parentId");
-        this.sortLists = response.data;
         this.loading = false;
       });
     },
