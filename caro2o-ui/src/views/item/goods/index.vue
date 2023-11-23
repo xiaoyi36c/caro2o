@@ -61,7 +61,7 @@
     </el-row>
 
     <el-table v-loading="loading" border :data="goodsList" @selection-change="handleSelectionChange" style="font-size: 12px">
-      <el-table-column label="序号" align="center" prop="id" />
+      <el-table-column label="序号" align="center" prop="id" width="100px" />
       <el-table-column label="封面" align="center" >
         <template slot-scope="scope">
           <img :src="scope.row.goodsCover" alt="" style="width: 60px; height: 40px;">

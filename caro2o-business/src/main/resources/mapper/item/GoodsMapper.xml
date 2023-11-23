@@ -22,11 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectGoodsVo"/>
         <where>
             <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="keyword != null  and keyword != ''"> and
-             (goods_name like concat('%', #{keyword}, '%') or
-             brand like concat('%', #{keyword}, '%') or
-             spec like concat('%', #{keyword}, '%') or
-             goods_desc like concat('%', #{keyword}, '%'))</if>
+            <if test="params.keyword != null  and params.keyword != ''"> and
+             (goods_name like concat('%', #{params.keyword}, '%') or
+             brand like concat('%', #{params.keyword}, '%') or
+             spec like concat('%', #{params.keyword}, '%') or
+             goods_desc like concat('%', #{params.keyword}, '%'))</if>
         </where>
     </select>
     
