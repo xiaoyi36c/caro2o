@@ -64,4 +64,6 @@ public interface IContractService
     int putAudit(Long id, String type);
 
     int putContract(Long id);
+
+    int putStamp(Long id);
 }

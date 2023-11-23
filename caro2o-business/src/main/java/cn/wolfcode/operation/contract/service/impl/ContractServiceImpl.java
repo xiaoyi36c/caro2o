@@ -107,4 +107,10 @@ public class ContractServiceImpl implements IContractService
         contractMapper.updateCancellation(id,Contract.CANCELLATION);
         return 1;
     }
+
+    @Override
+    public int putStamp(Long id) {
+        contractMapper.putStamp(id,Contract.STAMP);
+        return 1;
+    }
 }

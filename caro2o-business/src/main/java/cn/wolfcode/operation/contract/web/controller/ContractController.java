@@ -125,4 +125,15 @@ public class ContractController extends BaseController
         return toAjax(contractService.putContract(id));
     }
 
+    /**
+     * 确认盖章
+     */
+    @PreAuthorize("@ss.hasPermi('system:contract:stamp')")
+    @Log(title = "合同信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/stamp/{id}")
+    public AjaxResult putStamp(@PathVariable Long id)
+    {
+        return toAjax(contractService.putStamp(id));
+    }
+
 }

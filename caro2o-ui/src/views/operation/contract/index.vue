@@ -102,6 +102,13 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            @click="handleStamp(scope.row)"
+            v-hasPermi="['system:contract:edit']"
+          >确认盖章</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
             @click="handleApprove(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >审核通过</el-button>
@@ -182,7 +189,7 @@
 </template>
 
 <script>
-import { listContract, getContract, delContract, addContract, updateContract, putApprove, putContract } from "@/api/operation/contract";
+import { listContract, getContract, delContract, addContract, updateContract, putApprove, putContract, putStamp } from "@/api/operation/contract";
 
 export default {
   name: "Contract",
@@ -230,6 +237,14 @@ export default {
     this.getList();
   },
   methods: {
+    handleStamp(row){
+      this.$modal.confirm('是否确认对此合同盖章？').then(function() {
+        return putStamp(row.id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("盖章成功");
+      }).catch(() => {});
+    },
     /** 作废 */
     handleCancellation(row) {
       this.$modal.confirm('是否确认作废此合同？').then(function() {
