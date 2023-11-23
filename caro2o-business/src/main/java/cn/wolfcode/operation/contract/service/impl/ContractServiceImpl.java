@@ -145,4 +145,9 @@ public class ContractServiceImpl implements IContractService
         contractMapper.putStamp(id,Contract.STAMP);
         return 1;
     }
+
+    @Override
+    public List<Contract> selectContractHtById(Long id) {
+        return contractMapper.selectContractHtById(id);
+    }
 }

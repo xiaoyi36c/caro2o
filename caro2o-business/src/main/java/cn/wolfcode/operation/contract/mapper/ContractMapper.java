@@ -70,4 +70,6 @@ public interface ContractMapper
     void updateCancellation(@Param("id") Long id, @Param("cancellation") long cancellation);
 
     void putStamp(@Param("id") Long id, @Param("stamp") long stamp);
+
+    List<Contract> selectContractHtById(Long id);
 }

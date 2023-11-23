@@ -16,6 +16,13 @@ export function getContract(id) {
     method: 'get'
   })
 }
+// 根据用户id查询合同信息详细
+export function getHt(id) {
+  return request({
+    url: '/system/contract/ht/' + id,
+    method: 'get'
+  })
+}
 
 // 新增合同信息
 export function addContract(data) {

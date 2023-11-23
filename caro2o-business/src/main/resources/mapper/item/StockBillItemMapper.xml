@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.item.bills.mapper.StockBillItemMapper">
+    
+    <resultMap type="StockBillItem" id="StockBillItemResult">
+        <result property="id"    column="id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="amounts"    column="amounts"    />
+        <result property="price"    column="price"    />
+        <result property="billId"    column="bill_id"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+
+    <sql id="selectStockBillItemVo">
+        select id, goods_id, amounts, price, bill_id, state from stock_bill_item
+    </sql>
+
+    <select id="selectStockBillItemList" parameterType="StockBillItem" resultMap="StockBillItemResult">
+        <include refid="selectStockBillItemVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectStockBillItemById" parameterType="String" resultMap="StockBillItemResult">
+        <include refid="selectStockBillItemVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStockBillItem" parameterType="StockBillItem">
+        insert into stock_bill_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="goodsId != null">goods_id,</if>
+            <if test="amounts != null">amounts,</if>
+            <if test="price != null">price,</if>
+            <if test="billId != null">bill_id,</if>
+            <if test="state != null">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="goodsId != null">#{goodsId},</if>
+            <if test="amounts != null">#{amounts},</if>
+            <if test="price != null">#{price},</if>
+            <if test="billId != null">#{billId},</if>
+            <if test="state != null">#{state},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStockBillItem" parameterType="StockBillItem">
+        update stock_bill_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="amounts != null">amounts = #{amounts},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="billId != null">bill_id = #{billId},</if>
+            <if test="state != null">state = #{state},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStockBillItemById" parameterType="String">
+        delete from stock_bill_item where id = #{id}
+    </delete>
+
+    <delete id="deleteStockBillItemByIds" parameterType="String">
+        delete from stock_bill_item where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

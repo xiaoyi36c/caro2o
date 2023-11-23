@@ -87,9 +87,21 @@ public class ContractController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:contract:query')")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") String id)
+    public TableDataInfo getInfo(@PathVariable("id") Long id)
     {
-        return success(contractService.selectContractById(id));
+        startPage();
+        List<Contract> list = contractService.selectContractHtById(id);
+        return getDataTable(list);
+    }
+    /**
+     *
+     * 根据客户id获取合同信息详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('system:contract:query')")
+    @GetMapping(value = "/ht/{id}")
+    public AjaxResult getht(@PathVariable("id") Long id)
+    {
+        return success(contractService.selectContractHtById(id));
     }
 
     /**

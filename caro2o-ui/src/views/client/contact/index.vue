@@ -19,6 +19,22 @@
           />
         </el-select>
       </el-form-item>
+
+      <el-form-item label="所属客户" prop="positionState">
+        <el-select v-model="queryParams.params.customerId" placeholder="请选择客户" clearable>
+          <template slot-scope="scope">
+            <el-option
+              v-for="customer in customerList"
+              :key="customer.id"
+              :label="customer.customerName"
+              :value="customer.id"
+            ></el-option>
+          </template>
+        </el-select>
+      </el-form-item>
+
+
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>

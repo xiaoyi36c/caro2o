@@ -1,0 +1,127 @@
+package cn.wolfcode.item.bill.domain;
+
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import cn.wolfcode.common.annotation.Excel;
+import cn.wolfcode.common.core.domain.BaseEntity;
+
+/**
+ * 出入库单据对象 stock_bill
+ * 
+ * @author ruoyi
+ * @date 2023-11-23
+ */
+public class StockBill extends BaseEntity
+{
+    private static final long serialVersionUID = 1L;
+
+    /** 单据流水号 */
+    @Excel(name = "单据流水号")
+    private Long id;
+
+    /** 类型 */
+    @Excel(name = "类型")
+    private Integer type;
+
+    /** 仓库id */
+    @Excel(name = "仓库id")
+    private String storeId;
+
+    /** 出入库时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "出入库时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date busiDate;
+
+    /** 状态 */
+    @Excel(name = "状态")
+    private Integer status;
+
+    /** 入库时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "入库时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date operateDate;
+
+    /** 录入人 */
+    @Excel(name = "录入人")
+    private Long operatorId;
+
+    public void setId(Long id) 
+    {
+        this.id = id;
+    }
+
+    public Long getId() 
+    {
+        return id;
+    }
+    public void setType(Integer type) 
+    {
+        this.type = type;
+    }
+
+    public Integer getType() 
+    {
+        return type;
+    }
+    public void setStoreId(String storeId) 
+    {
+        this.storeId = storeId;
+    }
+
+    public String getStoreId() 
+    {
+        return storeId;
+    }
+    public void setBusiDate(Date busiDate) 
+    {
+        this.busiDate = busiDate;
+    }
+
+    public Date getBusiDate() 
+    {
+        return busiDate;
+    }
+    public void setStatus(Integer status) 
+    {
+        this.status = status;
+    }
+
+    public Integer getStatus() 
+    {
+        return status;
+    }
+    public void setOperateDate(Date operateDate) 
+    {
+        this.operateDate = operateDate;
+    }
+
+    public Date getOperateDate() 
+    {
+        return operateDate;
+    }
+    public void setOperatorId(Long operatorId) 
+    {
+        this.operatorId = operatorId;
+    }
+
+    public Long getOperatorId() 
+    {
+        return operatorId;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("id", getId())
+            .append("type", getType())
+            .append("storeId", getStoreId())
+            .append("busiDate", getBusiDate())
+            .append("status", getStatus())
+            .append("operateDate", getOperateDate())
+            .append("operatorId", getOperatorId())
+            .append("remark", getRemark())
+            .toString();
+    }
+}
