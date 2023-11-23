@@ -2,16 +2,10 @@ package cn.wolfcode.operation.contract.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
-
-import cn.wolfcode.client.customer.domain.Customer;
-import cn.wolfcode.client.customer.domain.vo.CustomerVo;
-import cn.wolfcode.client.customer.mapper.CustomerMapper;
 import cn.wolfcode.client.customer.service.ICustomerService;
 import cn.wolfcode.common.utils.SecurityUtils;
 import cn.wolfcode.operation.contract.domain.Contract;
-import cn.wolfcode.operation.contract.domain.VO.ContractVO;
 import cn.wolfcode.operation.contract.mapper.ContractMapper;
 import cn.wolfcode.operation.contract.service.IContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +62,9 @@ public class ContractServiceImpl implements IContractService
     public int insertContract(Contract contract)
     {
         contract.setInputUser(SecurityUtils.getUsername());
+        contract.setAffixSealState(Contract.UNREVIEWED);
+        contract.setAuditState(Contract.UNREVIEWED);
+        contract.setNullifyState(Contract.IN_USE);
         return contractMapper.insertContract(contract);
     }
 
