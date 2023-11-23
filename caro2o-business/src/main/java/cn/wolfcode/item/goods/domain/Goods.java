@@ -1,9 +1,12 @@
 package cn.wolfcode.item.goods.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import cn.wolfcode.common.annotation.Excel;
 import cn.wolfcode.common.core.domain.BaseEntity;
+
+import java.io.InputStream;
 
 /**
  * 物品信息对象 goods
@@ -11,6 +14,8 @@ import cn.wolfcode.common.core.domain.BaseEntity;
  * @author Baishuai
  * @date 2023-11-23
  */
+
+@Data
 public class Goods extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -42,80 +47,5 @@ public class Goods extends BaseEntity
     @Excel(name = "描述")
     private String goodsDesc;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setGoodsName(String goodsName) 
-    {
-        this.goodsName = goodsName;
-    }
-
-    public String getGoodsName() 
-    {
-        return goodsName;
-    }
-    public void setGoodsCover(String goodsCover) 
-    {
-        this.goodsCover = goodsCover;
-    }
-
-    public String getGoodsCover() 
-    {
-        return goodsCover;
-    }
-    public void setCategoryId(Long categoryId) 
-    {
-        this.categoryId = categoryId;
-    }
-
-    public Long getCategoryId() 
-    {
-        return categoryId;
-    }
-    public void setBrand(String brand) 
-    {
-        this.brand = brand;
-    }
-
-    public String getBrand() 
-    {
-        return brand;
-    }
-    public void setSpec(String spec) 
-    {
-        this.spec = spec;
-    }
-
-    public String getSpec() 
-    {
-        return spec;
-    }
-    public void setGoodsDesc(String goodsDesc) 
-    {
-        this.goodsDesc = goodsDesc;
-    }
-
-    public String getGoodsDesc() 
-    {
-        return goodsDesc;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("goodsName", getGoodsName())
-            .append("goodsCover", getGoodsCover())
-            .append("categoryId", getCategoryId())
-            .append("brand", getBrand())
-            .append("spec", getSpec())
-            .append("goodsDesc", getGoodsDesc())
-            .toString();
-    }
 }

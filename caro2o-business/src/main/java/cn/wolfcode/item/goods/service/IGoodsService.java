@@ -2,6 +2,7 @@ package cn.wolfcode.item.goods.service;
 
 import java.util.List;
 import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.domain.vo.GoodsVO;
 
 /**
  * 物品信息Service接口
@@ -30,10 +31,10 @@ public interface IGoodsService
     /**
      * 新增物品信息
      * 
-     * @param goods 物品信息
+     * @param goodsVO 物品信息
      * @return 结果
      */
-    public int insertGoods(Goods goods);
+    public int insertGoods(GoodsVO goodsVO);
 
     /**
      * 修改物品信息

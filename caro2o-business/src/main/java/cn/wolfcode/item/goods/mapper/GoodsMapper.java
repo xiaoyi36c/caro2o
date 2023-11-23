@@ -2,6 +2,7 @@ package cn.wolfcode.item.goods.mapper;
 
 import java.util.List;
 import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.domain.vo.GoodsVO2;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -36,7 +37,7 @@ public interface GoodsMapper
      * @param goods 物品信息
      * @return 结果
      */
-    public int insertGoods(Goods goods);
+    public int insertGoods(GoodsVO2 goods);
 
     /**
      * 修改物品信息
@@ -44,7 +45,7 @@ public interface GoodsMapper
      * @param goods 物品信息
      * @return 结果
      */
-    public int updateGoods(Goods goods);
+    public int updateGoods(GoodsVO2 goods);
 
     /**
      * 删除物品信息

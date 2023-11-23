@@ -18,11 +18,14 @@ export function getGoods(id) {
 }
 
 // 新增物品信息
-export function addGoods(data) {
+export function addOrUpdateGoods(data) {
   return request({
     url: '/item/goods',
     method: 'post',
-    data: data
+    data: data,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
   })
 }
 

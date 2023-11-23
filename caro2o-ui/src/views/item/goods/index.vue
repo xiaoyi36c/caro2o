@@ -112,8 +112,22 @@
         <el-form-item label="品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
         </el-form-item>
-        <el-form-item label="数量" prop="spec">
-          <el-input v-model="form.spec" placeholder="请输入数量" />
+        <el-form-item label="图片">
+          <el-upload
+            ref='upload'
+            accept=".jpg,.png,"
+            class="upload-demo"
+            drag
+            action=""
+            :on-change="handleChange"
+            :on-remove="handleRemove"
+            :auto-upload="false"
+            :limit="1"
+            :file-list="fileList">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
         </el-form-item>
         <el-form-item label="描述" prop="goodsDesc">
           <el-input v-model="form.goodsDesc" placeholder="请输入描述" />
@@ -128,12 +142,14 @@
 </template>
 
 <script>
-import { listGoods, getGoods, delGoods, addGoods, updateGoods } from "@/api/item/goods";
+import {addGoods, addOrUpdateGoods, delGoods, getGoods, listGoods, updateGoods} from "@/api/item/goods";
 
 export default {
   name: "Goods",
   data() {
     return {
+      //上传的文件列表
+      fileList: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -174,6 +190,28 @@ export default {
     this.getList();
   },
   methods: {
+    //删除上传文件
+    handleRemove() {
+      this.fileList = [];
+    },
+    //添加上传文件
+    handleChange(file, fileList) {
+      this.$refs.upload.clearFiles()
+      //检查文件的格式
+      //2.zip
+      let name = file.name;
+      //先获取到最后一个点的索引
+      let index = name.lastIndexOf(".");
+      //从name中截取从index之后开始的内容
+      let ext = name.substring(index + 1);
+      if (['jpg', 'png'].indexOf(ext) < 0) {
+        this.$modal.msgError("文件格式错误")
+        this.$refs.upload.clearFiles()
+        return;
+      }
+      //在添加文件时，手动将文件对象添加到数组中
+      this.fileList = fileList;
+    },
     /** 查询物品信息列表 */
     getList() {
       this.loading = true;
@@ -244,19 +282,28 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.id != null) {
-            updateGoods(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addGoods(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
+          //检查用户是否添加文件
+          if (this.fileList.length === 0) {
+            this.$modal.msgError("请先选择图片文件");
+            return;
           }
+          if (this.form.id === null){
+            this.form.id = -1
+          }
+          //封装需要提交的数据
+          let formData = new FormData();
+          formData.append("id", this.form.id);
+          formData.append("goodsName", this.form.goodsName);
+          formData.append("categoryId", 1);
+          formData.append("brand", this.form.brand);
+          formData.append("goodsDesc", this.form.goodsDesc);
+          formData.append("pictureFile", this.fileList[0].raw);//文件的数据
+          // 发请求
+          addOrUpdateGoods(formData).then(() => {
+            this.$modal.msgSuccess("成功")
+            this.open = false;
+            this.getList();
+          })
         }
       });
     },

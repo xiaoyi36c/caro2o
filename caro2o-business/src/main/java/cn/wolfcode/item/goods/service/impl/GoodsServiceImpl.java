@@ -1,6 +1,12 @@
 package cn.wolfcode.item.goods.service.impl;
 
+import java.io.SequenceInputStream;
 import java.util.List;
+
+import cn.wolfcode.common.utils.bean.BeanUtils;
+import cn.wolfcode.item.goods.domain.vo.GoodsVO;
+import cn.wolfcode.item.goods.domain.vo.GoodsVO2;
+import org.apache.commons.collections4.BagUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.goods.mapper.GoodsMapper;
@@ -46,13 +52,20 @@ public class GoodsServiceImpl implements IGoodsService
     /**
      * 新增物品信息
      * 
-     * @param goods 物品信息
+     * @param goodsVO 物品信息
      * @return 结果
      */
     @Override
-    public int insertGoods(Goods goods)
+    public int insertGoods(GoodsVO goodsVO)
     {
-        return goodsMapper.insertGoods(goods);
+        GoodsVO2 goodsVO2 = new GoodsVO2();
+        BeanUtils.copyBeanProp(goodsVO2, goodsVO);
+        goodsVO2.setGoodsCover(goodsVO.getInputStream());
+        if ( goodsVO.getId() == -1){
+            return goodsMapper.insertGoods(goodsVO2);
+        }else {
+            return goodsMapper.updateGoods(goodsVO2);
+        }
     }
 
     /**
@@ -64,7 +77,7 @@ public class GoodsServiceImpl implements IGoodsService
     @Override
     public int updateGoods(Goods goods)
     {
-        return goodsMapper.updateGoods(goods);
+        return 0;
     }
 
     /**
