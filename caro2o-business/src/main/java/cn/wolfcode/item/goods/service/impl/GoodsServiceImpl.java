@@ -1,11 +1,11 @@
-package cn.wolfcode.item.im.service.impl;
+package cn.wolfcode.item.goods.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.wolfcode.item.im.mapper.GoodsMapper;
-import cn.wolfcode.item.im.domain.Goods;
-import cn.wolfcode.item.im.service.IGoodsService;
+import cn.wolfcode.item.goods.mapper.GoodsMapper;
+import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.service.IGoodsService;
 
 /**
  * 物品信息Service业务层处理

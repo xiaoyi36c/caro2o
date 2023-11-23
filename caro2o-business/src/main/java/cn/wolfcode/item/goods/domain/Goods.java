@@ -1,4 +1,4 @@
-package cn.wolfcode.item.im.domain;
+package cn.wolfcode.item.goods.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;

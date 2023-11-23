@@ -1,4 +1,4 @@
-package cn.wolfcode.item.im.controller;
+package cn.wolfcode.item.goods.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,8 @@ import cn.wolfcode.common.annotation.Log;
 import cn.wolfcode.common.core.controller.BaseController;
 import cn.wolfcode.common.core.domain.AjaxResult;
 import cn.wolfcode.common.enums.BusinessType;
-import cn.wolfcode.item.im.domain.Goods;
-import cn.wolfcode.item.im.service.IGoodsService;
+import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.service.IGoodsService;
 import cn.wolfcode.common.utils.poi.ExcelUtil;
 import cn.wolfcode.common.core.page.TableDataInfo;
 

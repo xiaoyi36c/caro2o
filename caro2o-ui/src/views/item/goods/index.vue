@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="物品名称" prop="goodsName">
+      <el-form-item label="关键字" prop="goodsName">
         <el-input
-          v-model="queryParams.goodsName"
-          placeholder="请输入物品名称"
+          v-model="queryParams.params.keyword"
+          placeholder="请输入关键字(数量,品牌,描述,名称)"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -13,30 +13,6 @@
         <el-input
           v-model="queryParams.categoryId"
           placeholder="请输入分类"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="品牌" prop="brand">
-        <el-input
-          v-model="queryParams.brand"
-          placeholder="请输入品牌"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数量" prop="spec">
-        <el-input
-          v-model="queryParams.spec"
-          placeholder="请输入数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="描述" prop="goodsDesc">
-        <el-input
-          v-model="queryParams.goodsDesc"
-          placeholder="请输入描述"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -81,14 +57,10 @@
         >分类管理</el-button>
       </el-col>
 
-
-
-
-
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="goodsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" border :data="goodsList" @selection-change="handleSelectionChange" style="font-size: 12px">
       <el-table-column label="序号" align="center" prop="id" />
       <el-table-column label="封面" align="center" >
         <template slot-scope="scope">
@@ -188,7 +160,8 @@ export default {
         categoryId: null,
         brand: null,
         spec: null,
-        goodsDesc: null
+        goodsDesc: null,
+        params: {}, // 搜索参数
       },
       // 表单参数
       form: {},
