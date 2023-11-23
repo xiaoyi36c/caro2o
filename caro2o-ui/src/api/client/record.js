@@ -16,6 +16,14 @@ export function getRecord(id) {
     method: 'get'
   })
 }
+// 根据客户id查询拜访信息详细
+export function getRec(id) {
+  return request({
+    url: '/client/record/rec/' + id,
+    method: 'get'
+  })
+}
+
 // 查询客户和联系人
 export function getClientLinkman() {
   return request({

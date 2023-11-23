@@ -41,7 +41,6 @@
     <insert id="insertContract" parameterType="Contract">
         insert into contract
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
             <if test="customerId != null">customer_id,</if>
             <if test="contractName != null">contract_name,</if>
             <if test="contractCode != null">contract_code,</if>
@@ -53,9 +52,9 @@
             <if test="auditState != null">audit_state,</if>
             <if test="nullifyState != null">nullify_state,</if>
             <if test="inputUser != null">input_user,</if>
+            input_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">#{id},</if>
             <if test="customerId != null">#{customerId},</if>
             <if test="contractName != null">#{contractName},</if>
             <if test="contractCode != null">#{contractCode},</if>
@@ -67,7 +66,7 @@
             <if test="auditState != null">#{auditState},</if>
             <if test="nullifyState != null">#{nullifyState},</if>
             <if test="inputUser != null">#{inputUser},</if>
-            inputTime = now()
+            now()
         </trim>
     </insert>
 

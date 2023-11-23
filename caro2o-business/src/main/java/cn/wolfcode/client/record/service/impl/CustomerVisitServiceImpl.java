@@ -120,4 +120,9 @@ public class CustomerVisitServiceImpl implements ICustomerVisitService
         clientAndLinkman.setSeeClient(seeClient);
         return clientAndLinkman;
     }
+
+    @Override
+    public List<CustomerVisit> selectCustomerrecById(Long id) {
+        return customerVisitMapper.selectCustomerrecById(id);
+    }
 }

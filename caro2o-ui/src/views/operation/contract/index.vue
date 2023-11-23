@@ -164,12 +164,12 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="客户" prop="customerId">
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="form.customerId" placeholder="请选择">
             <el-option
               v-for="item in options"
-              :key="item.customerName"
-              :label="item.label"
-              :value="item.customerName">
+              :key="item.id"
+              :label="item.customerName"
+              :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>

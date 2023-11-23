@@ -65,4 +65,6 @@ public interface CustomerVisitMapper
     List<Customer> selectCustomerList();
 
     List<CustomerLinkmane> selectCustomerLinkmaneList();
+
+    List<CustomerVisit> selectCustomerrecById(Long id);
 }
