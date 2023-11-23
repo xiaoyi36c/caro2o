@@ -53,7 +53,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCustomerLinkmaneVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectCustomerPhoneById" resultMap="CustomerLinkmaneResult">
+        <include refid="selectCustomerLinkmaneVo"/>
+        where customer_id = #{id}
+    </select>
+
     <insert id="insertCustomerLinkmane" parameterType="CustomerLinkmane">
         insert into customer_linkmane
         <trim prefix="(" suffix=")" suffixOverrides=",">
