@@ -1,6 +1,7 @@
 package cn.wolfcode.operation.contract.mapper;
 
 import cn.wolfcode.operation.contract.domain.Contract;
+import cn.wolfcode.operation.contract.domain.VO.ContractVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
