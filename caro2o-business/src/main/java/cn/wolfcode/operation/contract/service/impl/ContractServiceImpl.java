@@ -133,4 +133,10 @@ public class ContractServiceImpl implements IContractService
         // 通过ByteArrayInputStream创建输入流
         return new ByteArrayInputStream(appendix.getBytes());
     }
+
+    @Override
+    public int putStamp(Long id) {
+        contractMapper.putStamp(id,Contract.STAMP);
+        return 1;
+    }
 }

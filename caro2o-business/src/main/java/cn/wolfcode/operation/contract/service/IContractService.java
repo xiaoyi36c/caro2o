@@ -67,4 +67,6 @@ public interface IContractService
     int putContract(Long id);
 
     InputStream download(String id);
+
+    int putStamp(Long id);
 }
