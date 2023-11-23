@@ -1,25 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+
       <el-form-item label="关键字" prop="categoryName">
         <el-input
           v-model="queryParams.params.keyword"
-          placeholder="请输入分类名称"
+          placeholder="请输入名称/描述"
           clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="上级分类" prop="parentId">
-        <treeselect style="width: 20%" v-model="queryParams.parentId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类" />
+          @keyup.enter.native="handleQuery"/>
       </el-form-item>
 
-      <el-form-item label="上级分类" prop="parentId">
-        <el-select v-model="queryParams.parentId" placeholder="请选择上级分类" clearable>
-        <treeselect  :options="sortOptions" :normalizer="normalizer" />
-        </el-select>
+      <el-form-item label="上级分类" prop="parentId" style="display: inline-block;">
+        <treeselect aria-label="上级分类" style="width: 200px" v-model="queryParams.parentId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类" />
       </el-form-item>
-
-
 
       <el-form-item>
 	    <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
