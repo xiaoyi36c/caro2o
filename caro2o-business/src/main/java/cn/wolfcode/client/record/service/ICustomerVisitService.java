@@ -62,4 +62,6 @@ public interface ICustomerVisitService
     public int deleteCustomerVisitById(Long id);
 
     ClientAndLinkman selectClientLinkman();
+
+    List<CustomerVisit> selectCustomerrecById(Long id);
 }
