@@ -154,7 +154,9 @@ export default {
   },
   created() {
     this.getList();
-    this.getTreeselect();
+    listSort().then(response => {
+      this.sortLists = response.data;
+    });
   },
   methods: {
     /** 查询物品分类信息列表 */
@@ -162,7 +164,6 @@ export default {
       this.loading = true;
       listSort(this.queryParams).then(response => {
         this.sortList = this.handleTree(response.data, "id", "parentId");
-        this.sortLists = response.data;
         this.loading = false;
       });
     },
