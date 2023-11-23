@@ -273,7 +273,7 @@ export default {
           const objectURL = URL.createObjectURL(blob);
 
           downloadLink.href = objectURL;
-          downloadLink.download = `客户${row.contractName} 的合同文件.docx`
+          downloadLink.download = `客户${row.contractName} 的合同文件.txt`
 
           document.body.appendChild(downloadLink);
           downloadLink.click();
