@@ -1,5 +1,9 @@
 package cn.wolfcode.operation.contract.service.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.List;
 
 import cn.wolfcode.operation.contract.domain.Contract;
@@ -7,6 +11,8 @@ import cn.wolfcode.operation.contract.mapper.ContractMapper;
 import cn.wolfcode.operation.contract.service.IContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 /**
  * 合同信息Service业务层处理
@@ -106,6 +112,26 @@ public class ContractServiceImpl implements IContractService
     public int putContract(Long id) {
         contractMapper.updateCancellation(id,Contract.CANCELLATION);
         return 1;
+    }
+
+    /**
+     * 下载合同
+     * @param id
+     * @return InputStream
+     */
+    @Override
+    @Transactional
+    public InputStream download(String id) {
+        Contract contract = contractMapper.selectContractById(id);
+        Assert.notNull(contract,"参数错误");
+        // 获取文本内容
+        String appendix = contract.getAppendix();
+        if (appendix == null){
+            appendix = "";
+        }
+        // 生成txt文件流
+        // 通过ByteArrayInputStream创建输入流
+        return new ByteArrayInputStream(appendix.getBytes());
     }
 
     @Override

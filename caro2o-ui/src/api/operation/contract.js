@@ -55,7 +55,17 @@ export function putApprove(id,type) {
 export function putContract(id) {
   return request({
     url: `/system/contract/${id}`,
-    method: 'put'
+    method: 'put',
+    responseType: 'blob',
+  })
+}
+
+
+// 导出合同信息
+export function contractDownload(id) {
+  return request({
+    url: `/system/contract/download/${id}`,
+    method: 'get',
   })
 }
 

@@ -3,6 +3,7 @@ package cn.wolfcode.operation.contract.service;
 
 import cn.wolfcode.operation.contract.domain.Contract;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -64,6 +65,8 @@ public interface IContractService
     int putAudit(Long id, String type);
 
     int putContract(Long id);
+
+    InputStream download(String id);
 
     int putStamp(Long id);
 }

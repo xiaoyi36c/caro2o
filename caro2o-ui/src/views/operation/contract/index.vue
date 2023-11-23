@@ -45,18 +45,19 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['system:contract:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="contractList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="id" />
-      <el-table-column label="客户" align="center" prop="customerId" />
-      <el-table-column label="合同名称" align="center" prop="contractName" />
-      <el-table-column label="合同编码" align="center" prop="contractCode" />
-      <el-table-column label="合同金额" align="center" prop="amounts" />
+      <el-table-column type="selection" width="55" align="center"/>
+      <el-table-column label="序号" align="center" prop="id"/>
+      <el-table-column label="客户" align="center" prop="customerId"/>
+      <el-table-column label="合同名称" align="center" prop="contractName"/>
+      <el-table-column label="合同编码" align="center" prop="contractCode"/>
+      <el-table-column label="合同金额" align="center" prop="amounts"/>
       <el-table-column label="合同生效开始时间" align="center" prop="startDate" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.startDate, '{y}-{m}-{d}') }}</span>
@@ -67,7 +68,16 @@
           <span>{{ parseTime(scope.row.endDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="电子附件" align="center" prop="appendix" />
+      <el-table-column label="电子附件" align="center">
+        <template slot-scope="scope">
+          <button type="button" class="el-button el-button--primary el-button--mini"
+                  @click="download(scope.row)">
+            <i class="el-icon-download el-icon--right"></i>
+            <span>下载</span>
+          </button>
+        </template>
+
+      </el-table-column>
       <el-table-column label="是否盖章" align="center" prop="affixSealState">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.affix_seal_state" :value="scope.row.affixSealState"/>
@@ -83,7 +93,7 @@
           <dict-tag :options="dict.type.nullify_state" :value="scope.row.nullifyState"/>
         </template>
       </el-table-column>
-      <el-table-column label="录入人" align="center" prop="inputUser" />
+      <el-table-column label="录入人" align="center" prop="inputUser"/>
       <el-table-column label="录入时间" align="center" prop="inputTime" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.inputTime) }}</span>
@@ -95,13 +105,15 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState != 1"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:contract:edit']"
-          >修改</el-button>
+          >编辑</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.affixSealState === 0"
             @click="handleStamp(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >确认盖章</el-button>
@@ -109,6 +121,7 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState === 0"
             @click="handleApprove(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >审核通过</el-button>
@@ -116,6 +129,7 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState === 0"
             @click="handleFail(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >审核不通过</el-button>
@@ -123,6 +137,7 @@
             size="mini"
             type="text"
             icon="el-icon-delete"
+            v-if="scope.row.nullifyState === 0 && scope.row.auditState === 1"
             @click="handleCancellation(scope.row)"
             v-hasPermi="['system:contract:remove']"
           >作废</el-button>
@@ -189,7 +204,16 @@
 </template>
 
 <script>
-import { listContract, getContract, delContract, addContract, updateContract, putApprove, putContract, putStamp } from "@/api/operation/contract";
+import {
+  listContract,
+  getContract,
+  delContract,
+  addContract,
+  updateContract,
+  putApprove,
+  putContract,
+  contractDownload
+} from "@/api/operation/contract";
 
 export default {
   name: "Contract",
@@ -237,14 +261,34 @@ export default {
     this.getList();
   },
   methods: {
-    handleStamp(row){
-      this.$modal.confirm('是否确认对此合同盖章？').then(function() {
-        return putStamp(row.id);
+    /** 下载附件 */
+    download(row) {
+      this.$modal.confirm('是否确认下载此附件？').then(function () {
       }).then(() => {
+        contractDownload(row.id).then(response => {
+          // 将二进制流转为blob
+          const blob = new Blob([response], {type: 'application/octet-stream'});
+
+          const downloadLink = document.createElement('a');
+          const objectURL = URL.createObjectURL(blob);
+
+          downloadLink.href = objectURL;
+          downloadLink.download = `客户${row.contractName} 的合同文件.docx`
+
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+
+          document.body.removeChild(downloadLink);
+          URL.revokeObjectURL(objectURL);
+
+          this.$modal.msgSuccess("下载成功");
+        });
         this.getList();
-        this.$modal.msgSuccess("盖章成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
+
+
     /** 作废 */
     handleCancellation(row) {
       this.$modal.confirm('是否确认作废此合同？').then(function() {
