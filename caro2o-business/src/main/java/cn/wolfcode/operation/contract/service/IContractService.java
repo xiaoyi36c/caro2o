@@ -69,4 +69,6 @@ public interface IContractService
     InputStream download(String id);
 
     int putStamp(Long id);
+
+    List<Contract> selectContractHtById(Long id);
 }

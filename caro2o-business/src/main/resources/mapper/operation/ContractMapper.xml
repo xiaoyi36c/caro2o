@@ -37,6 +37,10 @@
         <include refid="selectContractVo"/>
         where id = #{id}
     </select>
+    <select id="selectContractHtById" resultMap="ContractResult">
+        <include refid="selectContractVo"/>
+        where customer_id = #{id}
+    </select>
 
     <insert id="insertContract" parameterType="Contract">
         insert into contract
