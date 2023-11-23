@@ -29,7 +29,7 @@ public class Goods extends BaseEntity
 
     /** 封面 */
     @Excel(name = "封面")
-    private InputStream goodsCover;
+    private String goodsCover;
 
     /** 分类 */
     @Excel(name = "分类")
