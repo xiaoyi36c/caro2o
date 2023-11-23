@@ -2,6 +2,7 @@ package cn.wolfcode.client.customer.mapper;
 
 import java.util.List;
 import cn.wolfcode.client.customer.domain.Customer;
+import cn.wolfcode.client.customer.domain.vo.CustomerVo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -40,10 +41,10 @@ public interface CustomerMapper
     /**
      * 修改客户信息
      *
-     * @param customer 客户信息
+     * @param customerVo 客户信息
      * @return 结果
      */
-    public int updateCustomer(Customer customer);
+    public int updateCustomer(CustomerVo customerVo);
 
     /**
      * 删除客户信息

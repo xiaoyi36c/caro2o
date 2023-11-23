@@ -93,8 +93,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="industry != null">industry = #{industry},</if>
             <if test="scope != null">scope = #{scope},</if>
             <if test="regAddr != null">reg_addr = #{regAddr},</if>
-            <if test="inputTime != null">input_time = #{inputTime},</if>
-            <if test="inputUser != null">input_user = #{inputUser},</if>
         </trim>
         where id = #{id}
     </update>
