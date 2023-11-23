@@ -89,7 +89,6 @@ public class CustomerServiceImpl implements ICustomerService
         Assert.state(regCapital.compareTo(BigDecimal.ZERO)>0,"请输入正数");
         Assert.state(regCapital.scale()<=2,"请输入两位以下小数");
 
-
         //所属行业：必填 30 字以内
         String industry = customerVo.getIndustry();
         Assert.state(industry.length()<=30,"所属行业请输入30字符内");
@@ -124,6 +123,43 @@ public class CustomerServiceImpl implements ICustomerService
     public int updateCustomer(CustomerVo customerVo)
     {
         Assert.notNull(customerVo,"参数错误");
+        //企业名字不能重复；
+        String customerName = customerVo.getCustomerName();
+        Long id = customerMapper.selectcustomerName(customerName);
+        Assert.state(id==null,"当前企业已存在");
+
+        //企业名称：必填 100字以内
+        String cusName = customerVo.getCustomerName();
+        Assert.state(cusName.length()<=100,"企业名称长度不能超过100字");
+
+        //法定代表人：必填 30字以内
+        String legalLeader = customerVo.getLegalLeader();
+        Assert.state(legalLeader.length()<=30,"法定代表人名称请不要超过30字符");
+
+        //成立日期：必填，xxxx年xx月xx日
+        Date registerDate = customerVo.getRegisterDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(registerDate);
+        Assert.state(format.matches("^\\d{4}-\\d{2}-\\d{2}$"),"请输入正确格式");
+
+
+        //注册资本：必填、正数，保留两位小数（单位：万元）
+        //注册资本不能大于8位数
+        BigDecimal regCapital = customerVo.getRegCapital();
+        Assert.state(regCapital.toString().length()<=8,"请输入注册资本并小于8位数");
+        Assert.state(regCapital.compareTo(BigDecimal.ZERO)>0,"请输入正数");
+        Assert.state(regCapital.scale()<=2,"请输入两位以下小数");
+
+        //所属行业：必填 30 字以内
+        String industry = customerVo.getIndustry();
+        Assert.state(industry.length()<=30,"所属行业请输入30字符内");
+
+        //注册地址：500字以内
+        String regAddr = customerVo.getRegAddr();
+        Assert.state(regAddr.length()<=500,"注册地址不能超过500字");
+        //经营范围：500字以内
+        String scope = customerVo.getScope();
+        Assert.state(scope.length()<=500,"经营范围请不要超过500字");
         return customerMapper.updateCustomer(customerVo);
     }
 
