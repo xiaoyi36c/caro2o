@@ -136,4 +136,9 @@ public class CustomerLinkmaneServiceImpl implements ICustomerLinkmaneService
     {
         return customerLinkmaneMapper.deleteCustomerLinkmaneById(id);
     }
+
+    @Override
+    public List<CustomerLinkmane> selectCustomerPhoneById(Long id) {
+        return customerLinkmaneMapper.selectCustomerPhoneById(id);
+    }
 }

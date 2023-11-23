@@ -16,6 +16,13 @@ export function getContact(id) {
     method: 'get'
   })
 }
+// 根据客户id查询联系方式
+export function getPhone(id) {
+  return request({
+    url: '/client/contact/phone/' + id,
+    method: 'get'
+  })
+}
 
 // 新增客户联系人
 export function addContact(data) {

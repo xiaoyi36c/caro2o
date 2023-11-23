@@ -107,8 +107,8 @@
           <el-button
             size="mini"
             type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
+            icon="el-icon-toilet-paper"
+            @click="handleRedirect(scope.row)"
             v-hasPermi="['client:customer:remove']"
           >详情</el-button>
         </template>
@@ -267,6 +267,13 @@ export default {
     this.getList();
   },
   methods: {
+    /** 处理页面跳转*/
+    handleRedirect(row) {
+      let url = "customerInfo/" + row.id;
+      //js实现跳转
+      this.$router.push(url);
+    },
+
     /** 查询客户信息列表 */
     getList() {
       this.loading = true;
