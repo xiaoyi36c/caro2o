@@ -95,13 +95,15 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState != 1"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:contract:edit']"
-          >修改</el-button>
+          >编辑</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.affixSealState === 0"
             @click="handleStamp(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >确认盖章</el-button>
@@ -109,6 +111,7 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState === 0"
             @click="handleApprove(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >审核通过</el-button>
@@ -116,6 +119,7 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
+            v-if="scope.row.auditState === 0"
             @click="handleFail(scope.row)"
             v-hasPermi="['system:contract:edit']"
           >审核不通过</el-button>
@@ -123,6 +127,7 @@
             size="mini"
             type="text"
             icon="el-icon-delete"
+            v-if="scope.row.nullifyState === 0 && scope.row.auditState === 1"
             @click="handleCancellation(scope.row)"
             v-hasPermi="['system:contract:remove']"
           >作废</el-button>
