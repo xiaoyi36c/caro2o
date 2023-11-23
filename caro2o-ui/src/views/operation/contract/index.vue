@@ -54,7 +54,14 @@
     <el-table v-loading="loading" :data="contractList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="序号" align="center" prop="id"/>
-      <el-table-column label="客户" align="center" prop="customerId"/>
+      <el-table-column label="客户" align="center" prop="customerId">
+        <template slot-scope="scope">
+          <span v-for="customer in options" v-if="customer.id == scope.row.customerId">
+            {{customer.customerName}}
+          </span>
+        </template>
+
+      </el-table-column>
       <el-table-column label="合同名称" align="center" prop="contractName"/>
       <el-table-column label="合同编码" align="center" prop="contractCode"/>
       <el-table-column label="合同金额" align="center" prop="amounts"/>
@@ -157,12 +164,12 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="客户" prop="customerId">
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="form.customerId" placeholder="请选择">
             <el-option
               v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.id"
+              :label="item.customerName"
+              :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -214,6 +221,7 @@ import {
   putContract,
   contractDownload
 } from "@/api/operation/contract";
+import {listCustomer} from "@/api/client/customer";
 
 export default {
   name: "Contract",
@@ -259,6 +267,11 @@ export default {
   },
   created() {
     this.getList();
+
+    /** 客户的查询 */
+    listCustomer().then(res =>{
+      this.options = res.rows
+    })
   },
   methods: {
     /** 下载附件 */

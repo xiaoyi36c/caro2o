@@ -3,6 +3,7 @@ package cn.wolfcode.operation.contract.service.impl;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
+import cn.wolfcode.client.customer.service.ICustomerService;
 import cn.wolfcode.common.utils.SecurityUtils;
 import cn.wolfcode.operation.contract.domain.Contract;
 import cn.wolfcode.operation.contract.mapper.ContractMapper;
@@ -23,6 +24,8 @@ public class ContractServiceImpl implements IContractService
 {
     @Autowired
     private ContractMapper contractMapper;
+    @Autowired
+    private ICustomerService customerService;
 
     /**
      * 查询合同信息
@@ -46,6 +49,7 @@ public class ContractServiceImpl implements IContractService
     public List<Contract> selectContractList(Contract contract)
     {
         return contractMapper.selectContractList(contract);
+
     }
 
     /**
@@ -58,6 +62,9 @@ public class ContractServiceImpl implements IContractService
     public int insertContract(Contract contract)
     {
         contract.setInputUser(SecurityUtils.getUsername());
+        contract.setAffixSealState(Contract.UNREVIEWED);
+        contract.setAuditState(Contract.UNREVIEWED);
+        contract.setNullifyState(Contract.IN_USE);
         return contractMapper.insertContract(contract);
     }
 

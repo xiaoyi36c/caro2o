@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.item.sort.mapper.GoodsCategoryMapper">
+    
+    <resultMap type="GoodsCategory" id="GoodsCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="categoryDesc"    column="category_desc"    />
+        <result property="busiPath"    column="busi_path"    />
+        <result property="parentId"    column="parent_id"    />
+    </resultMap>
+
+    <sql id="selectGoodsCategoryVo">
+        select id, category_name, category_desc, busi_path, parent_id from goods_category
+    </sql>
+
+    <select id="selectGoodsCategoryList" parameterType="GoodsCategory" resultMap="GoodsCategoryResult">
+        <include refid="selectGoodsCategoryVo"/>
+        <where>  
+            <if test="categoryName != null  and categoryName != ''"> and category_name like concat('%', #{categoryName}, '%')</if>
+            <if test="categoryDesc != null  and categoryDesc != ''"> and category_desc = #{categoryDesc}</if>
+        </where>
+    </select>
+    
+    <select id="selectGoodsCategoryById" parameterType="String" resultMap="GoodsCategoryResult">
+        <include refid="selectGoodsCategoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGoodsCategory" parameterType="GoodsCategory">
+        insert into goods_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="categoryName != null">category_name,</if>
+            <if test="categoryDesc != null">category_desc,</if>
+            <if test="busiPath != null">busi_path,</if>
+            <if test="parentId != null">parent_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="categoryName != null">#{categoryName},</if>
+            <if test="categoryDesc != null">#{categoryDesc},</if>
+            <if test="busiPath != null">#{busiPath},</if>
+            <if test="parentId != null">#{parentId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGoodsCategory" parameterType="GoodsCategory">
+        update goods_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null">category_name = #{categoryName},</if>
+            <if test="categoryDesc != null">category_desc = #{categoryDesc},</if>
+            <if test="busiPath != null">busi_path = #{busiPath},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGoodsCategoryById" parameterType="String">
+        delete from goods_category where id = #{id}
+    </delete>
+
+    <delete id="deleteGoodsCategoryByIds" parameterType="String">
+        delete from goods_category where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

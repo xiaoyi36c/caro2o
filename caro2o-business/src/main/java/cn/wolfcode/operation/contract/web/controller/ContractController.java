@@ -80,11 +80,7 @@ public class ContractController extends BaseController
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
-
-
 
     /**
      * 获取合同信息详细信息

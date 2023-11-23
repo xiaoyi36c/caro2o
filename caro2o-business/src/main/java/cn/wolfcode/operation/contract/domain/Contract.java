@@ -16,13 +16,21 @@ import cn.wolfcode.common.core.domain.BaseEntity;
  */
 public class Contract extends BaseEntity
 {
-    public static final long CANCELLATION = -1;
-    public static final long STAMP = 1;
     private static final long serialVersionUID = 1L;
-
-    public static final long UNREVIEWED = 0;
-    public static final long PASS_THE_AUDIT = 1;
-    public static final long FAIL_THE_AUDIT = 2;
+    // 在用
+    public static final Integer IN_USE = 0;
+    // 作废
+    public static final Integer CANCELLATION = -1;
+    // 未盖章
+    public static final Integer  UNSEALED = 1;
+    // 盖章
+    public static final Integer STAMP = 1;
+    // 未审批
+    public static final Integer UNREVIEWED = 0;
+    // 审批通过
+    public static final Integer PASS_THE_AUDIT = 1;
+    // 审批不通过
+    public static final Integer FAIL_THE_AUDIT = 2;
 
     /** $column.columnComment */
     private String id;

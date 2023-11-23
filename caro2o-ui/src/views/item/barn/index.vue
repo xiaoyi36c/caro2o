@@ -1,18 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="仓库名字" prop="storeName">
+      <el-form-item label="关键字" prop="storeName">
         <el-input
-          v-model="queryParams.storeName"
-          placeholder="请输入仓库名字"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="地址" prop="storeAddress">
-        <el-input
-          v-model="queryParams.storeAddress"
-          placeholder="请输入地址"
+          v-model="queryParams.params.keyword"
+          placeholder="请输入仓库名字/地址"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -32,40 +24,10 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['barn:barn:add']"
-        >新增</el-button>
+        >添加仓库</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['barn:barn:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['barn:barn:remove']"
-        >删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['barn:barn:export']"
-        >导出</el-button>
-      </el-col>
+
+
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -151,6 +113,7 @@ export default {
         pageSize: 10,
         storeName: null,
         storeAddress: null,
+        params: {}
       },
       // 表单参数
       form: {},
