@@ -111,7 +111,7 @@
             size="mini"
             type="text"
             icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
+            @click="handleLook(scope.row)"
             v-hasPermi="['item:bill:remove']"
           >查看</el-button>
         </template>
@@ -200,6 +200,13 @@ export default {
     this.getList();
   },
   methods: {
+    /** 处理页面跳转*/
+    handleLook(row) {
+      let url = "bills/" + row.id;
+      //js实现跳转
+      this.$router.push(url);
+    },
+
     /** 查询出入库单据列表 */
     getList() {
       this.loading = true;
