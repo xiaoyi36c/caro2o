@@ -59,15 +59,15 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="goodsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" border :data="goodsList" @selection-change="handleSelectionChange" style="font-size: 12px">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
-      <el-table-column label="物品名称" align="center" prop="goodsName" />
-      <el-table-column label="封面" align="center" prop="goodsCover" width="100">
+      <el-table-column label="序号" align="center" prop="id" />
+      <el-table-column label="封面" align="center" prop="goodsCover" >
         <template slot-scope="scope">
-          <image-preview :src="scope.row.goodsCover" :width="50" :height="50"/>
+          <image-preview :src="scope.row.goodsCover" :height="50" :width="120" />
         </template>
       </el-table-column>
+      <el-table-column label="物品名称" align="center" prop="goodsName" />
       <el-table-column label="分类" align="center" prop="categoryId" >
         <template slot-scope="scope">
           <span v-if="!scope.row.categoryId">顶级分类</span>

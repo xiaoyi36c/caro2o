@@ -3,11 +3,13 @@ package cn.wolfcode.item.goods.service.impl;
 import java.io.File;
 import java.util.List;
 
+import cn.wolfcode.common.config.RuoYiConfig;
 import cn.wolfcode.item.goods.domain.Goods;
 import cn.wolfcode.item.goods.mapper.GoodsMapper;
 import cn.wolfcode.item.goods.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 
@@ -54,6 +56,7 @@ public class GoodsServiceImpl implements IGoodsService
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertGoods(Goods goods)
     {
         // 参数校验
@@ -67,8 +70,11 @@ public class GoodsServiceImpl implements IGoodsService
         Goods goods1 = selectGoodsById(goods.getId());
 
         String goodsCover = goods1.getGoodsCover();
+
+
         // 根据路径获取文件
-        File file = new File("127.0.0.1:8080" + goodsCover);
+        // 去掉相对路径中的 /profile/upload 部分
+        File file = new File(RuoYiConfig.getUploadPath() + goodsCover.replace("/profile/upload", ""));
         // 判断文件是否存在
         Assert.state(file.exists(), "请上传图片");
         return 1;
@@ -81,6 +87,7 @@ public class GoodsServiceImpl implements IGoodsService
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateGoods(Goods goods)
     {
         Goods goods1 = selectGoodsById(goods.getId());
@@ -97,7 +104,7 @@ public class GoodsServiceImpl implements IGoodsService
 
         String goodsCover = goodsNew.getGoodsCover();
         // 根据路径获取文件
-        File file = new File("127.0.0.1:8080" + goodsCover);
+        File file = new File(RuoYiConfig.getUploadPath() + goodsCover.replace("/profile/upload", ""));
         // 判断文件是否存在
         Assert.state(file.exists(), "请上传图片");
 
