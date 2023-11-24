@@ -147,6 +147,17 @@ function Person(id, goodsName) {
   this.id = id;
   this.goodsName = goodsName;
 }
+
+function Qo(operateDate, remark, storeId) {
+  this.operateDate = operateDate;
+  this.remark = remark;
+  this.storeId = storeId;
+  this.billsList = []; // 新添加的集合，可以是数组或其他集合类型
+}
+// 在 Qo 对象的原型上添加方法，用于操作集合
+Qo.prototype.addToCollection = function(item) {
+  this.billsList.push(item);
+};
 export default {
   name: "Bills",
   components: {
@@ -210,7 +221,6 @@ export default {
 // 解析 JSON 字符串
       const rowData = JSON.parse(storedData);
 // 在控制台打印数据（实际应用中可用于将数据渲染到页面）
-      console.log(rowData)
       const newItem = new Person(rowData.id, rowData.goodsName);
       this.billsList.push(newItem)
 // 清除本地存储中的数据，确保下次使用时不会再次获取
@@ -228,7 +238,19 @@ export default {
     },
     //确定
     submitForm() {
-      console.log("滚滚滚")
+      if (this.billsList.length <= 0) {
+        this.$modal.msgError("请先加东西");
+        return;
+      }
+      for (const list of this.billsList) {
+        if (list.price === undefined || list.amounts === undefined){
+          this.$modal.msgError("请先写数量和价格");
+          return;
+        }
+      }
+      const myQo = new Qo(this.form.operateDate, this.form.remark, this.form.storeId);
+      myQo.addToCollection(this.billsList);
+      console.log(myQo);
     },
     // 表单重置
     reset() {
