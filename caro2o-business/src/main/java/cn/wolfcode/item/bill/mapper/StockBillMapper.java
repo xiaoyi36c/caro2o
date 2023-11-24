@@ -58,4 +58,12 @@ public interface StockBillMapper
      * @return 结果
      */
     public int deleteStockBillByIds(Long[] ids);
+
+    /**
+     * @param id
+     * @return
+     */
+    int voidBill(Long id);
+
+    void voidBillitem(Long id);
 }

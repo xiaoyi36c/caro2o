@@ -58,4 +58,6 @@ public interface IStockBillService
      * @return 结果
      */
     public int deleteStockBillById(Long id);
+
+    int voidBill(Long id);
 }
