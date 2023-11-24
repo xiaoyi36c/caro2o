@@ -98,7 +98,7 @@
           <el-button
             size="mini"
             type="text"
-            @click="handleBills(scope.row)"
+            @click="$router.push(`/subsidiary/${scope.row.id}`)"
             v-hasPermi="['item:goods:remove']"
           >出入库明细</el-button>
         </template>
