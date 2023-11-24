@@ -2,11 +2,11 @@
   <div class="app-container">
     <el-container>
       <el-header height='260px'>
-        <el-aside width="40%" style="background-color: transparent">
+        <el-aside width="100%"  style="background-color: transparent">
           <el-card>
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
               <el-form-item label="仓库" prop="storeId">
-                <el-select v-model="form.storeId" placeholder="请选择仓库" clearable>
+                <el-select v-model="form.storeId" placeholder="请选择仓库" clearable style="width: 240px">
                   <el-option
                     v-for="dict in barnList"
                     :key="dict.id"
@@ -17,7 +17,7 @@
               </el-form-item>
               <el-form-item label="入库时间" prop="operateDate">
                 <el-date-picker clearable w
-                                style="width: 221px"
+                                style="width: 240px"
                                 v-model="form.operateDate"
                                 type="date"
                                 value-format="yyyy-MM-dd"
@@ -25,23 +25,14 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="备注" prop="remark">
-                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 221px"/>
+                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 240px"/>
               </el-form-item>
             </el-form>
           </el-card>
         </el-aside>
-
-        <el-main style="background-color: transparent">
-          <el-card>
-
-          </el-card>
-        </el-main>
-
       </el-header>
 
       <el-main>
-
-
         <el-card>
           <el-button
             type="primary"
