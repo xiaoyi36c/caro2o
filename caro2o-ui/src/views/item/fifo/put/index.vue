@@ -39,7 +39,17 @@
       </el-header>
 
       <el-main>
+
+
         <el-card>
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="addDetail"
+            v-hasPermi="['item:bill:add']"
+          >添加明细</el-button>
           <el-table :data="billsList">
             <el-table-column label="序号" align="center" prop="id"/>
             <el-table-column label="物品" align="center" prop="goodsId"/>
@@ -72,7 +82,18 @@
             </el-table-column>
           </el-table>
         </el-card>
-
+        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['flow:info:remove']"
+            >删除
+            </el-button>
+          </template>
+        </el-table-column>
       </el-main>
 
       <el-row>
@@ -149,27 +170,22 @@ export default {
     });
   },
   methods: {
-    //价格修改
-    checkPrice(){
-      if (this.discountAmount > this.statement.totalAmount) {
-        this.$modal.alert("优惠金额不能大于总消费金额")
-        this.discountAmount = 0
-      }
+    //删除
+    handleDelete(row){
+      console.log(row)
     },
-    //数量修改
-    checkAmounts() {
-      if (this.discountAmount > this.statement.totalAmount) {
-        this.$modal.alert("优惠金额不能大于总消费金额")
-        this.discountAmount = 0
-      }
+    //添加明细
+    addDetail(){
+      console.log("滚滚滚")
     },
     // 取消按钮
     cancel() {
-      this.open = false;
-      this.reset();
+      console.log("滚滚滚")
     },
     //确定
-    submitForm(){},
+    submitForm(){
+      console.log("滚滚滚")
+    },
     // 表单重置
     reset() {
       this.form = {
