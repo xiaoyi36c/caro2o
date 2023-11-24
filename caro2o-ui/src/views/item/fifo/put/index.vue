@@ -75,25 +75,25 @@
                 />
               </template>
             </el-table-column>
-            <el-table-column label="小计">
+            <el-table-column label="小计" align="center">
               <template slot-scope="scope">
                 {{scope.row.price * scope.row.amounts}}
               </template>
             </el-table-column>
+            <el-table-column label="操作" align="center">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="text"
+                  icon="el-icon-delete"
+                  @click="handleDelete(scope.row)"
+                  v-hasPermi="['flow:info:remove']"
+                >删除
+                </el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-card>
-        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-          <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="handleDelete(scope.row)"
-              v-hasPermi="['flow:info:remove']"
-            >删除
-            </el-button>
-          </template>
-        </el-table-column>
       </el-main>
 
       <el-row>
@@ -137,11 +137,11 @@ export default {
       total: 0,
       // 入库单据明细表格数据
       billsList:  [{
-        id: '2016-05-02',
+        id: '1',
         goodsId: '王小虎',
       },
         {
-          id: '2016-05-02',
+          id: '2',
           goodsId: '王虎',
         }],
       // 弹出层标题
@@ -172,7 +172,13 @@ export default {
   methods: {
     //删除
     handleDelete(row){
-      console.log(row)
+      // 查找对象在数组中的索引
+      let indexToDelete = this.billsList.findIndex(obj => obj.id === row.id);
+
+      // 如果找到了对象，则删除
+      if (indexToDelete !== -1) {
+        this.billsList.splice(indexToDelete, 1);
+      }
     },
     //添加明细
     addDetail(){
