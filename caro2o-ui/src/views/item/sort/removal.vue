@@ -104,7 +104,11 @@ export default {
     /** 关闭页面跳转 */
     turnoff() {
       //js实现跳转
-      this.$router.push("/item/sort");
+      const obj = {path: "item/sort/removal"};
+      this.$tab.closeOpenPage(obj).then(() => {
+        this.$router.push("/item/sort");
+      })
+
     },
     /** 查询物品分类信息列表 */
     getList() {
