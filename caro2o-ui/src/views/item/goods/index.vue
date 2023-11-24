@@ -92,9 +92,17 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
+            v-show="scope.row.spec===0"
             v-hasPermi="['item:goods:remove']"
           >删除</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            @click="handleBills(scope.row)"
+            v-hasPermi="['item:goods:remove']"
+          >出入库明细</el-button>
         </template>
+
       </el-table-column>
     </el-table>
 
