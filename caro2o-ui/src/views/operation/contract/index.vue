@@ -262,6 +262,27 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        customerId: [
+          {required: true, message: '请选择客户', trigger: 'change'}
+        ],
+        contractName: [
+          {required: true, message: "请填写合同名", trigger: "blur"}
+        ],
+        contractCode: [
+          {required: true, message: "请填写合同编码", trigger: "blur"}
+        ],
+        amounts: [
+          {required: true, message: "请填写合同名", trigger: "blur"}
+        ],
+        startDate: [
+          {required: true, message: "请填写开始时间", trigger: "blur"}
+        ],
+        endDate: [
+          {required: true, message: "请填写结束时间", trigger: "blur"}
+        ],
+        appendix: [
+          {required: true, message: "请填写合同", trigger: "blur"}
+        ]
       }
     };
   },
