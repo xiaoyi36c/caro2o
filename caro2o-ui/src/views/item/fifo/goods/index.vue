@@ -56,7 +56,15 @@
       <el-table-column label="数量" align="center" prop="spec" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button>选择此物品</el-button>
+          <!-- 点击按钮触发事件 -->
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="sendData(scope.row)"
+            v-hasPermi="['item:goods:add']"
+          >选择这个物品</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -163,6 +171,15 @@ export default {
 
   },
   methods: {
+    //传输数据
+    sendData(row) {
+      // 将数据存储到本地存储
+      localStorage.setItem('rowData', JSON.stringify(row));
+
+      // 跳转到页面B
+      let url = "put"
+      this.$router.push(url);
+    },
     /** 查询物品信息列表 */
     getList() {
       this.loading = true;

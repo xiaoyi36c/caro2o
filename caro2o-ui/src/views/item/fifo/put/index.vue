@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-container>
-      <el-header height='260px' >
+      <el-header height='260px'>
         <el-aside width="40%" style="background-color: transparent">
           <el-card>
             <el-form ref="form" :model="form" :rules="rules" label-width="120px">
@@ -15,7 +15,7 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="入库时间" prop="operateDate" >
+              <el-form-item label="入库时间" prop="operateDate">
                 <el-date-picker clearable w
                                 style="width: 221px"
                                 v-model="form.operateDate"
@@ -33,6 +33,7 @@
 
         <el-main style="background-color: transparent">
           <el-card>
+
           </el-card>
         </el-main>
 
@@ -49,10 +50,20 @@
             size="mini"
             @click="addDetail"
             v-hasPermi="['item:bill:add']"
-          >添加明细</el-button>
+          >添加明细
+          </el-button>
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="addDetail2"
+            v-hasPermi="['item:bill:add']"
+          >添加明细到列表
+          </el-button>
           <el-table :data="billsList">
             <el-table-column label="序号" align="center" prop="id"/>
-            <el-table-column label="物品" align="center" prop="goodsId"/>
+            <el-table-column label="物品" align="center" prop="goodsName"/>
             <el-table-column label="价格" align="center">
               <template slot-scope="scope">
                 <el-input
@@ -60,7 +71,6 @@
                   v-model="scope.row.price"
                   clearable
                   style="width: 150px"
-                  @change="checkPrice()"
                 />
               </template>
             </el-table-column>
@@ -71,13 +81,12 @@
                   v-model="scope.row.amounts"
                   clearable
                   style="width: 150px"
-                  @change="checkAmounts()"
                 />
               </template>
             </el-table-column>
             <el-table-column label="小计" align="center">
               <template slot-scope="scope">
-                {{scope.row.price * scope.row.amounts}}
+                {{ scope.row.price * scope.row.amounts }}
               </template>
             </el-table-column>
             <el-table-column label="操作" align="center">
@@ -97,23 +106,25 @@
       </el-main>
 
       <el-row>
-          <el-button
-            type="primary"
-            plain
-            icon="el-icon-plus"
-            size="mini"
-            @click="submitForm"
-            v-hasPermi="['item:bill:add']"
-          >确 定</el-button>
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="submitForm"
+          v-hasPermi="['item:bill:add']"
+        >确 定
+        </el-button>
 
-          <el-button
-            type="success"
-            plain
-            icon="el-icon-edit"
-            size="mini"
-            @click="cancel"
-            v-hasPermi="['item:bill:edit']"
-          >取 消</el-button>
+        <el-button
+          type="success"
+          plain
+          icon="el-icon-edit"
+          size="mini"
+          @click="cancel"
+          v-hasPermi="['item:bill:edit']"
+        >取 消
+        </el-button>
       </el-row>
     </el-container>
   </div>
@@ -123,6 +134,11 @@
 
 import {listBarnAll} from "@/api/item/barn";
 
+
+function Person(id, goodsName) {
+  this.id = id;
+  this.goodsName = goodsName;
+}
 export default {
   name: "Bills",
   data() {
@@ -136,14 +152,7 @@ export default {
       // 总条数
       total: 0,
       // 入库单据明细表格数据
-      billsList:  [{
-        id: '1',
-        goodsId: '王小虎',
-      },
-        {
-          id: '2',
-          goodsId: '王虎',
-        }],
+      billsList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -171,7 +180,7 @@ export default {
   },
   methods: {
     //删除
-    handleDelete(row){
+    handleDelete(row) {
       // 查找对象在数组中的索引
       let indexToDelete = this.billsList.findIndex(obj => obj.id === row.id);
 
@@ -180,9 +189,24 @@ export default {
         this.billsList.splice(indexToDelete, 1);
       }
     },
+    //添加明细到列表
+    addDetail2(){
+      // 获取本地存储中的数据
+      const storedData = localStorage.getItem('rowData');
+// 解析 JSON 字符串
+      const rowData = JSON.parse(storedData);
+// 在控制台打印数据（实际应用中可用于将数据渲染到页面）
+      console.log(rowData)
+      const newItem = new Person(rowData.id, rowData.goodsName);
+      this.billsList.push(newItem)
+// 清除本地存储中的数据，确保下次使用时不会再次获取
+      localStorage.removeItem('rowData');
+    },
     //添加明细
-    addDetail(){
-      console.log("滚滚滚")
+    addDetail() {
+      // 跳转到 "goods" 页面
+      let url = "goods";
+      this.$router.push(url);
     },
     // 取消按钮,回跳页面
     cancel() {
@@ -195,7 +219,7 @@ export default {
       })
     },
     //确定
-    submitForm(){
+    submitForm() {
       console.log("滚滚滚")
     },
     // 表单重置
