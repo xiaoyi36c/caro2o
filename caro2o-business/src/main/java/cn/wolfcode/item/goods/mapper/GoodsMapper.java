@@ -1,6 +1,7 @@
 package cn.wolfcode.item.goods.mapper;
 
 import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.domain.Subsidiary;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -63,4 +64,6 @@ public interface GoodsMapper
      * @return 结果
      */
     public int deleteGoodsByIds(Long[] ids);
+
+    List<Subsidiary> selectSubsidiaryByGoodsId(Long id);
 }

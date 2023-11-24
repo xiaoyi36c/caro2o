@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.wolfcode.common.config.RuoYiConfig;
 import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.domain.Subsidiary;
 import cn.wolfcode.item.goods.mapper.GoodsMapper;
 import cn.wolfcode.item.goods.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,5 +153,10 @@ public class GoodsServiceImpl implements IGoodsService
     public int deleteGoodsById(Long id)
     {
         return goodsMapper.deleteGoodsById(id);
+    }
+
+    @Override
+    public List<Subsidiary> selectSubsidiaryByGoodsId(Long id) {
+                return goodsMapper.selectSubsidiaryByGoodsId(id);
     }
 }
