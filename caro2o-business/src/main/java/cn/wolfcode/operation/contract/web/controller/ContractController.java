@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.wolfcode.common.utils.poi.ExcelUtil;
 import cn.wolfcode.operation.contract.domain.Contract;
+import cn.wolfcode.operation.contract.domain.VO.ContractVO;
 import cn.wolfcode.operation.contract.service.IContractService;
 import org.apache.xmlbeans.impl.common.IOUtil;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -110,9 +111,9 @@ public class ContractController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:contract:add')")
     @Log(title = "合同信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Contract contract)
+    public AjaxResult add(@RequestBody ContractVO contractVO)
     {
-        return toAjax(contractService.insertContract(contract));
+        return toAjax(contractService.insertContract(contractVO));
     }
 
     /**
