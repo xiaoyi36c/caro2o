@@ -4,7 +4,14 @@
       <el-header height='260px'>
         <el-form ref="form" :model="form" :rules="rules" label-width="200px">
           <el-form-item label="仓库" prop="storeId">
-            <el-input v-model="form.storeId" placeholder="请输入仓库id" style="width: 60%"/>
+            <el-select v-model="form.storeId" placeholder="请选择仓库" clearable>
+              <el-option
+                v-for="dict in barnList"
+                :key="dict.id"
+                :label="dict.storeName"
+                :value="dict.id"
+              />
+            </el-select>
           </el-form-item>
           <el-form-item label="入库时间" prop="operateDate" >
             <el-date-picker clearable
@@ -80,6 +87,8 @@
 
 <script>
 
+import {listBarn} from "@/api/item/barn";
+
 export default {
   name: "Bills",
   data() {
@@ -110,6 +119,10 @@ export default {
         pageNum: 1,
         pageSize: 10,
       },
+      //仓库列表
+      barnList: [],
+
+
       // 表单参数
       form: {},
       // 表单校验
@@ -117,6 +130,10 @@ export default {
     };
   },
   created() {
+
+    listBarnAll().then(response => {
+      this.barnList = response.rows;
+    });
   },
   methods: {
     //价格修改

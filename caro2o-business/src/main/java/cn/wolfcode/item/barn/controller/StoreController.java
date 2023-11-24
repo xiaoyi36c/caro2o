@@ -46,6 +46,17 @@ public class StoreController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 查询仓库信息列表
+     */
+    @PreAuthorize("@ss.hasPermi('barn:barn:list')")
+    @GetMapping("/listall")
+    public TableDataInfo listAll(Store store)
+    {
+        List<Store> list = storeService.selectStoreList(store);
+        return getDataTable(list);
+    }
+
 
 
     /**

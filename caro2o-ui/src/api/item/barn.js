@@ -8,6 +8,12 @@ export function listBarn(query) {
     params: query
   })
 }
+export function listBarnAll() {
+  return request({
+    url: '/barn/barn/listall',
+    method: 'get',
+  })
+}
 
 // 查询仓库信息详细
 export function getBarn(id) {
