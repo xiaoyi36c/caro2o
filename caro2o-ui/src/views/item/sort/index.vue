@@ -177,7 +177,11 @@ export default {
     /** 物品迁移页面跳转 */
     clickRemoval() {
         //js实现跳转
+      const obj = {path: "/item/sort"};
+      this.$tab.closeOpenPage(obj).then(() => {
         this.$router.push("item/sort/removal");
+      })
+
     },
     /** 查询物品分类信息列表 */
     getList() {
