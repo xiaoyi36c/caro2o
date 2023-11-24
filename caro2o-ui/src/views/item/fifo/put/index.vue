@@ -39,7 +39,17 @@
       </el-header>
 
       <el-main>
+
+
         <el-card>
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="addDetail"
+            v-hasPermi="['item:bill:add']"
+          >添加明细</el-button>
           <el-table :data="billsList">
             <el-table-column label="序号" align="center" prop="id"/>
             <el-table-column label="物品" align="center" prop="goodsId"/>
@@ -65,14 +75,25 @@
                 />
               </template>
             </el-table-column>
-            <el-table-column label="小计">
+            <el-table-column label="小计" align="center">
               <template slot-scope="scope">
                 {{scope.row.price * scope.row.amounts}}
               </template>
             </el-table-column>
+            <el-table-column label="操作" align="center">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="text"
+                  icon="el-icon-delete"
+                  @click="handleDelete(scope.row)"
+                  v-hasPermi="['flow:info:remove']"
+                >删除
+                </el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-card>
-
       </el-main>
 
       <el-row>
@@ -116,11 +137,11 @@ export default {
       total: 0,
       // 入库单据明细表格数据
       billsList:  [{
-        id: '2016-05-02',
+        id: '1',
         goodsId: '王小虎',
       },
         {
-          id: '2016-05-02',
+          id: '2',
           goodsId: '王虎',
         }],
       // 弹出层标题
@@ -149,27 +170,34 @@ export default {
     });
   },
   methods: {
-    //价格修改
-    checkPrice(){
-      if (this.discountAmount > this.statement.totalAmount) {
-        this.$modal.alert("优惠金额不能大于总消费金额")
-        this.discountAmount = 0
+    //删除
+    handleDelete(row){
+      // 查找对象在数组中的索引
+      let indexToDelete = this.billsList.findIndex(obj => obj.id === row.id);
+
+      // 如果找到了对象，则删除
+      if (indexToDelete !== -1) {
+        this.billsList.splice(indexToDelete, 1);
       }
     },
-    //数量修改
-    checkAmounts() {
-      if (this.discountAmount > this.statement.totalAmount) {
-        this.$modal.alert("优惠金额不能大于总消费金额")
-        this.discountAmount = 0
-      }
+    //添加明细
+    addDetail(){
+      console.log("滚滚滚")
     },
-    // 取消按钮
+    // 取消按钮,回跳页面
     cancel() {
-      this.open = false;
-      this.reset();
+      this.billsList = []
+      let url = "plug"
+      //js实现跳转
+      const obj = {path: "/item/fifo/fifo/put"};
+      this.$tab.closeOpenPage(obj).then(() => {
+        this.$router.push(url);
+      })
     },
     //确定
-    submitForm(){},
+    submitForm(){
+      console.log("滚滚滚")
+    },
     // 表单重置
     reset() {
       this.form = {

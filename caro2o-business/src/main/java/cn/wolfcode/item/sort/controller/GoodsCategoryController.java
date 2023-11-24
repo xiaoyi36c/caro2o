@@ -99,4 +99,15 @@ public class GoodsCategoryController extends BaseController
     {
         return toAjax(goodsCategoryService.deleteGoodsCategoryByIds(ids));
     }
+
+    /**
+     * 迁移
+     */
+    @PreAuthorize("@ss.hasPermi('sort:sort:dateSort')")
+    @Log(title = "物品分类信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/{id1}/{id2}")
+    public AjaxResult putPuIn( @PathVariable Long id1, @PathVariable Long id2)
+    {
+        return toAjax(goodsCategoryService.putPuIn(id1,id2));
+    }
 }

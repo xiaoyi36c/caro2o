@@ -90,4 +90,17 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
     {
         return goodsCategoryMapper.deleteGoodsCategoryById(id);
     }
+
+    /**
+     * 迁移
+     *
+     * @param id1 需要移动的分类
+     * @param id2 移动通道的id
+     * @return 结束
+     */
+    @Override
+    public int putPuIn(Long id1, Long id2) {
+        goodsCategoryMapper.putPuIn(id1,id2);
+        return 1;
+    }
 }
