@@ -7,6 +7,8 @@ import cn.wolfcode.item.goods.domain.Goods;
 import cn.wolfcode.item.goods.domain.vo.GoodsVo;
 import cn.wolfcode.item.goods.service.IGoodsService;
 import org.springframework.beans.BeanUtils;
+
+import cn.wolfcode.item.goods.domain.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.bill.mapper.StockBillMapper;

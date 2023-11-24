@@ -71,7 +71,7 @@ public class StockBill extends BaseEntity
     @Excel(name = "状态")
     private Integer status;
 
-    /** 入库时间 */
+    /** 录入时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "入库时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date operateDate;

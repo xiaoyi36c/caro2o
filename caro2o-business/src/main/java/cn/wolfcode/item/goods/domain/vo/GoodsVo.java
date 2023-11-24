@@ -17,7 +17,7 @@ public class GoodsVo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 主键 */
+    /** 物品id */
     private Long id;
 
     /** 物品名称 */
@@ -30,4 +30,8 @@ public class GoodsVo extends BaseEntity
 
    //价格
     private String price;
+    //单据id
+    private Long stockBillId;
+    //状态
+    private int state;
 }
