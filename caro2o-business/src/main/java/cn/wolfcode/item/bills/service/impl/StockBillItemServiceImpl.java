@@ -90,4 +90,9 @@ public class StockBillItemServiceImpl implements IStockBillItemService
     {
         return stockBillItemMapper.deleteStockBillItemById(id);
     }
+
+    @Override
+    public List<StockBillItem> selectStockBillItemByBillIdList(Long id) {
+        return stockBillItemMapper.selectStockBillItemByBillIdList(id);
+    }
 }

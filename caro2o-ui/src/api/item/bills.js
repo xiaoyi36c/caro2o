@@ -8,7 +8,13 @@ export function listBills(query) {
     params: query
   })
 }
-
+// 查询出入库单据明细详细
+export function listBillsid(id) {
+  return request({
+    url: '/item/bills/id/' + id,
+    method: 'get'
+  })
+}
 // 查询出入库单据明细详细
 export function getBills(id) {
   return request({

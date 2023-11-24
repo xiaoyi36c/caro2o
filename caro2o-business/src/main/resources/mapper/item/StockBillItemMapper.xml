@@ -27,7 +27,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectStockBillItemVo"/>
         where id = #{id}
     </select>
-        
+<!--    根据出入库管理id查询出入库明细-->
+    <select id="selectStockBillItemByBillIdList" resultMap="StockBillItemResult2">
+        SELECT sb.busi_date,sb.remark,si.amounts,si.price,go.goods_name,st.store_name
+        FROM
+            stock_bill sb JOIN stock_bill_item si ON sb.id = si.bill_id
+                          JOIN store st ON st.id = sb.store_id
+                          JOIN goods go ON go.id = si.goods_id
+        WHERE sb.id = #{id}
+    </select>
+    <resultMap type="StockBillItem" id="StockBillItemResult2">
+        <result property="id"    column="id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="storeName"    column="store_name"    />
+        <result property="amounts"    column="amounts"    />
+        <result property="price"    column="price"    />
+        <result property="billId"    column="bill_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="busiDate"    column="busi_date"/>
+    </resultMap>
+
     <insert id="insertStockBillItem" parameterType="StockBillItem">
         insert into stock_bill_item
         <trim prefix="(" suffix=")" suffixOverrides=",">
