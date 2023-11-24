@@ -1,5 +1,6 @@
 package cn.wolfcode.item.goods.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import cn.wolfcode.item.goods.domain.Goods;
@@ -7,6 +8,7 @@ import cn.wolfcode.item.goods.mapper.GoodsMapper;
 import cn.wolfcode.item.goods.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 
 /**
@@ -54,7 +56,22 @@ public class GoodsServiceImpl implements IGoodsService
     @Override
     public int insertGoods(Goods goods)
     {
-        return goodsMapper.insertGoods(goods);
+        // 参数校验
+        // 1. 物品名称不能超过50个字符
+        Assert.state(goods.getGoodsName().length() <= 50, "物品名称不能超过50个字符");
+        Assert.state(goods.getBrand().length() <= 50, "品牌不能超过50个字符");
+        Assert.state(goods.getSpec().length() <= 50, "规格不能超过50个字符");
+        Assert.state(goods.getGoodsDesc().length() <= 200, "描述不能超过200个字符");
+
+        goodsMapper.insertGoods(goods);
+        Goods goods1 = selectGoodsById(goods.getId());
+
+        String goodsCover = goods1.getGoodsCover();
+        // 根据路径获取文件
+        File file = new File("127.0.0.1:8080" + goodsCover);
+        // 判断文件是否存在
+        Assert.state(file.exists(), "请上传图片");
+        return 1;
     }
 
     /**
@@ -66,7 +83,26 @@ public class GoodsServiceImpl implements IGoodsService
     @Override
     public int updateGoods(Goods goods)
     {
-        return goodsMapper.updateGoods(goods);
+        Goods goods1 = selectGoodsById(goods.getId());
+        Assert.state(goods1 != null, "物品不存在");
+        // 参数校验
+        // 1. 物品名称不能超过50个字符
+        Assert.state(goods.getGoodsName().length() <= 50, "物品名称不能超过50个字符");
+        Assert.state(goods.getBrand().length() <= 50, "品牌不能超过50个字符");
+        Assert.state(goods.getSpec().length() <= 50, "规格不能超过50个字符");
+        Assert.state(goods.getGoodsDesc().length() <= 200, "描述不能超过200个字符");
+
+        goodsMapper.updateGoods(goods);
+        Goods goodsNew = selectGoodsById(goods1.getId());
+
+        String goodsCover = goodsNew.getGoodsCover();
+        // 根据路径获取文件
+        File file = new File("127.0.0.1:8080" + goodsCover);
+        // 判断文件是否存在
+        Assert.state(file.exists(), "请上传图片");
+
+
+        return 1 ;
     }
 
     /**

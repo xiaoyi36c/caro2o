@@ -118,7 +118,6 @@
         <el-form-item label="分类" prop="categoryId">
           <treeselect v-model="form.categoryId" :options="sortOptions"
                       :normalizer="normalizer" placeholder="请选择分类" />
-
         </el-form-item>
         <el-form-item label="品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
