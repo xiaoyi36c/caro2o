@@ -265,7 +265,7 @@ export default {
     },
     /** 出库页面跳转 */
     handleUpdate() {
-      let url = "put"
+      let url = "out"
       //js实现跳转
       this.$router.push(url);
     },
