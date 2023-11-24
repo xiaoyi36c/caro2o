@@ -21,12 +21,15 @@
     <select id="selectGoodsList" parameterType="Goods" resultMap="GoodsResult">
         <include refid="selectGoodsVo"/>
         <where>
-            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
-            <if test="goodsCover != null  and goodsCover != ''"> and goods_cover = #{goodsCover}</if>
-            <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="brand != null  and brand != ''"> and brand like concat('%', #{brand}, '%')</if>
-            <if test="spec != null  and spec != ''"> and spec like concat('%', #{spec}, '%')</if>
-            <if test="goodsDesc != null  and goodsDesc != ''"> and goods_desc like concat('%', #{goodsDesc}, '%')</if>
+<if test="params.keywords != null and params.keywords != ''">
+    and (goods_name like concat('%', #{params.keywords}, '%')
+    or brand like concat('%', #{params.keywords}, '%')
+    or spec like concat('%', #{params.keywords}, '%')
+    or goods_desc like concat('%', #{params.keywords}, '%'))
+</if>
+<if test="categoryId != null and categoryId != ''">
+    and category_id = #{categoryId}
+</if>
         </where>
     </select>
 
