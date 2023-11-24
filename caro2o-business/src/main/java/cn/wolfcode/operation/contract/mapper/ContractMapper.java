@@ -1,6 +1,7 @@
 package cn.wolfcode.operation.contract.mapper;
 
 import cn.wolfcode.operation.contract.domain.Contract;
+import cn.wolfcode.operation.contract.domain.VO.ContractVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,10 +35,10 @@ public interface ContractMapper
     /**
      * 新增合同信息
      * 
-     * @param contract 合同信息
+     * @param contractVO 合同信息
      * @return 结果
      */
-    public int insertContract(Contract contract);
+    public int insertContract(ContractVO contractVO);
 
     /**
      * 修改合同信息
