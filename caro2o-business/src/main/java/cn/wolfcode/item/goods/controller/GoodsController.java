@@ -99,7 +99,7 @@ public class GoodsController extends BaseController
      */
 
 
-    @GetMapping("/billList")
+    @GetMapping("/subsidiary/{id}")
     public AjaxResult subsidiaryAll(Goods goods)
     {
         List<Subsidiary> list = goodsService.selectSubsidiaryByGoodsId(goods.getId());
