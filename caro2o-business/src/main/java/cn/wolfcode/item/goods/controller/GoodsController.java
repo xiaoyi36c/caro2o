@@ -47,18 +47,6 @@ public class GoodsController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出物品信息列表
-     */
-    @PreAuthorize("@ss.hasPermi('item:goods:export')")
-    @Log(title = "物品信息", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Goods goods)
-    {
-        List<Goods> list = goodsService.selectGoodsList(goods);
-        ExcelUtil<Goods> util = new ExcelUtil<Goods>(Goods.class);
-        util.exportExcel(response, list, "物品信息数据");
-    }
 
     /**
      * 获取物品信息详细信息
