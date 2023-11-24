@@ -41,7 +41,7 @@
           plain
           icon="el-icon-edit"
           size="mini"
-          @click="$router.push({ path: '/goods'})"
+          @click="$router.push('item/barn')"
           v-hasPermi="['item:goods:edit']"
         >仓库管理</el-button>
       </el-col>
@@ -52,7 +52,7 @@
           plain
           icon="el-icon-edit"
           size="mini"
-          @click="$router.push({ path: '/goods'})"
+          @click="$router.push({ path: 'item/sort'})"
           v-hasPermi="['item:goods:edit']"
         >分类管理</el-button>
       </el-col>
@@ -86,6 +86,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
+
             v-hasPermi="['item:goods:remove']"
           >删除</el-button>
         </template>
