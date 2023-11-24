@@ -40,6 +40,17 @@
           @click="toggleExpandAll"
         >展开/折叠</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="clickRemoval"
+          v-hasPermi="['sort:sort:add']"
+        >分类迁移</el-button>
+      </el-col>
+
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -114,6 +125,7 @@
 import { listSort, getSort, delSort, addSort, updateSort } from "@/api/item/sort";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import {doCreateStatement} from "@/api/business/appointment/info";
 
 export default {
   name: "Sort",
@@ -162,6 +174,11 @@ export default {
 
   },
   methods: {
+    /** 物品迁移页面跳转 */
+    clickRemoval() {
+        //js实现跳转
+        this.$router.push("item/sort/removal");
+    },
     /** 查询物品分类信息列表 */
     getList() {
       this.loading = true;
