@@ -184,9 +184,15 @@ export default {
     addDetail(){
       console.log("滚滚滚")
     },
-    // 取消按钮
+    // 取消按钮,回跳页面
     cancel() {
-      console.log("滚滚滚")
+      this.billsList = []
+      let url = "plug"
+      //js实现跳转
+      const obj = {path: "/item/fifo/fifo/put"};
+      this.$tab.closeOpenPage(obj).then(() => {
+        this.$router.push(url);
+      })
     },
     //确定
     submitForm(){
