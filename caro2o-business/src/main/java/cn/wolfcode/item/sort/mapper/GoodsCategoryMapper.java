@@ -3,6 +3,7 @@ package cn.wolfcode.item.sort.mapper;
 import java.util.List;
 import cn.wolfcode.item.sort.domain.GoodsCategory;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 物品分类信息Mapper接口
@@ -61,4 +62,6 @@ public interface GoodsCategoryMapper
      * @return 结果
      */
     public int deleteGoodsCategoryByIds(String[] ids);
+
+    void putPuIn(@Param("id") Long id, @Param("parentId") Long parentId);
 }
