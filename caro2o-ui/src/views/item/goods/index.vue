@@ -1,46 +1,21 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="物品名称" prop="goodsName">
+      <el-form-item label="关键字" prop="goodsName">
         <el-input
-          v-model="queryParams.goodsName"
-          placeholder="请输入物品名称"
+          v-model="queryParams.params.keyword"
+          placeholder="请输入物品名称/描述/品牌/数量"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="分类" prop="categoryId">
-        <el-input
-          v-model="queryParams.categoryId"
-          placeholder="请输入分类"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+
+      <el-form-item label="分类" prop="categoryId" style="display: inline-block;">
+        <treeselect aria-label="分类" style="width: 200px" v-model="queryParams.categoryId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择分类" />
       </el-form-item>
-      <el-form-item label="品牌" prop="brand">
-        <el-input
-          v-model="queryParams.brand"
-          placeholder="请输入品牌"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="数量" prop="spec">
-        <el-input
-          v-model="queryParams.spec"
-          placeholder="请输入数量"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="描述" prop="goodsDesc">
-        <el-input
-          v-model="queryParams.goodsDesc"
-          placeholder="请输入描述"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
+
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -157,15 +132,20 @@
 
 <script>
 import { listGoods, getGoods, delGoods, addGoods, updateGoods } from "@/api/item/goods";
+import Treeselect from "@riophae/vue-treeselect";
+import {listSort} from "@/api/item/sort";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "Goods",
+  components: {Treeselect},
   data() {
     return {
       // 遮罩层
       loading: true,
       // 选中数组
       ids: [],
+      sortOptions: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -176,6 +156,8 @@ export default {
       total: 0,
       // 物品信息表格数据
       goodsList: [],
+      sortList: [],
+      sortLists: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -189,7 +171,8 @@ export default {
         categoryId: null,
         brand: null,
         spec: null,
-        goodsDesc: null
+        goodsDesc: null,
+        params: {}
       },
       // 表单参数
       form: {},
@@ -200,6 +183,14 @@ export default {
   },
   created() {
     this.getList();
+    /** 查询物品分类信息列表 */
+    this.getSortList();
+    /** 查询物品分类信息下拉树结构 */
+    listSort().then(response => {
+      this.sortLists = response.data;
+    });
+    this.getTreeselect();
+
   },
   methods: {
     /** 查询物品信息列表 */
@@ -211,6 +202,34 @@ export default {
         this.loading = false;
       });
     },
+
+    /** 查询物品分类信息列表 */
+    getSortList() {
+      listSort().then(response => {
+        this.sortList = this.handleTree(response.data, "id", "parentId");
+      });
+    },
+    /** 转换物品分类信息数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.id,
+        label: node.categoryName,
+        children: node.children
+      };
+    },
+    /** 查询物品分类信息下拉树结构 */
+    getTreeselect() {
+      listSort().then(response => {
+        this.sortOptions = [];
+        const data = { id: 0, categoryName: '顶级节点', children: [] };
+        data.children = this.handleTree(response.data, "id", "parentId");
+        this.sortOptions.push(data);
+      });
+    },
+
     // 取消按钮
     cancel() {
       this.open = false;
