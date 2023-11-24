@@ -55,7 +55,7 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['item:bill:add']"
-        >新增</el-button>
+        >入库</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -63,10 +63,9 @@
           plain
           icon="el-icon-edit"
           size="mini"
-          :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['item:bill:edit']"
-        >修改</el-button>
+        >出库</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -258,21 +257,17 @@ export default {
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
+    /** 入库页面跳转*/
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加出入库单据";
+        let url = "put"
+        //js实现跳转
+        this.$router.push(url);
     },
-    /** 修改按钮操作 */
+    /** 出库页面跳转 */
     handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getBill(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改出入库单据";
-      });
+      let url = "put"
+      //js实现跳转
+      this.$router.push(url);
     },
     /** 提交按钮 */
     submitForm() {
