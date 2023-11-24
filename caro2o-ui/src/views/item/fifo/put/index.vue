@@ -2,73 +2,71 @@
   <div class="app-container">
     <el-container>
       <el-header height='260px'>
-        <el-form ref="form" :model="form" :rules="rules" label-width="200px">
-          <el-form-item label="仓库" prop="storeId">
-            <el-select v-model="form.storeId" placeholder="请选择仓库" clearable>
-              <el-option
-                v-for="dict in barnList"
-                :key="dict.id"
-                :label="dict.storeName"
-                :value="dict.id"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="入库时间" prop="operateDate" >
-            <el-date-picker clearable
-                            style="width: 60%"
-                            v-model="form.operateDate"
-                            type="date"
-                            value-format="yyyy-MM-dd"
-                            placeholder="请选择入库时间">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="备注" prop="remark">
-            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 60%"/>
-          </el-form-item>
-        </el-form>
+        <el-card style="width: 60%">
+          <el-form ref="form" :model="form" :rules="rules" label-width="200px">
+            <el-form-item label="仓库" prop="storeId">
+              <el-select v-model="form.storeId" placeholder="请选择仓库" clearable>
+                <el-option
+                  v-for="dict in barnList"
+                  :key="dict.id"
+                  :label="dict.storeName"
+                  :value="dict.id"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="入库时间" prop="operateDate" >
+              <el-date-picker clearable
+                              style="width: 60%"
+                              v-model="form.operateDate"
+                              type="date"
+                              value-format="yyyy-MM-dd"
+                              placeholder="请选择入库时间">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 60%"/>
+            </el-form-item>
+          </el-form>
+        </el-card>
+
+
       </el-header>
 
       <el-main>
-        <el-table :data="billsList">
-          <el-table-column label="序号" align="center" prop="id"/>
-          <el-table-column label="物品" align="center" prop="goodsId"/>
-          <el-table-column label="价格" align="center">
-           <template slot-scope="scope">
-             <el-input
-               size="mini"
-               v-model="scope.row.price"
-               clearable
-               style="width: 150px"
-             />
-           </template>
-          </el-table-column>
-          <el-table-column label="数量" align="center">
-            <template slot-scope="scope">
-            <el-input
-              size="mini"
-              v-model="scope.row.amounts"
-              clearable
-              style="width: 150px"
-            />
-            </template>
-          </el-table-column>
-          <el-table-column label="小计" align="center">
-            <template slot-scope="scope">
-            {{scope.row.price * scope.row.amounts}}
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" align="center">
-            <template slot-scope="scope">
-              <el-button
-                size="mini"
-                type="text"
-                icon="el-icon-edit"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['item:bill:edit']"
-              >删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+        <el-card>
+          <el-table :data="billsList">
+            <el-table-column label="序号" align="center" prop="id"/>
+            <el-table-column label="物品" align="center" prop="goodsId"/>
+            <el-table-column label="价格" align="center">
+              <template slot-scope="scope">
+                <el-input
+                  size="mini"
+                  v-model="scope.row.price"
+                  clearable
+                  style="width: 150px"
+                  @change="checkPrice()"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column label="数量" align="center">
+              <template slot-scope="scope">
+                <el-input
+                  size="mini"
+                  v-model="scope.row.amounts"
+                  clearable
+                  style="width: 150px"
+                  @change="checkAmounts()"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column label="小计">
+              <template slot-scope="scope">
+                {{scope.row.price * scope.row.amounts}}
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
+
       </el-main>
 
       <el-row>
@@ -96,7 +94,7 @@
 
 <script>
 
-import {listBarn} from "@/api/item/barn";
+import {listBarnAll} from "@/api/item/barn";
 
 export default {
   name: "Bills",
@@ -145,9 +143,19 @@ export default {
     });
   },
   methods: {
-    //删除
-    handleDelete(row){
-      console.log(row.id);
+    //价格修改
+    checkPrice(){
+      if (this.discountAmount > this.statement.totalAmount) {
+        this.$modal.alert("优惠金额不能大于总消费金额")
+        this.discountAmount = 0
+      }
+    },
+    //数量修改
+    checkAmounts() {
+      if (this.discountAmount > this.statement.totalAmount) {
+        this.$modal.alert("优惠金额不能大于总消费金额")
+        this.discountAmount = 0
+      }
     },
     // 取消按钮
     cancel() {
