@@ -39,7 +39,6 @@
                v-model="scope.row.price"
                clearable
                style="width: 150px"
-               @change="checkPrice()"
              />
            </template>
           </el-table-column>
@@ -50,13 +49,23 @@
               v-model="scope.row.amounts"
               clearable
               style="width: 150px"
-              @change="checkAmounts()"
             />
             </template>
           </el-table-column>
-          <el-table-column label="小计">
+          <el-table-column label="小计" align="center">
             <template slot-scope="scope">
             {{scope.row.price * scope.row.amounts}}
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="text"
+                icon="el-icon-edit"
+                @click="handleDelete(scope.row)"
+                v-hasPermi="['item:bill:edit']"
+              >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -136,19 +145,9 @@ export default {
     });
   },
   methods: {
-    //价格修改
-    checkPrice(){
-      if (this.discountAmount > this.statement.totalAmount) {
-        this.$modal.alert("优惠金额不能大于总消费金额")
-        this.discountAmount = 0
-      }
-    },
-    //数量修改
-    checkAmounts() {
-      if (this.discountAmount > this.statement.totalAmount) {
-        this.$modal.alert("优惠金额不能大于总消费金额")
-        this.discountAmount = 0
-      }
+    //删除
+    handleDelete(row){
+      console.log(row.id);
     },
     // 取消按钮
     cancel() {
