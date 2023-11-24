@@ -38,6 +38,33 @@
         where id = #{id}
     </select>
 
+    <resultMap id="Subsidiary" type="cn.wolfcode.item.goods.domain.Subsidiary">
+        <result property="amounts" column="amounts"/>
+        <result property="price" column="price"/>
+        <result property="busiDate" column="busi_date"/>
+        <result property="type" column="type"/>
+        <result property="id" column="id"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="brand" column="brand"/>
+        <result property="storeName" column="store_name"/>
+    </resultMap>
+
+    <select id="selectSubsidiaryByGoodsId" resultMap="Subsidiary">
+        select sbi.amounts,
+               sbi.price,
+               sb.busi_date,
+               sb.type,
+               sb.id,
+               g.goods_name,
+               g.brand,
+               s.store_name
+        from stock_bill_item sbi
+                 join stock_bill sb on sbi.bill_id = sb.id
+                 join goods g on sbi.goods_id = g.id
+                 join store s on sb.store_id = s.id
+        where g.id = #{goodsId}
+    </select>
+
     <insert id="insertGoods" parameterType="Goods" useGeneratedKeys="true" keyProperty="id">
         insert into goods
         <trim prefix="(" suffix=")" suffixOverrides=",">

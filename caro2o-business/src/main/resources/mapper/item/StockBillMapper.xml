@@ -72,6 +72,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
+<!--    作废-->
+    <update id="voidBill">
+    update stock_bill
+      set status = -1
+     where id = #{id}
+    </update>
+    <update id="voidBillitem">
+        update stock_bill_item
+        set state = -1
+        where bill_id = #{id}
+    </update>
 
     <delete id="deleteStockBillById" parameterType="Long">
         delete from stock_bill where id = #{id}

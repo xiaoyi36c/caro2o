@@ -1,6 +1,7 @@
 package cn.wolfcode.item.goods.service;
 
 import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.domain.Subsidiary;
 
 import java.util.List;
 
@@ -60,4 +61,6 @@ public interface IGoodsService
      * @return 结果
      */
     public int deleteGoodsById(Long id);
+
+    List<Subsidiary> selectSubsidiaryByGoodsId(Long id);
 }

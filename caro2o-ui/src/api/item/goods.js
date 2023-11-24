@@ -36,9 +36,18 @@ export function updateGoods(data) {
 }
 
 // 删除物品信息
+
 export function delGoods(id) {
   return request({
     url: '/item/goods/' + id,
     method: 'delete'
+  })
+}
+
+// 出入库明细
+export function subsidiary(id) {
+  return request({
+    url: '/item/goods/subsidiary/' + id,
+    method: 'get'
   })
 }

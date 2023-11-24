@@ -90,4 +90,11 @@ public class StockBillServiceImpl implements IStockBillService
     {
         return stockBillMapper.deleteStockBillById(id);
     }
+
+    @Override
+    public int voidBill(Long id) {
+        //修改状态为-1（作废）
+        stockBillMapper.voidBillitem(id);
+        return stockBillMapper.voidBill(id);
+    }
 }
