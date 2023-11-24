@@ -161,8 +161,8 @@
     />
 
     <!-- 添加或修改合同信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="150px">
         <el-form-item label="客户" prop="customerId">
           <el-select v-model="form.customerId" placeholder="请选择">
             <el-option
@@ -182,7 +182,7 @@
         <el-form-item label="合同金额" prop="amounts">
           <el-input v-model="form.amounts" placeholder="请输入合同金额" />
         </el-form-item>
-        <el-form-item label="合同生效开始时间" prop="startDate">
+        <el-form-item label="合同生效开始时间" prop="startDate" >
           <el-date-picker clearable
                           v-model="form.startDate"
                           type="date"
@@ -190,7 +190,7 @@
                           placeholder="请选择合同生效开始时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="合同生效结束时间" prop="endDate">
+        <el-form-item label="合同生效结束时间" prop="endDate" >
           <el-date-picker clearable
                           v-model="form.endDate"
                           type="date"
