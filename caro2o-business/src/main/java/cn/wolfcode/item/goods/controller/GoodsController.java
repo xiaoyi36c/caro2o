@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.wolfcode.common.utils.poi.ExcelUtil;
 import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.domain.Subsidiary;
 import cn.wolfcode.item.goods.service.IGoodsService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,4 +91,19 @@ public class GoodsController extends BaseController
     {
         return toAjax(goodsService.deleteGoodsByIds(ids));
     }
+
+
+
+    /**
+     *    查询 出入库信息表列表
+     */
+
+
+    @GetMapping("/billList")
+    public AjaxResult subsidiaryAll(Goods goods)
+    {
+        List<Subsidiary> list = goodsService.selectSubsidiaryByGoodsId(goods.getId());
+        return AjaxResult.success(list);
+    }
+
 }
