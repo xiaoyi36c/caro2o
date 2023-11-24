@@ -1,34 +1,40 @@
 <template>
   <div class="app-container">
     <el-container>
-      <el-header height='260px'>
-        <el-card style="width: 60%">
-          <el-form ref="form" :model="form" :rules="rules" label-width="200px">
-            <el-form-item label="仓库" prop="storeId">
-              <el-select v-model="form.storeId" placeholder="请选择仓库" clearable>
-                <el-option
-                  v-for="dict in barnList"
-                  :key="dict.id"
-                  :label="dict.storeName"
-                  :value="dict.id"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="入库时间" prop="operateDate" >
-              <el-date-picker clearable
-                              style="width: 60%"
-                              v-model="form.operateDate"
-                              type="date"
-                              value-format="yyyy-MM-dd"
-                              placeholder="请选择入库时间">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 60%"/>
-            </el-form-item>
-          </el-form>
-        </el-card>
+      <el-header height='260px' >
+        <el-aside width="40%" style="background-color: transparent">
+          <el-card>
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+              <el-form-item label="仓库" prop="storeId">
+                <el-select v-model="form.storeId" placeholder="请选择仓库" clearable>
+                  <el-option
+                    v-for="dict in barnList"
+                    :key="dict.id"
+                    :label="dict.storeName"
+                    :value="dict.id"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="入库时间" prop="operateDate" >
+                <el-date-picker clearable w
+                                style="width: 221px"
+                                v-model="form.operateDate"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="请选择入库时间">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="备注" prop="remark">
+                <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" style="width: 221px"/>
+              </el-form-item>
+            </el-form>
+          </el-card>
+        </el-aside>
 
+        <el-main style="background-color: transparent">
+          <el-card>
+          </el-card>
+        </el-main>
 
       </el-header>
 
