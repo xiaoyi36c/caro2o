@@ -4,7 +4,7 @@
       <el-card class="box-card" style="margin-top: -12px">
       <el-form ref="form" :model="form" label-width="380px">
       <el-form-item label="仓库" prop="storeId">
-        <el-input disabled v-model="form.storeId" placeholder="请输入仓库" />
+        <el-input disabled v-model="form.storeName" placeholder="请输入仓库" />
       </el-form-item>
       <el-form-item label="业务时间" prop="busiDate">
         <el-date-picker clearable
@@ -22,8 +22,7 @@
       </el-card>
 
     <el-table :data="billsList">
-      <el-table-column label="序号" align="center" prop="id" />
-      <el-table-column label="物品" align="center" prop="goodsId" />
+      <el-table-column label="物品" align="center" prop="goodsName" />
       <el-table-column label="数量" align="center" prop="amounts" />
       <el-table-column label="金额" align="center" prop="price" />
       <el-table-column label="小计" align="center" prop="subtotal">
@@ -44,7 +43,7 @@
 </template>
 
 <script>
-import {listBills} from "@/api/item/bills";
+import {listBillsid} from "@/api/item/bills";
 
 export default {
   name: "Bills",
@@ -64,16 +63,24 @@ export default {
     };
   },
   created() {
-    this.getList();
+    //根据客户信息id查询客户信息
+    let id = this.$route.params.id;
+    listBillsid(id).then(res=>{
+      this.billsList = res.rows
+      let bill = this.billsList[0]
+      this.form.storeName = bill.storeName
+      this.form.busiDate = bill.busiDate
+      this.form.remark = bill.remark
+      this.total = res.total
+    })
+    //this.getList();
   },
   methods: {
     /** 查询出入库单据明细列表 */
     getList() {
-      this.loading = true;
       listBills(this.queryParams).then(response => {
         this.billsList = response.rows;
         this.total = response.total;
-        this.loading = false;
       });
     },
   }
