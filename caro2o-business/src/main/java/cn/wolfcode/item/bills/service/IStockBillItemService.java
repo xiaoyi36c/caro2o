@@ -58,4 +58,6 @@ public interface IStockBillItemService
      * @return 结果
      */
     public int deleteStockBillItemById(String id);
+
+    List<StockBillItem> selectStockBillItemByBillIdList(Long id);
 }

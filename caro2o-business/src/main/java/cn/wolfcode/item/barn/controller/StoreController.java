@@ -47,17 +47,17 @@ public class StoreController extends BaseController
     }
 
     /**
-     * 导出仓库信息列表
+     * 查询仓库信息列表
      */
-    @PreAuthorize("@ss.hasPermi('barn:barn:export')")
-    @Log(title = "仓库信息", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, Store store)
+    @PreAuthorize("@ss.hasPermi('barn:barn:list')")
+    @GetMapping("/listall")
+    public TableDataInfo listAll(Store store)
     {
         List<Store> list = storeService.selectStoreList(store);
-        ExcelUtil<Store> util = new ExcelUtil<Store>(Store.class);
-        util.exportExcel(response, list, "仓库信息数据");
+        return getDataTable(list);
     }
+
+
 
     /**
      * 获取仓库信息详细信息
@@ -96,9 +96,9 @@ public class StoreController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('barn:barn:remove')")
     @Log(title = "仓库信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
+	@DeleteMapping("/{id}")
+    public AjaxResult remove(@PathVariable Long id)
     {
-        return toAjax(storeService.deleteStoreByIds(ids));
+        return toAjax(storeService.deleteStoreById(id));
     }
 }

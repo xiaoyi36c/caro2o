@@ -210,20 +210,14 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除仓库信息编号为"' + ids + '"的数据项？').then(function() {
-        return delBarn(ids);
+      const ids = row.id
+      this.$modal.confirm('是否确认删除仓库信息编号为"' + id + '"的数据项？').then(function() {
+        return delBarn(id);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('barn/barn/export', {
-        ...this.queryParams
-      }, `barn_${new Date().getTime()}.xlsx`)
-    }
   }
 };
 </script>

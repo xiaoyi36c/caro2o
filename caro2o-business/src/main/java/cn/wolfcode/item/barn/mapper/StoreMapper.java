@@ -61,4 +61,11 @@ public interface StoreMapper
      * @return 结果
      */
     public int deleteStoreByIds(Long[] ids);
+
+    /**
+     * 查询仓库下的商品
+     * @param id
+     * @return
+     */
+    List<Long> selectGoodsByStoreId(Long id);
 }

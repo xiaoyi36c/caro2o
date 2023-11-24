@@ -23,13 +23,20 @@
                 and (store_name like concat('%', #{params.keyword}, '%') or
                  store_address like concat('%',#{params.keyword}, '%'))
             </if>
+            and state = 0
         </where>
-        and state = 0
+
     </select>
 
     <select id="selectStoreById" parameterType="Long" resultMap="StoreResult">
         <include refid="selectStoreVo"/>
         where id = #{id}
+    </select>
+
+    <select id="selectGoodsByStoreId" resultType="java.lang.Long">
+        select goods_id
+        from goods_store
+        where store_id = #{id}
     </select>
 
     <insert id="insertStore" parameterType="Store">
@@ -59,9 +66,7 @@
     </update>
 
     <delete id="deleteStoreById" parameterType="Long">
-        delete
-        from store
-        where id = #{id}
+        update store set state = -1 where id = #{id}
     </delete>
 
     <delete id="deleteStoreByIds" parameterType="String">

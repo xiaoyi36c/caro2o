@@ -117,7 +117,6 @@ public class GoodsServiceImpl implements IGoodsService
         }
 
 
-
         goodsMapper.updateGoods(goods);
         Goods goodsNew = selectGoodsById(goods1.getId());
 

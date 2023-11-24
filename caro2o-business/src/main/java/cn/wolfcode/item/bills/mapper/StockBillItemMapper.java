@@ -58,4 +58,6 @@ public interface StockBillItemMapper
      * @return 结果
      */
     public int deleteStockBillItemByIds(String[] ids);
+
+    List<StockBillItem> selectStockBillItemByBillIdList(Long id);
 }

@@ -47,6 +47,18 @@ public class StockBillItemController extends BaseController
     }
 
     /**
+     * 查询出入库单据明细列表
+     */
+    @PreAuthorize("@ss.hasPermi('item:bills:list')")
+    @GetMapping("/id/{id}")
+    public TableDataInfo list(@PathVariable("id") Long id)
+    {
+        startPage();
+        List<StockBillItem> list = stockBillItemService.selectStockBillItemByBillIdList(id);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出出入库单据明细列表
      */
     @PreAuthorize("@ss.hasPermi('item:bills:export')")
