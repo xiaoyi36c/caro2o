@@ -68,7 +68,13 @@
           <image-preview :src="scope.row.goodsCover" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="分类" align="center" prop="categoryId" />
+      <el-table-column label="分类" align="center" prop="categoryId" >
+        <template slot-scope="scope">
+          <span v-if="!scope.row.categoryId">顶级分类</span>
+          <span v-for="item in sortLists" v-if="parseInt(item.id) === parseInt(scope.row.categoryId)">{{ item.categoryName }}</span>
+        </template>
+
+      </el-table-column>
       <el-table-column label="品牌" align="center" prop="brand" />
       <el-table-column label="数量" align="center" prop="spec" />
       <el-table-column label="描述" align="center" prop="goodsDesc" />
@@ -110,7 +116,9 @@
           <image-upload v-model="form.goodsCover"/>
         </el-form-item>
         <el-form-item label="分类" prop="categoryId">
-          <el-input v-model="form.categoryId" placeholder="请输入分类" />
+          <treeselect v-model="form.categoryId" :options="sortOptions"
+                      :normalizer="normalizer" placeholder="请选择分类" />
+
         </el-form-item>
         <el-form-item label="品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
@@ -184,7 +192,6 @@ export default {
   created() {
     this.getList();
     /** 查询物品分类信息列表 */
-    this.getSortList();
     /** 查询物品分类信息下拉树结构 */
     listSort().then(response => {
       this.sortLists = response.data;
