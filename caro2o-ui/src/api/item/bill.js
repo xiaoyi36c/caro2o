@@ -42,3 +42,11 @@ export function delBill(id) {
     method: 'delete'
   })
 }
+
+// 作废出入库单据
+export function voidBill(id) {
+  return request({
+    url: '/item/bill/void/' + id,
+    method: 'put'
+  })
+}

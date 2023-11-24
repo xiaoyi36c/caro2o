@@ -103,7 +103,8 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
+            @click="handleVoid(scope.row)"
+            v-show="scope.row.status===0"
             v-hasPermi="['item:bill:edit']"
           >作废</el-button>
           <el-button
@@ -152,7 +153,7 @@
 </template>
 
 <script>
-import { listBill, getBill, delBill, addBill, updateBill } from "@/api/item/bill";
+import {listBill, getBill, delBill, addBill, updateBill, voidBill} from "@/api/item/bill";
 
 export default {
   name: "Bill",
@@ -199,6 +200,17 @@ export default {
     this.getList();
   },
   methods: {
+    //作废
+    handleVoid(row){
+      const id = row.id
+      this.$modal.confirm('是否确认作废出入库单据编号为"' + id + '"的数据项？').then(function() {
+        return voidBill(id);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("已作废");
+      }).catch(() => {});
+    },
+
     /** 处理页面跳转*/
     handleLook(row) {
       let url = "bills/" + row.id;
@@ -215,7 +227,6 @@ export default {
         this.queryParams.params["endBusiDate"] = this.daterangeBusiDate[1];
       }
       listBill(this.queryParams).then(response => {
-        console.log(response)
         this.billList = response.rows;
         this.total = response.total;
         this.loading = false;
