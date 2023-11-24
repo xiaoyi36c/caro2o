@@ -61,10 +61,19 @@ public class GoodsServiceImpl implements IGoodsService
     {
         // 参数校验
         // 1. 物品名称不能超过50个字符
-        Assert.state(goods.getGoodsName().length() <= 50, "物品名称不能超过50个字符");
-        Assert.state(goods.getBrand().length() <= 50, "品牌不能超过50个字符");
-        Assert.state(goods.getSpec().length() <= 50, "规格不能超过50个字符");
-        Assert.state(goods.getGoodsDesc().length() <= 200, "描述不能超过200个字符");
+        if (goods.getGoodsName()!=null){
+            Assert.state(goods.getGoodsName().length() <= 50, "物品名称不能超过50个字符");
+        }
+        if (goods.getBrand()!=null){
+            Assert.state(goods.getBrand().length() <= 50, "品牌不能超过50个字符");
+        }
+        if (goods.getSpec()!=null){
+            Assert.state(goods.getSpec().length() <= 50, "规格不能超过50个字符");
+        }
+        if (goods.getGoodsDesc()!=null){
+            Assert.state(goods.getGoodsDesc().length() <= 50, "描述不能超过50个字符");
+        }
+
 
         goodsMapper.insertGoods(goods);
         Goods goods1 = selectGoodsById(goods.getId());
@@ -94,10 +103,20 @@ public class GoodsServiceImpl implements IGoodsService
         Assert.state(goods1 != null, "物品不存在");
         // 参数校验
         // 1. 物品名称不能超过50个字符
-        Assert.state(goods.getGoodsName().length() <= 50, "物品名称不能超过50个字符");
-        Assert.state(goods.getBrand().length() <= 50, "品牌不能超过50个字符");
-        Assert.state(goods.getSpec().length() <= 50, "规格不能超过50个字符");
-        Assert.state(goods.getGoodsDesc().length() <= 200, "描述不能超过200个字符");
+        if (goods.getGoodsName()!=null){
+            Assert.state(goods.getGoodsName().length() <= 50, "物品名称不能超过50个字符");
+        }
+        if (goods.getBrand()!=null){
+            Assert.state(goods.getBrand().length() <= 50, "品牌不能超过50个字符");
+        }
+        if (goods.getSpec()!=null){
+            Assert.state(goods.getSpec().length() <= 50, "规格不能超过50个字符");
+        }
+        if (goods.getGoodsDesc()!=null){
+            Assert.state(goods.getGoodsDesc().length() <= 50, "描述不能超过50个字符");
+        }
+
+
 
         goodsMapper.updateGoods(goods);
         Goods goodsNew = selectGoodsById(goods1.getId());

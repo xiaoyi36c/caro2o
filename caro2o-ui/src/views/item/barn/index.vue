@@ -119,6 +119,12 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        storeName: [{ required: true, message: "请输入仓库名字", trigger: "blur" },
+          {type: 'string', max: 50, message: '长度在 50 个字符 内', trigger: 'blur'}
+        ],
+        storeAddress: [{ required: true, message: "请输入地址", trigger: "blur" },
+          {type: 'string', max: 250, message: '长度在 250 个字符 内', trigger: 'blur'}
+        ]
       }
     };
   },

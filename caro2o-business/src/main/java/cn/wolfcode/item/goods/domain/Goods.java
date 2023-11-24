@@ -35,7 +35,6 @@ public class Goods extends BaseEntity
     private Long categoryId;
 
     /** 品牌 */
-
     private String brand;
 
     /** 数量 */
