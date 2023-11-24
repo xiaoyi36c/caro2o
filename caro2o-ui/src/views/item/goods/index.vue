@@ -58,38 +58,29 @@
           v-hasPermi="['item:goods:add']"
         >新增</el-button>
       </el-col>
+
       <el-col :span="1.5">
         <el-button
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
-          :disabled="single"
-          @click="handleUpdate"
+          @click="$router.push(`/item/barn`)"
           v-hasPermi="['item:goods:edit']"
-        >修改</el-button>
+        >仓库管理</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="danger"
+          type="success"
           plain
-          icon="el-icon-delete"
+          icon="el-icon-edit"
           size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['item:goods:remove']"
-        >删除</el-button>
+          @click="$router.push(`/item/sort`)"
+          v-hasPermi="['item:goods:edit']"
+        >分类管理</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['item:goods:export']"
-        >导出</el-button>
-      </el-col>
+
+
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
