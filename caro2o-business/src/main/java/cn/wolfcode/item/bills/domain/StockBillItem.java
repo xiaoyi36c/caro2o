@@ -1,6 +1,8 @@
 package cn.wolfcode.item.bills.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import cn.wolfcode.common.annotation.Excel;
@@ -18,6 +20,34 @@ public class StockBillItem extends BaseEntity
 
     /** $column.columnComment */
     private String id;
+
+    private String goodsName;
+    private String storeName;
+    private Date busiDate;
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public Date getBusiDate() {
+        return busiDate;
+    }
+
+    public void setBusiDate(Date busiDate) {
+        this.busiDate = busiDate;
+    }
 
     /** 物品 */
     @Excel(name = "物品")

@@ -4,19 +4,18 @@
       <el-form-item label="关键字" prop="goodsName">
         <el-input
           v-model="queryParams.params.keyword"
-          placeholder="请输入关键字(数量,品牌,描述,名称)"
+          placeholder="请输入物品名称/描述/品牌/数量"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="分类" prop="categoryId">
-        <el-input
-          v-model="queryParams.categoryId"
-          placeholder="请输入分类"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+
+      <el-form-item label="分类" prop="categoryId" style="display: inline-block;">
+        <treeselect aria-label="分类" style="width: 200px" v-model="queryParams.categoryId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择分类" />
       </el-form-item>
+
+
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -32,26 +31,33 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['item:goods:add']"
-        >添加物品</el-button>
+        >新增</el-button>
       </el-col>
+
 
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" border :data="goodsList" @selection-change="handleSelectionChange" style="font-size: 12px">
-      <el-table-column label="序号" align="center" prop="id" width="100px" />
-      <el-table-column label="物品" align="center" >
+    <el-table v-loading="loading" :data="goodsList" @selection-change="handleSelectionChange">
+      <el-table-column label="主键" align="center" prop="id" />
+      <el-table-column label="封面" align="center" prop="goodsCover" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.goodsCover" alt="" style="width: 60px; height: 40px;">
+          <image-preview :src="scope.row.goodsCover" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="名称" align="center" prop="goodsName" />
+      <el-table-column label="物品名称" align="center" prop="goodsName" />
       <el-table-column label="品牌" align="center" prop="brand" />
-      <el-table-column label="分类" align="center" prop="categoryId" />
+      <el-table-column label="分类" align="center" prop="categoryId" >
+        <template slot-scope="scope">
+          <span v-if="!scope.row.categoryId">顶级分类</span>
+          <span v-for="item in sortLists" v-if="parseInt(item.id) === parseInt(scope.row.categoryId)">{{ item.categoryName }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="数量" align="center" prop="spec" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <el-button type="primary">选择此物品</el-button>
-
+        <template slot-scope="scope">
+          <el-button>选择此物品</el-button>
+        </template>
       </el-table-column>
     </el-table>
 
@@ -69,8 +75,13 @@
         <el-form-item label="物品名称" prop="goodsName">
           <el-input v-model="form.goodsName" placeholder="请输入物品名称" />
         </el-form-item>
+        <el-form-item label="封面" prop="goodsCover">
+          <image-upload v-model="form.goodsCover"/>
+        </el-form-item>
         <el-form-item label="分类" prop="categoryId">
-          <el-input v-model="form.categoryId" placeholder="请输入分类" />
+          <treeselect v-model="form.categoryId" :options="sortOptions"
+                      :normalizer="normalizer" placeholder="请选择分类" />
+
         </el-form-item>
         <el-form-item label="品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
@@ -92,15 +103,20 @@
 
 <script>
 import { listGoods, getGoods, delGoods, addGoods, updateGoods } from "@/api/item/goods";
+import Treeselect from "@riophae/vue-treeselect";
+import {listSort} from "@/api/item/sort";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "Goods",
+  components: {Treeselect},
   data() {
     return {
       // 遮罩层
       loading: true,
       // 选中数组
       ids: [],
+      sortOptions: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -111,6 +127,8 @@ export default {
       total: 0,
       // 物品信息表格数据
       goodsList: [],
+      sortList: [],
+      sortLists: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -120,11 +138,12 @@ export default {
         pageNum: 1,
         pageSize: 10,
         goodsName: null,
+        goodsCover: null,
         categoryId: null,
         brand: null,
         spec: null,
         goodsDesc: null,
-        params: {}, // 搜索参数
+        params: {}
       },
       // 表单参数
       form: {},
@@ -135,24 +154,52 @@ export default {
   },
   created() {
     this.getList();
+    /** 查询物品分类信息列表 */
+    /** 查询物品分类信息下拉树结构 */
+    listSort().then(response => {
+      this.sortLists = response.data;
+    });
+    this.getTreeselect();
+
   },
   methods: {
     /** 查询物品信息列表 */
     getList() {
       this.loading = true;
       listGoods(this.queryParams).then(response => {
-        let data = response.rows;
-        // 处理数据 , 将图片转为url
-        data = data.map(item => {
-          let blob = new Blob([item.goodsCover], {type: 'image/jpg + image/png + image/jpeg'});
-          item.goodsCover = URL.createObjectURL(blob);
-          return item;
-        });
-        this.goodsList = data;
+        this.goodsList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
     },
+
+    /** 查询物品分类信息列表 */
+    getSortList() {
+      listSort().then(response => {
+        this.sortList = this.handleTree(response.data, "id", "parentId");
+      });
+    },
+    /** 转换物品分类信息数据结构 */
+    normalizer(node) {
+      if (node.children && !node.children.length) {
+        delete node.children;
+      }
+      return {
+        id: node.id,
+        label: node.categoryName,
+        children: node.children
+      };
+    },
+    /** 查询物品分类信息下拉树结构 */
+    getTreeselect() {
+      listSort().then(response => {
+        this.sortOptions = [];
+        const data = { id: 0, categoryName: '顶级节点', children: [] };
+        data.children = this.handleTree(response.data, "id", "parentId");
+        this.sortOptions.push(data);
+      });
+    },
+
     // 取消按钮
     cancel() {
       this.open = false;

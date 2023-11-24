@@ -59,15 +59,15 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="goodsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" border :data="goodsList" @selection-change="handleSelectionChange" style="font-size: 12px">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
-      <el-table-column label="物品名称" align="center" prop="goodsName" />
-      <el-table-column label="封面" align="center" prop="goodsCover" width="100">
+      <el-table-column label="序号" align="center" prop="id" />
+      <el-table-column label="封面" align="center" prop="goodsCover" >
         <template slot-scope="scope">
-          <image-preview :src="scope.row.goodsCover" :width="50" :height="50"/>
+          <image-preview :src="scope.row.goodsCover" :height="50" :width="120" />
         </template>
       </el-table-column>
+      <el-table-column label="物品名称" align="center" prop="goodsName" />
       <el-table-column label="分类" align="center" prop="categoryId" >
         <template slot-scope="scope">
           <span v-if="!scope.row.categoryId">顶级分类</span>
@@ -113,12 +113,11 @@
           <el-input v-model="form.goodsName" placeholder="请输入物品名称" />
         </el-form-item>
         <el-form-item label="封面" prop="goodsCover">
-          <image-upload v-model="form.goodsCover"/>
+          <image-upload v-model="form.goodsCover" :limit="1" :width="120" :height="50" />
         </el-form-item>
         <el-form-item label="分类" prop="categoryId">
           <treeselect v-model="form.categoryId" :options="sortOptions"
                       :normalizer="normalizer" placeholder="请选择分类" />
-
         </el-form-item>
         <el-form-item label="品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
@@ -186,6 +185,12 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        goodsName: [{ required: true, message: "请输入物品名称", trigger: "blur" },
+          { type: "string", max:50, message: "物品名称长度不能超过50个字符", trigger: "blur" }],
+        goodsCover: [{ required: true, message: "请上传物品封面", trigger: "blur" }],
+        categoryId: [{ required: true, message: "请选择物品分类", trigger: "blur" },],
+        brand: [{ type: "string", max:50, message: "品牌长度不能超过50个字符", trigger: "blur" }],
+        goodsDesc: [{ type: "string", max:50, message: "描述长度不能超过50个字符", trigger: "blur" }],
       }
     };
   },

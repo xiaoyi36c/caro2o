@@ -201,7 +201,7 @@ export default {
   methods: {
     /** 处理页面跳转*/
     handleLook(row) {
-      let url = "  bills/" + row.id;
+      let url = "bills/" + row.id;
       //js实现跳转
       this.$router.push(url);
     },

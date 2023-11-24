@@ -1,11 +1,14 @@
 package cn.wolfcode.item.barn.service.impl;
 
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.barn.mapper.StoreMapper;
 import cn.wolfcode.item.barn.domain.Store;
 import cn.wolfcode.item.barn.service.IStoreService;
+import org.springframework.util.Assert;
 
 /**
  * 仓库信息Service业务层处理
@@ -52,6 +55,9 @@ public class StoreServiceImpl implements IStoreService
     @Override
     public int insertStore(Store store)
     {
+        Assert.state(store.getStoreName().length()<50,"仓库名称不能超过50个字符");
+        Assert.state(store.getStoreAddress().length()<250,"仓库地址不能超过250个字符");
+
         return storeMapper.insertStore(store);
     }
 
@@ -64,6 +70,11 @@ public class StoreServiceImpl implements IStoreService
     @Override
     public int updateStore(Store store)
     {
+        Store store1 = storeMapper.selectStoreById(store.getId());
+        Assert.notNull(store1,"参数错误");
+        Assert.state(store1.getState()==Store.STATE_DELETE,"参数错误");
+        Assert.state(store.getStoreName().length()<50,"仓库名称不能超过50个字符");
+        Assert.state(store.getStoreAddress().length()<250,"仓库地址不能超过250个字符");
         return storeMapper.updateStore(store);
     }
 
@@ -88,6 +99,14 @@ public class StoreServiceImpl implements IStoreService
     @Override
     public int deleteStoreById(Long id)
     {
+        Store store = selectStoreById(id);
+        Assert.notNull(store,"参数错误");
+        Assert.state(Objects.equals(store.getState(), Store.STATE_DELETE),"参数错误");
+
+        List<Long> goodsId=   storeMapper.selectGoodsByStoreId(id);
+        Assert.state(goodsId.isEmpty(),"该仓库下还有商品，不能删除");
+
+
         return storeMapper.deleteStoreById(id);
     }
 }
