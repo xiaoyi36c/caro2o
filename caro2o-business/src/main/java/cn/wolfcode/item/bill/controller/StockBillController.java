@@ -91,6 +91,14 @@ public class StockBillController extends BaseController
         return toAjax(stockBillService.updateStockBill(stockBill));
     }
 
+    //点击作废按钮修改状态
+    @Log(title = "出入库作废", businessType = BusinessType.UPDATE)
+    @PutMapping("/void/{id}")
+    public AjaxResult voidBill(@PathVariable("id") Long id)
+    {
+        return toAjax(stockBillService.voidBill(id));
+    }
+
     /**
      * 删除出入库单据
      */

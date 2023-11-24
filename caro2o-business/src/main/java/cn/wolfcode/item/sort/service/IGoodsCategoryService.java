@@ -58,4 +58,6 @@ public interface IGoodsCategoryService
      * @return 结果
      */
     public int deleteGoodsCategoryById(String id);
+
+    int putPuIn(Long id1, Long id2);
 }

@@ -63,6 +63,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
+    <update id="putPuIn">
+        update goods_category
+        set parent_id = #{parentId}
+        where id = #{id}
+    </update>
+
     <delete id="deleteGoodsCategoryById" parameterType="String">
         delete from goods_category where id = #{id}
     </delete>
