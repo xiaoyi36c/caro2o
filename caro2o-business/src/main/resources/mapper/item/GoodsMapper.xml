@@ -46,10 +46,6 @@
                  join goods g on sbi.goods_id = g.id
                  join store s on sb.store_id = s.id
         where g.id = #{goodsId}
-
-
-
-
     </select>
 
     <insert id="insertGoods" parameterType="Goods" useGeneratedKeys="true" keyProperty="id">
