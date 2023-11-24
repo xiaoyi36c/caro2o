@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="关键字" prop="goodsName">
+      <el-form-item label="物品名称" prop="goodsName">
         <el-input
-          v-model="queryParams.params.keyword"
-          placeholder="请输入关键字(数量,品牌,描述,名称)"
+          v-model="queryParams.goodsName"
+          placeholder="请输入物品名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -13,6 +13,30 @@
         <el-input
           v-model="queryParams.categoryId"
           placeholder="请输入分类"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="品牌" prop="brand">
+        <el-input
+          v-model="queryParams.brand"
+          placeholder="请输入品牌"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="数量" prop="spec">
+        <el-input
+          v-model="queryParams.spec"
+          placeholder="请输入数量"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="描述" prop="goodsDesc">
+        <el-input
+          v-model="queryParams.goodsDesc"
+          placeholder="请输入描述"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -34,44 +58,54 @@
           v-hasPermi="['item:goods:add']"
         >新增</el-button>
       </el-col>
-
       <el-col :span="1.5">
         <el-button
           type="success"
           plain
           icon="el-icon-edit"
           size="mini"
-          @click="$router.push({ path: '/goods'})"
+          :disabled="single"
+          @click="handleUpdate"
           v-hasPermi="['item:goods:edit']"
-        >仓库管理</el-button>
+        >修改</el-button>
       </el-col>
-
       <el-col :span="1.5">
         <el-button
-          type="success"
+          type="danger"
           plain
-          icon="el-icon-edit"
+          icon="el-icon-delete"
           size="mini"
-          @click="$router.push({ path: '/goods'})"
-          v-hasPermi="['item:goods:edit']"
-        >分类管理</el-button>
+          :disabled="multiple"
+          @click="handleDelete"
+          v-hasPermi="['item:goods:remove']"
+        >删除</el-button>
       </el-col>
-
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['item:goods:export']"
+        >导出</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" border :data="goodsList" @selection-change="handleSelectionChange" style="font-size: 12px">
-      <el-table-column label="序号" align="center" prop="id" width="100px" />
-      <el-table-column label="封面" align="center" >
+    <el-table v-loading="loading" :data="goodsList" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="主键" align="center" prop="id" />
+      <el-table-column label="物品名称" align="center" prop="goodsName" />
+      <el-table-column label="封面" align="center" prop="goodsCover" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.goodsCover" alt="" style="width: 60px; height: 40px;">
+          <image-preview :src="scope.row.goodsCover" :width="50" :height="50"/>
         </template>
       </el-table-column>
-      <el-table-column label="物品名称" align="center" prop="goodsName" />
       <el-table-column label="分类" align="center" prop="categoryId" />
       <el-table-column label="品牌" align="center" prop="brand" />
       <el-table-column label="数量" align="center" prop="spec" />
-      <el-table-column label="描述" align="center" show-overflow-tooltip prop="goodsDesc" />
+      <el-table-column label="描述" align="center" prop="goodsDesc" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -106,28 +140,17 @@
         <el-form-item label="物品名称" prop="goodsName">
           <el-input v-model="form.goodsName" placeholder="请输入物品名称" />
         </el-form-item>
+        <el-form-item label="封面" prop="goodsCover">
+          <image-upload v-model="form.goodsCover"/>
+        </el-form-item>
         <el-form-item label="分类" prop="categoryId">
           <el-input v-model="form.categoryId" placeholder="请输入分类" />
         </el-form-item>
         <el-form-item label="品牌" prop="brand">
           <el-input v-model="form.brand" placeholder="请输入品牌" />
         </el-form-item>
-        <el-form-item label="图片">
-          <el-upload
-            ref='upload'
-            accept=".jpg,.png,"
-            class="upload-demo"
-            drag
-            action=""
-            :on-change="handleChange"
-            :on-remove="handleRemove"
-            :auto-upload="false"
-            :limit="1"
-            :file-list="fileList">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+        <el-form-item label="数量" prop="spec">
+          <el-input v-model="form.spec" placeholder="请输入数量" />
         </el-form-item>
         <el-form-item label="描述" prop="goodsDesc">
           <el-input v-model="form.goodsDesc" placeholder="请输入描述" />
@@ -142,14 +165,12 @@
 </template>
 
 <script>
-import {addGoods, addOrUpdateGoods, delGoods, getGoods, listGoods, updateGoods} from "@/api/item/goods";
+import { listGoods, getGoods, delGoods, addGoods, updateGoods } from "@/api/item/goods";
 
 export default {
   name: "Goods",
   data() {
     return {
-      //上传的文件列表
-      fileList: [],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -173,11 +194,11 @@ export default {
         pageNum: 1,
         pageSize: 10,
         goodsName: null,
+        goodsCover: null,
         categoryId: null,
         brand: null,
         spec: null,
-        goodsDesc: null,
-        params: {}, // 搜索参数
+        goodsDesc: null
       },
       // 表单参数
       form: {},
@@ -190,40 +211,11 @@ export default {
     this.getList();
   },
   methods: {
-    //删除上传文件
-    handleRemove() {
-      this.fileList = [];
-    },
-    //添加上传文件
-    handleChange(file, fileList) {
-      this.$refs.upload.clearFiles()
-      //检查文件的格式
-      //2.zip
-      let name = file.name;
-      //先获取到最后一个点的索引
-      let index = name.lastIndexOf(".");
-      //从name中截取从index之后开始的内容
-      let ext = name.substring(index + 1);
-      if (['jpg', 'png'].indexOf(ext) < 0) {
-        this.$modal.msgError("文件格式错误")
-        this.$refs.upload.clearFiles()
-        return;
-      }
-      //在添加文件时，手动将文件对象添加到数组中
-      this.fileList = fileList;
-    },
     /** 查询物品信息列表 */
     getList() {
       this.loading = true;
       listGoods(this.queryParams).then(response => {
-        let data = response.rows;
-        // 处理数据 , 将图片转为url
-        data = data.map(item => {
-          let blob = new Blob([item.goodsCover], {type: 'image/jpg'});
-          item.goodsCover = URL.createObjectURL(blob);
-         return item;
-        });
-        this.goodsList = data;
+        this.goodsList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -282,28 +274,19 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          //检查用户是否添加文件
-          if (this.fileList.length === 0) {
-            this.$modal.msgError("请先选择图片文件");
-            return;
+          if (this.form.id != null) {
+            updateGoods(this.form).then(response => {
+              this.$modal.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
+            });
+          } else {
+            addGoods(this.form).then(response => {
+              this.$modal.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
+            });
           }
-          if (this.form.id === null){
-            this.form.id = -1
-          }
-          //封装需要提交的数据
-          let formData = new FormData();
-          formData.append("id", this.form.id);
-          formData.append("goodsName", this.form.goodsName);
-          formData.append("categoryId", 1);
-          formData.append("brand", this.form.brand);
-          formData.append("goodsDesc", this.form.goodsDesc);
-          formData.append("pictureFile", this.fileList[0].raw);//文件的数据
-          // 发请求
-          addOrUpdateGoods(formData).then(() => {
-            this.$modal.msgSuccess("成功")
-            this.open = false;
-            this.getList();
-          })
         }
       });
     },

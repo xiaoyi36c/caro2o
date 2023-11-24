@@ -3,10 +3,11 @@ package cn.wolfcode.item.goods.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.wolfcode.item.goods.domain.vo.GoodsVO;
+import cn.wolfcode.common.utils.poi.ExcelUtil;
+import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.service.IGoodsService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,16 +20,13 @@ import cn.wolfcode.common.annotation.Log;
 import cn.wolfcode.common.core.controller.BaseController;
 import cn.wolfcode.common.core.domain.AjaxResult;
 import cn.wolfcode.common.enums.BusinessType;
-import cn.wolfcode.item.goods.domain.Goods;
-import cn.wolfcode.item.goods.service.IGoodsService;
-import cn.wolfcode.common.utils.poi.ExcelUtil;
 import cn.wolfcode.common.core.page.TableDataInfo;
 
 /**
  * 物品信息Controller
- * 
+ *
  * @author Baishuai
- * @date 2023-11-23
+ * @date 2023-11-24
  */
 @RestController
 @RequestMapping("/item/goods")
@@ -73,14 +71,14 @@ public class GoodsController extends BaseController
     }
 
     /**
-     * 新增物品信息加修改
+     * 新增物品信息
      */
     @PreAuthorize("@ss.hasPermi('item:goods:add')")
     @Log(title = "物品信息", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult addOrUpdateGoods(@Validated GoodsVO goodsVO)
+    public AjaxResult add(@RequestBody Goods goods)
     {
-        return toAjax(goodsService.insertGoods(goodsVO));
+        return toAjax(goodsService.insertGoods(goods));
     }
 
     /**
@@ -99,7 +97,7 @@ public class GoodsController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('item:goods:remove')")
     @Log(title = "物品信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
+    @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(goodsService.deleteGoodsByIds(ids));
