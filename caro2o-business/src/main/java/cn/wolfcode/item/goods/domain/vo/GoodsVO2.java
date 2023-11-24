@@ -39,6 +39,6 @@ public class GoodsVO2 extends BaseEntity
    @Excel(name = "描述")
    private String goodsDesc;
 
-   private InputStream goodsCover;
+   private byte[] goodsCover;
 
 }
