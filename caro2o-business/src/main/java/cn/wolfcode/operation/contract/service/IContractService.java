@@ -2,6 +2,8 @@ package cn.wolfcode.operation.contract.service;
 
 
 import cn.wolfcode.operation.contract.domain.Contract;
+import cn.wolfcode.operation.contract.domain.VO.ContractVO;
+
 import java.io.InputStream;
 import java.util.List;
 
@@ -32,10 +34,10 @@ public interface IContractService
     /**
      * 新增合同信息
      * 
-     * @param contract 合同信息
+     * @param contractVO 合同信息
      * @return 结果
      */
-    public int insertContract(Contract contract);
+    public int insertContract(ContractVO contractVO);
 
     /**
      * 修改合同信息

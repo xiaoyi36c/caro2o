@@ -6,6 +6,7 @@ import java.util.List;
 import cn.wolfcode.client.customer.service.ICustomerService;
 import cn.wolfcode.common.utils.SecurityUtils;
 import cn.wolfcode.operation.contract.domain.Contract;
+import cn.wolfcode.operation.contract.domain.VO.ContractVO;
 import cn.wolfcode.operation.contract.mapper.ContractMapper;
 import cn.wolfcode.operation.contract.service.IContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,17 +56,17 @@ public class ContractServiceImpl implements IContractService
     /**
      * 新增合同信息
      * 
-     * @param contract 合同信息
+     * @param contractVO 合同信息
      * @return 结果
      */
     @Override
-    public int insertContract(Contract contract)
+    public int insertContract(ContractVO contractVO)
     {
-        contract.setInputUser(SecurityUtils.getUsername());
-        contract.setAffixSealState(Contract.UNREVIEWED);
-        contract.setAuditState(Contract.UNREVIEWED);
-        contract.setNullifyState(Contract.IN_USE);
-        return contractMapper.insertContract(contract);
+        contractVO.setInputUser(SecurityUtils.getUsername());
+        contractVO.setAffixSealState(Contract.UNREVIEWED);
+        contractVO.setAuditState(Contract.UNREVIEWED);
+        contractVO.setNullifyState(Contract.IN_USE);
+        return contractMapper.insertContract(contractVO);
     }
 
     /**
