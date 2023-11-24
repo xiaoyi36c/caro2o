@@ -61,6 +61,16 @@
             v-hasPermi="['item:bill:add']"
           >添加明细到列表
           </el-button>
+
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="openDialog = true"
+            v-hasPermi="['item:bill:add']"
+          >添加明细测试
+          </el-button>
           <el-table :data="billsList">
             <el-table-column label="序号" align="center" prop="id"/>
             <el-table-column label="物品" align="center" prop="goodsName"/>
@@ -105,6 +115,12 @@
         </el-card>
       </el-main>
 
+<!--打开窗口 显示Goods组件-->
+      <el-dialog :title="title" :visible.sync="openDialog" width="60%" append-to-body>
+        <Goods   @submit="submitForm"/>
+      </el-dialog>
+
+
       <el-row>
         <el-button
           type="primary"
@@ -133,6 +149,8 @@
 <script>
 
 import {listBarnAll} from "@/api/item/barn";
+// 引用组件
+import Goods from "@/views/item/fifo/goods/index.vue";
 
 
 function Person(id, goodsName) {
@@ -141,8 +159,14 @@ function Person(id, goodsName) {
 }
 export default {
   name: "Bills",
+  components: {
+    Goods
+  },
   data() {
     return {
+
+      // 显示窗口
+      openDialog: false,
       // 非单个禁用
       single: true,
       // 非多个禁用
