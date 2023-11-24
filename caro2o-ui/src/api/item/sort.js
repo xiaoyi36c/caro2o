@@ -42,3 +42,11 @@ export function delSort(id) {
     method: 'delete'
   })
 }
+
+// 迁移
+export function putPuIn(id1,id2) {
+  return request({
+    url: `/sort/sort/${id1}/${id2}`,
+    method: 'put',
+  })
+}

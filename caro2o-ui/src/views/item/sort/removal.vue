@@ -8,7 +8,12 @@
       </ul>
       <ul>
         <el-form-item label="父类分类" prop="parentId2" style="display: inline-block;">
-          <treeselect aria-label="父类分类" style="width: 200px" v-model="queryParams.parentId2" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类" />
+          <treeselect aria-label="父类分类"
+                      style="width: 200px"
+                      v-model="queryParams.parentId2"
+                      :options="sortOptions"
+                      :normalizer="normalizer"
+                      placeholder="请选择上级分类" />
         </el-form-item>
       </ul>
       <ul>
@@ -20,7 +25,8 @@
           >立刻提交</el-button>
           <el-button
             icon="el-icon-plus"
-            @click="turnoff"
+            @click="
+            turnoff"
             v-hasPermi="['sort:sort:add']"
           >关闭</el-button>
       </ul>
@@ -33,7 +39,7 @@
 </template>
 
 <script>
-import { listSort, getSort, delSort, addSort, updateSort } from "@/api/item/sort";
+import { listSort, putPuIn } from "@/api/item/sort";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -68,6 +74,7 @@ export default {
         categoryDesc: null,
         parentId1: null,
         parentId2: null
+
       },
       // 表单参数
       form: {},
@@ -85,6 +92,15 @@ export default {
 
   },
   methods: {
+    /** 提交 */
+    putIn(){
+      let id1 = this.queryParams.parentId1;
+      let id2 = this.queryParams.parentId2;
+      putPuIn(id1,id2);
+      this.turnoff();
+
+
+    },
     /** 关闭页面跳转 */
     turnoff() {
       //js实现跳转
