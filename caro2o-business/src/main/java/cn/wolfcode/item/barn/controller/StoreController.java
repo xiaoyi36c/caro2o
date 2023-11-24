@@ -2,6 +2,8 @@ package cn.wolfcode.item.barn.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.wolfcode.item.bill.domain.vo.StockBillVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,5 +102,13 @@ public class StoreController extends BaseController
     public AjaxResult remove(@PathVariable Long id)
     {
         return toAjax(storeService.deleteStoreById(id));
+    }
+    //入库
+    @PreAuthorize("@ss.hasPermi('barn:barn:edit')")
+    @Log(title = "仓库信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/put")
+    public AjaxResult put(@RequestBody StockBillVo stockBillVo)
+    {
+        return toAjax(storeService.put(stockBillVo));
     }
 }

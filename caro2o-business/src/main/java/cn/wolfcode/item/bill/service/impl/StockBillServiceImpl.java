@@ -1,6 +1,8 @@
 package cn.wolfcode.item.bill.service.impl;
 
 import java.util.List;
+
+import cn.wolfcode.item.goods.domain.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.bill.mapper.StockBillMapper;

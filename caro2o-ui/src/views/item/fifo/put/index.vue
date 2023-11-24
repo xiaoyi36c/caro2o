@@ -129,7 +129,7 @@
 
 <script>
 
-import {listBarnAll} from "@/api/item/barn";
+import {listBarnAll, outK, putK} from "@/api/item/barn";
 // 引用组件
 import Goods from "@/views/item/fifo/goods/index.vue";
 
@@ -241,7 +241,17 @@ export default {
       }
       const myQo = new Qo(this.form.operateDate, this.form.remark, this.form.storeId);
       myQo.addToCollection(this.billsList);
-      console.log(myQo);
+      putK(myQo).then(res=>{
+        this.$modal.msgSuccess("入库成功");
+
+        this.billsList = []
+        let url = "plug"
+        //js实现跳转
+        const obj = {path: "/item/fifo/fifo/put"};
+        this.$tab.closeOpenPage(obj).then(() => {
+          this.$router.push(url);
+        })
+      })
     },
     // 表单重置
     reset() {

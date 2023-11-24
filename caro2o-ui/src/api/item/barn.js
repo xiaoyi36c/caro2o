@@ -48,7 +48,14 @@ export function outK(data) {
     data: data
   })
 }
-
+// 入库
+export function putK(data) {
+  return request({
+    url: '/barn/barn/put',
+    method: 'put',
+    data: data
+  })
+}
 
 // 删除仓库信息
 export function delBarn(id) {
