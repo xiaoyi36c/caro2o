@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import cn.wolfcode.common.annotation.Excel;
 import cn.wolfcode.common.core.domain.BaseEntity;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 仓库信息对象 store
  * 
@@ -15,15 +17,19 @@ public class Store extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+
+    public static final Integer STATE_NORMAL = 0; //正常
+    public static final Integer STATE_DELETE = -1; //删除
+
     /** 序号 */
     private Long id;
 
     /** 仓库名字 */
-    @Excel(name = "仓库名字")
+    @NotNull(message = "仓库名字不能为空")
     private String storeName;
 
     /** 地址 */
-    @Excel(name = "地址")
+    @NotNull(message = "地址不能为空")
     private String storeAddress;
 
     /** 状态 */

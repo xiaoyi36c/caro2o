@@ -113,7 +113,7 @@
           <el-input v-model="form.goodsName" placeholder="请输入物品名称" />
         </el-form-item>
         <el-form-item label="封面" prop="goodsCover">
-          <image-upload v-model="form.goodsCover"/>
+          <image-upload v-model="form.goodsCover" :limit="1" :width="120" :height="50" />
         </el-form-item>
         <el-form-item label="分类" prop="categoryId">
           <treeselect v-model="form.categoryId" :options="sortOptions"
@@ -185,6 +185,12 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        goodsName: [{ required: true, message: "请输入物品名称", trigger: "blur" },
+          { type: "string", max:50, message: "物品名称长度不能超过50个字符", trigger: "blur" }],
+        goodsCover: [{ required: true, message: "请上传物品封面", trigger: "blur" }],
+        categoryId: [{ required: true, message: "请选择物品分类", trigger: "blur" },],
+        brand: [{ type: "string", max:50, message: "品牌长度不能超过50个字符", trigger: "blur" }],
+        goodsDesc: [{ type: "string", max:50, message: "描述长度不能超过50个字符", trigger: "blur" }],
       }
     };
   },

@@ -24,6 +24,7 @@
                  store_address like concat('%',#{params.keyword}, '%'))
             </if>
         </where>
+        and state = 0
     </select>
 
     <select id="selectStoreById" parameterType="Long" resultMap="StoreResult">
