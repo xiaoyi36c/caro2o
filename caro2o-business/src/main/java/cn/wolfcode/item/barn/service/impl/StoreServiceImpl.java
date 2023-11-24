@@ -1,6 +1,8 @@
 package cn.wolfcode.item.barn.service.impl;
 
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.barn.mapper.StoreMapper;
@@ -97,6 +99,14 @@ public class StoreServiceImpl implements IStoreService
     @Override
     public int deleteStoreById(Long id)
     {
+        Store store = selectStoreById(id);
+        Assert.notNull(store,"参数错误");
+        Assert.state(Objects.equals(store.getState(), Store.STATE_DELETE),"参数错误");
+
+        List<Long> goodsId=   storeMapper.selectGoodsByStoreId(id);
+        Assert.state(goodsId.isEmpty(),"该仓库下还有商品，不能删除");
+
+
         return storeMapper.deleteStoreById(id);
     }
 }
