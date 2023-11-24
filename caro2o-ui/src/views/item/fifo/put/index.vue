@@ -39,7 +39,7 @@
             plain
             icon="el-icon-plus"
             size="mini"
-            @click="addDetail"
+            @click="openDialog = true"
             v-hasPermi="['item:bill:add']"
           >添加明细
           </el-button>
@@ -51,16 +51,6 @@
             @click="addDetail2"
             v-hasPermi="['item:bill:add']"
           >添加明细到列表
-          </el-button>
-
-          <el-button
-            type="primary"
-            plain
-            icon="el-icon-plus"
-            size="mini"
-            @click="openDialog = true"
-            v-hasPermi="['item:bill:add']"
-          >添加明细测试
           </el-button>
           <el-table :data="billsList">
             <el-table-column label="序号" align="center" prop="id"/>
@@ -216,12 +206,6 @@ export default {
       this.billsList.push(newItem)
 // 清除本地存储中的数据，确保下次使用时不会再次获取
       localStorage.removeItem('rowData');
-    },
-    //添加明细
-    addDetail() {
-      // 跳转到 "goods" 页面
-      let url = "goods";
-      this.$router.push(url);
     },
     // 取消按钮,回跳页面
     cancel() {
