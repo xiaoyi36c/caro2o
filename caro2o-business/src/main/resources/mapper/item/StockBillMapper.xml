@@ -20,7 +20,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectStockBillList" parameterType="StockBill" resultMap="StockBillResult">
-        <include refid="selectStockBillVo"/>
+        SELECT sb.*,si.price,si.amounts FROM
+        stock_bill sb JOIN stock_bill_item si ON sb.id = si.bill_id
         <where>  
             <if test="type != null "> and type = #{type}</if>
             <if test="storeId != null  and storeId != ''"> and store_id = #{storeId}</if>

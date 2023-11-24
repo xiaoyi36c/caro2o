@@ -1,6 +1,9 @@
 package cn.wolfcode.item.bill.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
+
+import cn.wolfcode.item.bills.domain.StockBillItem;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -20,6 +23,36 @@ public class StockBill extends BaseEntity
     /** 单据流水号 */
     @Excel(name = "单据流水号")
     private Long id;
+    //关联出入库明细表
+    private StockBillItem stockBillItem;
+
+    public StockBillItem getStockBillItem() {
+        return stockBillItem;
+    }
+
+    public void setStockBillItem(StockBillItem stockBillItem) {
+        this.stockBillItem = stockBillItem;
+    }
+
+    private Integer amounts;
+
+    public Integer getAmounts() {
+        return amounts;
+    }
+
+    public void setAmounts(Integer amounts) {
+        this.amounts = amounts;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    private BigDecimal price;
 
     /** 类型 */
     @Excel(name = "类型")
