@@ -202,7 +202,7 @@ export default {
   methods: {
     /** 处理页面跳转*/
     handleLook(row) {
-      let url = "bills/" + row.id;
+      let url = "  bills/" + row.id;
       //js实现跳转
       this.$router.push(url);
     },
@@ -216,6 +216,7 @@ export default {
         this.queryParams.params["endBusiDate"] = this.daterangeBusiDate[1];
       }
       listBill(this.queryParams).then(response => {
+        console.log(response)
         this.billList = response.rows;
         this.total = response.total;
         this.loading = false;
