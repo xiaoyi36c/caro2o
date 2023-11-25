@@ -69,7 +69,7 @@
     </select>
 
 
-    <select id="selectGoodsListByStoreId" resultType="cn.wolfcode.item.goods.domain.Goods">
+    <select id="selectGoodsListByStoreId" resultMap="GoodsResult">
         SELECT g.*
         FROM goods g
         JOIN stock_bill_item sbi ON g.id = sbi.goods_id
