@@ -68,5 +68,5 @@ public interface GoodsMapper
 
     List<Subsidiary> selectSubsidiaryByGoodsId(Long id);
 
-    Collection<Goods> selectGoodsByCategoryId(String s);
+    Collection<Goods> selectGoodsByCategoryId(String id);
 }

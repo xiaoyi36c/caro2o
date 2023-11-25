@@ -64,8 +64,8 @@
                  join store s on sb.store_id = s.id
         where g.id = #{goodsId}
     </select>
-    <select id="selectGoodsByCategoryId" resultMap="GoodsResult">
-        select Goods from goods where category_id = #{categoryId}
+    <select id="selectGoodsByCategoryId"  resultMap="GoodsResult">
+        select goods.* from goods where category_id = #{id}
     </select>
 
     <insert id="insertGoods" parameterType="Goods" useGeneratedKeys="true" keyProperty="id">

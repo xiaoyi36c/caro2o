@@ -94,10 +94,10 @@ public class GoodsCategoryController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('sort:sort:remove')")
     @Log(title = "物品分类信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
+	@DeleteMapping("/{id}")
     public AjaxResult remove(@PathVariable String id)
     {
-        return toAjax(goodsCategoryService.deleteGoodsCategoryByIds(id));
+        return toAjax(goodsCategoryService.deleteGoodsCategoryById(id));
     }
 
     /**

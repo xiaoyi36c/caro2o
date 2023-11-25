@@ -84,17 +84,7 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
     @Transactional
     public int deleteGoodsCategoryByIds(String id)
     {
-        // 校验
-        GoodsCategory goodsCategory = selectGoodsCategoryById(id);
 
-        List<GoodsCategory> goodsCategories = goodsCategoryMapper.selectGoodsCategoryList(goodsCategory);
-        goodsCategories.forEach(goodsCategory1 -> {
-            int size = goodsService.selectGoodsByCategoryId(String.valueOf(goodsCategory1.getId())).size();
-            if (size > 0){
-                throw new RuntimeException("该分类下有物品,不能删除");
-            }
-            goodsCategoryMapper.deleteGoodsCategoryById(String.valueOf(goodsCategory1.getId()));
-        });
         return goodsCategoryMapper.deleteGoodsCategoryById(id);
     }
 
@@ -107,7 +97,19 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
     @Override
     public int deleteGoodsCategoryById(String id)
     {
-        return goodsCategoryMapper.deleteGoodsCategoryById(id);
+        // 校验
+        GoodsCategory goodsCategory = selectGoodsCategoryById(id);
+
+        List<GoodsCategory> goodsCategories = goodsCategoryMapper.selectGoodsCategoryList(goodsCategory);
+        goodsCategories.forEach(goodsCategory1 -> {
+            int size = goodsService.selectGoodsByCategoryId(String.valueOf(goodsCategory1.getId())).size();
+            if (size > 0){
+                throw new RuntimeException("该分类下有物品,不能删除");
+            }
+            goodsCategoryMapper.deleteGoodsCategoryById(String.valueOf(goodsCategory1.getId()));
+        });
+
+        return 1;
     }
 
     /**
