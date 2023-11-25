@@ -210,7 +210,7 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const ids = row.id
+      const id = row.id
       this.$modal.confirm('是否确认删除仓库信息编号为"' + id + '"的数据项？').then(function() {
         return delBarn(id);
       }).then(() => {

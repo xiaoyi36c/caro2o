@@ -116,7 +116,7 @@ public class StoreServiceImpl implements IStoreService
     {
         Store store = selectStoreById(id);
         Assert.notNull(store,"参数错误");
-        Assert.state(Objects.equals(store.getState(), Store.STATE_DELETE),"参数错误");
+        Assert.state(Objects.equals(store.getState(), Store.STATE_NORMAL),"参数错误");
 
         List<Long> goodsId=   storeMapper.selectGoodsByStoreId(id);
         Assert.state(goodsId.isEmpty(),"该仓库下还有商品，不能删除");
