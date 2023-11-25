@@ -80,14 +80,7 @@
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['sort:sort:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-plus"
-            @click="handleAdd(scope.row)"
-            v-hasPermi="['sort:sort:add']"
-          >新增</el-button>
+          >编辑</el-button>
           <el-button
             size="mini"
             type="text"
@@ -206,7 +199,7 @@ export default {
     getTreeselect() {
       listSort().then(response => {
         this.sortOptions = [];
-        const data = { id: 0, categoryName: '顶级节点', children: [] };
+        const data = { id: 0, categoryName: '顶级分类', children: [] };
         data.children = this.handleTree(response.data, "id", "parentId");
         this.sortOptions.push(data);
       });

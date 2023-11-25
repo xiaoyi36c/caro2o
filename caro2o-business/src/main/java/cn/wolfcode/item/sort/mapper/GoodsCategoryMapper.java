@@ -30,7 +30,6 @@ public interface GoodsCategoryMapper
      * @return 物品分类信息集合
      */
     public List<GoodsCategory> selectGoodsCategoryList(GoodsCategory goodsCategory);
-
     /**
      * 新增物品分类信息
      * 
@@ -66,4 +65,6 @@ public interface GoodsCategoryMapper
     void putPuIn(@Param("id") Long id, @Param("parentId") Long parentId);
 
     List<GoodsCategory> selectPathList(@Param("parentId") Long parentId);
+
+    List<GoodsCategory> selectGoodsCategoryListById(Long id);
 }

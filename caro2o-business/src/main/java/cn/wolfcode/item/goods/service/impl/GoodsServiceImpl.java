@@ -1,6 +1,7 @@
 package cn.wolfcode.item.goods.service.impl;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import cn.wolfcode.common.config.RuoYiConfig;
@@ -158,6 +159,11 @@ public class GoodsServiceImpl implements IGoodsService
     @Override
     public List<Subsidiary> selectSubsidiaryByGoodsId(Long id) {
                 return goodsMapper.selectSubsidiaryByGoodsId(id);
+    }
+
+    @Override
+    public Collection<Goods> selectGoodsByCategoryId(String s) {
+                return goodsMapper.selectGoodsByCategoryId(s);
     }
 
     @Override
