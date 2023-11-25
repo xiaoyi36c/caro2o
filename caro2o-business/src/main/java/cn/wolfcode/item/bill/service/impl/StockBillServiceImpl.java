@@ -1,8 +1,8 @@
 package cn.wolfcode.item.bill.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import cn.wolfcode.client.customer.mapper.CustomerMapper;
 import cn.wolfcode.client.customer.service.ICustomerService;
@@ -63,7 +63,9 @@ public class StockBillServiceImpl implements IStockBillService
     @Override
     public List<StockBill> selectStockBillList(StockBill stockBill)
     {
-        return stockBillMapper.selectStockBillList(stockBill);
+        Set<StockBill> stockBillSet = stockBillMapper.selectStockBillList(stockBill).stream().collect(Collectors.toSet());
+        // 根据id排序
+        return stockBillSet.stream().sorted(Comparator.comparing(StockBill::getId)).collect(Collectors.toList());
     }
 
     /**
