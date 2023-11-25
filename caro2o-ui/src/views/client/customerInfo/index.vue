@@ -44,7 +44,6 @@
             :total="queryParams.total"
             :page.sync="queryParams.pageNum"
             :limit.sync="queryParams.pageSize"
-            @pagination="getList"
           />
         </el-card>
       </el-main>
@@ -71,7 +70,6 @@
             :total="requeryParams.total"
             :page.sync="requeryParams.pageNum"
             :limit.sync="requeryParams.pageSize "
-            @pagination="getRecList"
           />
         </el-card>
 
@@ -110,11 +108,9 @@
           </el-table>
           <!--          分页-->
           <pagination
-            v-show="total>0"
-            :total="total"
-            :page.sync="queryParams.pageNum"
-            :limit.sync="queryParams.pageSize"
-            @pagination="getList"
+            :total="htqueryParams.total"
+            :page.sync="htqueryParams.pageNum"
+            :limit.sync="htqueryParams.pageSize"
           />
         </el-card>
       </el-aside>
@@ -161,7 +157,7 @@ export default {
       htqueryParams: {
         total:0,
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 5,
         contractName: null,
         auditState: null,
         inputTime: null
@@ -186,7 +182,9 @@ export default {
     });
     getHt(id).then(res=>{
       this.contractList=res.data;
+      console.log(res.data);
       this.htqueryParams.total = res.data.length
+
     })
   },
   methods: {
