@@ -126,9 +126,9 @@
 
 
 import {getCustomer} from "@/api/client/customer";
-import {getPhone, listContact} from "@/api/client/contact";
-import {getRec, listRecord} from "@/api/client/record";
-import {listContract,getHt} from "@/api/operation/contract";
+import {getPhone} from "@/api/client/contact";
+import {getRec} from "@/api/client/record";
+import {getHt} from "@/api/operation/contract";
 
 export default {
   name: "CustomerInfo",
@@ -149,14 +149,13 @@ export default {
         total: 0,
         pageNum: 1,
         pageSize: 5,
-        params: {}, // 搜索参数
         positionState: null,
       },
       //拜访记录分页
       requeryParams: {
         total:0,
         pageNum: 1,
-        pageSize:3,
+        pageSize:5,
       },
       //合同分页
       htqueryParams: {
@@ -170,8 +169,6 @@ export default {
     };
   },
   created() {
-    this.getList();
-    this.getRecList();
     //根据客户信息id查询客户信息
     let id = this.$route.params.Id;
     getCustomer(id).then(res =>{
@@ -180,33 +177,19 @@ export default {
     //根据客户信息id去查询联系信息
     getPhone(id).then(res=>{
       this.contact = res.data;
+      this.queryParams.total = res.data.length
     });
     //根据客户id去查询拜访记录
     getRec(id).then(res=>{
       this.recordList = res.data
+      this.requeryParams.total = res.data.length
     });
     getHt(id).then(res=>{
       this.contractList=res.data;
+      this.htqueryParams.total = res.data.length
     })
   },
   methods: {
-    /** 查询客户信息列表 */
-    getList() {
-      listContact(this.queryParams).then(response => {
-        this.contact = response.rows;
-        this.queryParams.total = response.total;
-      });
-      listContract(this.htqueryParams).then(response => {
-        this.contractList = response.rows;
-        this.htqueryParams.total = response.total;
-      });
-    },
-    getRecList() {
-      listRecord(this.requeryParams).then(response => {
-        this.recordList = response.rows;
-        this.requeryParams.total = response.total;
-      });
-    },
   },
 };
 </script>
