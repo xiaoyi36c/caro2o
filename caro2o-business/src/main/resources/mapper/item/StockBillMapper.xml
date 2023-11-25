@@ -59,6 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
+
     <update id="updateStockBill" parameterType="StockBill">
         update stock_bill
         <trim prefix="SET" suffixOverrides=",">

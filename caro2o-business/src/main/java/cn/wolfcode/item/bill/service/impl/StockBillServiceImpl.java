@@ -1,9 +1,15 @@
 package cn.wolfcode.item.bill.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import cn.wolfcode.client.customer.mapper.CustomerMapper;
+import cn.wolfcode.client.customer.service.ICustomerService;
+import cn.wolfcode.common.utils.SecurityUtils;
 import cn.wolfcode.item.bill.domain.vo.StockBillVo;
+import cn.wolfcode.item.bills.domain.StockBillItem;
+import cn.wolfcode.item.bills.service.IStockBillItemService;
 import cn.wolfcode.item.goods.domain.Goods;
 import cn.wolfcode.item.goods.domain.vo.GoodsVo;
 import cn.wolfcode.item.goods.service.IGoodsService;
@@ -33,6 +39,8 @@ public class StockBillServiceImpl implements IStockBillService
     private IGoodsService goodsService;
     @Autowired
     private IStockBillService stockBillService;
+    @Autowired
+    private IStockBillItemService stockBillItemService;
 
     /**
      * 查询出入库单据
@@ -144,12 +152,24 @@ public class StockBillServiceImpl implements IStockBillService
                 //新库存
                 goods1.setSpec(String.valueOf(num));
                 goodsService.updateGoods(goods1);
-                //将
+                //将前端传入的值添加到出入库管理表中
             StockBill stockBill = new StockBill();
-            stockBill.setStoreId(stockBillVo.getStoreId());
-            stockBill.setOperateDate(new Date());
-            stockBill.setRemark(stockBillVo.getRemark());
-            stockBillService.updateStockBill(stockBill);
+            stockBill.setStoreId(stockBillVo.getStoreId());//仓库id
+            stockBill.setOperateDate(new Date());//录入时间
+            stockBill.setBusiDate(stockBillVo.getBusiDate());//出入库时间
+            stockBill.setType(1);//状态设置为出库
+            stockBill.setStatus(0);//状态默认正常
+            stockBill.setOperatorId(SecurityUtils.getUserId());//录入人
+            stockBill.setRemark(stockBillVo.getRemark());//备注
+            stockBillService.insertStockBill(stockBill);
+            //出入库明细
+            StockBillItem stockBillItem = new StockBillItem();
+            stockBillItem.setAmounts(Long.valueOf(good.getAmounts()));//设置数量
+            stockBillItem.setPrice(new BigDecimal(good.getPrice()));//价格
+            stockBillItem.setGoodsId(String.valueOf(id));//设置物品id
+            stockBillItem.setBillId(String.valueOf(stockBill.getId()));
+            stockBillItem.setState(0);
+            stockBillItemService.insertStockBillItem(stockBillItem);
         }
         return 1;
     }
