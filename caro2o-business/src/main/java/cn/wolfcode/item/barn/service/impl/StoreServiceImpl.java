@@ -135,11 +135,13 @@ public class StoreServiceImpl implements IStoreService
         stockBillService.insertStockBill(stockBill);
         //stock_bill_item中间表
         System.out.println(stockBill.getId());
-        for (GoodsVo goodsVo : stockBillVo.getGoods()) {
+        for (GoodsVo goodsVo : stockBillVo.getBillsList()) {
             goodsVo.setState(0);
             goodsVo.setStockBillId(stockBill.getId());
             storeMapper.insertStockBillItem(goodsVo);
         }
+        //goods表
+
         return 0;
     }
 }

@@ -139,16 +139,12 @@ function Person(id, goodsName) {
   this.goodsName = goodsName;
 }
 
-function Qo(operateDate, remark, storeId) {
+function Qo(operateDate, remark, storeId,billsList) {
   this.operateDate = operateDate;
   this.remark = remark;
   this.storeId = storeId;
-  this.billsList = []; // 新添加的集合，可以是数组或其他集合类型
+  this.billsList = billsList; // 新添加的集合，可以是数组或其他集合类型
 }
-// 在 Qo 对象的原型上添加方法，用于操作集合
-Qo.prototype.addToCollection = function(item) {
-  this.billsList.push(item);
-};
 export default {
   name: "Bills",
   components: {
@@ -239,20 +235,18 @@ export default {
           return;
         }
       }
-      const myQo = new Qo(this.form.operateDate, this.form.remark, this.form.storeId);
-      myQo.addToCollection(this.billsList);
-      console.log(myQo);
-      // putK(myQo).then(res=>{
-      //   this.$modal.msgSuccess("入库成功");
-      //
-      //   this.billsList = []
-      //   let url = "plug"
-      //   //js实现跳转
-      //   const obj = {path: "/item/fifo/fifo/put"};
-      //   this.$tab.closeOpenPage(obj).then(() => {
-      //     this.$router.push(url);
-      //   })
-      // })
+      const myQo = new Qo(this.form.operateDate, this.form.remark, this.form.storeId,this.billsList);
+      putK(myQo).then(res=>{
+        this.$modal.msgSuccess("入库成功");
+
+        this.billsList = []
+        let url = "plug"
+        //js实现跳转
+        const obj = {path: "/item/fifo/fifo/put"};
+        this.$tab.closeOpenPage(obj).then(() => {
+          this.$router.push(url);
+        })
+      })
     },
     // 表单重置
     reset() {
