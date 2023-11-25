@@ -73,7 +73,7 @@ public class StockBill extends BaseEntity
 
     /** 录入时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "入库时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "录入时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date operateDate;
 
     /** 录入人 */

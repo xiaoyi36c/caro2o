@@ -3,6 +3,7 @@ package cn.wolfcode.item.goods.service;
 import cn.wolfcode.item.goods.domain.Goods;
 import cn.wolfcode.item.goods.domain.Subsidiary;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -63,4 +64,14 @@ public interface IGoodsService
     public int deleteGoodsById(Long id);
 
     List<Subsidiary> selectSubsidiaryByGoodsId(Long id);
+
+    /**
+     * 根据分类id查询物品
+     * @param s
+     * @return
+     */
+
+    Collection<Goods> selectGoodsByCategoryId(String s);
+
+    void updateGoodsSpec(Long id, String amounts);
 }

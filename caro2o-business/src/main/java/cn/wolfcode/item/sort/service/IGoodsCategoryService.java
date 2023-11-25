@@ -45,11 +45,11 @@ public interface IGoodsCategoryService
 
     /**
      * 批量删除物品分类信息
-     * 
-     * @param ids 需要删除的物品分类信息主键集合
+     *
+     * @param id 需要删除的物品分类信息主键集合
      * @return 结果
      */
-    public int deleteGoodsCategoryByIds(String[] ids);
+    public int deleteGoodsCategoryByIds(String id);
 
     /**
      * 删除物品分类信息信息

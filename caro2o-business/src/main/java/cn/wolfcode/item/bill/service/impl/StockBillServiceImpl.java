@@ -1,5 +1,6 @@
 package cn.wolfcode.item.bill.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import cn.wolfcode.item.bill.domain.vo.StockBillVo;
@@ -120,7 +121,6 @@ public class StockBillServiceImpl implements IStockBillService
     public int Out(StockBillVo stockBillVo) {
         //查询出库存数量,如果库存数为0提示不能出库,否则从库存数量减少相应数量
         List<GoodsVo> goods = stockBillVo.getBillsList();
-        goods.forEach(System.out::println);
         for (GoodsVo good : goods) {
             Long id = good.getId();
             Goods goodsById = goodsService.selectGoodsById(id);
@@ -147,7 +147,7 @@ public class StockBillServiceImpl implements IStockBillService
                 //将
             StockBill stockBill = new StockBill();
             stockBill.setStoreId(stockBillVo.getStoreId());
-            stockBill.setOperateDate(stockBillVo.getBusiDate());
+            stockBill.setOperateDate(new Date());
             stockBill.setRemark(stockBillVo.getRemark());
             stockBillService.updateStockBill(stockBill);
         }

@@ -11,6 +11,7 @@ import cn.wolfcode.item.bill.domain.vo.StockBillVo;
 import cn.wolfcode.item.bill.service.IStockBillService;
 import cn.wolfcode.item.goods.domain.Goods;
 import cn.wolfcode.item.goods.domain.vo.GoodsVo;
+import cn.wolfcode.item.goods.service.IGoodsService;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,8 @@ public class StoreServiceImpl implements IStoreService
     private StoreMapper storeMapper;
     @Autowired
     private IStockBillService stockBillService;
+    @Autowired
+    private IGoodsService goodsService;
 
     /**
      * 查询仓库信息
@@ -133,12 +136,12 @@ public class StoreServiceImpl implements IStoreService
         stockBill.setStatus(0);
         stockBill.setType(0);
         stockBillService.insertStockBill(stockBill);
-        //stock_bill_item中间表
-        System.out.println(stockBill.getId());
+        //stock_bill_item中间表,和goods表
         for (GoodsVo goodsVo : stockBillVo.getBillsList()) {
             goodsVo.setState(0);
             goodsVo.setStockBillId(stockBill.getId());
             storeMapper.insertStockBillItem(goodsVo);
+            goodsService.updateGoodsSpec(goodsVo.getId(),goodsVo.getAmounts());
         }
         return 1;
     }
