@@ -64,4 +64,6 @@ public interface GoodsCategoryMapper
     public int deleteGoodsCategoryByIds(String[] ids);
 
     void putPuIn(@Param("id") Long id, @Param("parentId") Long parentId);
+
+    List<GoodsCategory> selectPathList(@Param("parentId") Long parentId);
 }

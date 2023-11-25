@@ -33,7 +33,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectGoodsCategoryVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectPathList" resultType="cn.wolfcode.item.sort.domain.GoodsCategory">
+        select *
+        from goods_category
+        where parent_id = #{parentId}
+    </select>
+
     <insert id="insertGoodsCategory" parameterType="GoodsCategory">
         insert into goods_category
         <trim prefix="(" suffix=")" suffixOverrides=",">

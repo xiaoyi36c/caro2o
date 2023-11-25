@@ -59,5 +59,5 @@ public interface IGoodsCategoryService
      */
     public int deleteGoodsCategoryById(String id);
 
-    int putPuIn(Long id1, Long id2);
+    int putPuIn(Long id1, Long id2, Boolean checked);
 }

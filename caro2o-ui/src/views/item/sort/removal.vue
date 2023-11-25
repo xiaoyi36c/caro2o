@@ -3,7 +3,12 @@
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <ul>
         <el-form-item label="移动分类" prop="parentId1" style="display: inline-block;">
-          <treeselect aria-label="移动分类" style="width: 200px" v-model="queryParams.parentId1" :options="sortOptions" :normalizer="normalizer" placeholder="请选择上级分类" />
+          <treeselect aria-label="移动分类"
+                      style="width: 200px"
+                      v-model="queryParams.parentId1"
+                      :options="sortOptions"
+                      :normalizer="normalizer"
+                      placeholder="请选择上级分类" />
         </el-form-item>
       </ul>
       <ul>
@@ -15,6 +20,12 @@
                       :normalizer="normalizer"
                       placeholder="请选择上级分类" />
         </el-form-item>
+      </ul>
+      <ul>
+        <template>
+          <!-- `checked` 为 true 或 false -->
+          <el-checkbox v-model="checked">包括子分类</el-checkbox>
+        </template>
       </ul>
       <ul>
           <el-button
@@ -50,6 +61,7 @@ export default {
   },
   data() {
     return {
+      checked: true,
       // 遮罩层
       loading: true,
       // 显示搜索条件
@@ -96,7 +108,8 @@ export default {
     putIn(){
       let id1 = this.queryParams.parentId1;
       let id2 = this.queryParams.parentId2;
-      putPuIn(id1,id2);
+      let checked = this.checked;
+      putPuIn(id1,id2,checked);
       this.turnoff();
 
 
