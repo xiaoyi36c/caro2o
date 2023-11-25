@@ -237,6 +237,13 @@ export default {
       const myQo = new Qo(this.form.busiDate, this.form.remark, this.form.storeId,this.billsList);
       outK(myQo).then(res=>{
         this.$modal.msgSuccess("出库成功");
+        this.billsList = []
+        let url = "plug"
+        //js实现跳转
+        const obj = {path: "/item/fifo/fifo/put"};
+        this.$tab.closeOpenPage(obj).then(() => {
+          this.$router.push(url);
+        })
       })
     },
     // 表单重置

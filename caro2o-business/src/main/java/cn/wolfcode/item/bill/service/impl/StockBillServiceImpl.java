@@ -117,7 +117,10 @@ public class StockBillServiceImpl implements IStockBillService
     @Override
     public int voidBill(Long id) {
         //需减少对应的物品库存，当有物品库存数量不足的情况，提示有物品库存数量不足
+        //如果是入库状态,作废减少入库增加的数量,
+        //如果是出库状态,作废恢复出库减少的数量
         StockBill stockBill = stockBillMapper.selectStockBillById(id);
+
         //修改状态为-1（作废）
         stockBillMapper.voidBillitem(id);
         return stockBillMapper.voidBill(id);
