@@ -124,7 +124,7 @@ public class StoreServiceImpl implements IStoreService
 
         return storeMapper.deleteStoreById(id);
     }
-
+//入库
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int put(StockBillVo stockBillVo) {
