@@ -44,9 +44,9 @@ export function delSort(id) {
 }
 
 // 迁移
-export function putPuIn(id1,id2) {
+export function putPuIn(id1,id2,checked) {
   return request({
-    url: `/sort/sort/${id1}/${id2}`,
+    url: `/sort/sort/${id1}/${id2}/${checked}`,
     method: 'put',
   })
 }
