@@ -76,8 +76,11 @@
               </template>
             </el-table-column>
             <el-table-column label="小计" align="center">
-              <template slot-scope="scope">
-                {{ scope.row.price * scope.row.amounts }}
+              <template slot-scope="scope" v-if="scope.row.price * scope.row.amounts ===0 || scope.row.price === undefined || scope.row.amounts === undefined">
+                <span>0</span>
+              </template>
+              <template slot-scope="scope" v-else>
+                <span>{{ scope.row.price * scope.row.amounts }}</span>
               </template>
             </el-table-column>
             <el-table-column label="操作" align="center">
