@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import cn.wolfcode.common.config.RuoYiConfig;
 import cn.wolfcode.item.goods.domain.Goods;
@@ -53,7 +54,8 @@ public class GoodsServiceImpl implements IGoodsService
         if (params.get("storeId" )== null){
             return goodsMapper.selectGoodsList(goods);
         }else {
-            return goodsMapper.selectGoodsListByStoreId(goods);
+            List<Goods> goods1 = goodsMapper.selectGoodsListByStoreId(goods);
+            return goods1.stream().collect(Collectors.toSet()).stream().collect(Collectors.toList());
         }
     }
 
