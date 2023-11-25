@@ -117,7 +117,7 @@ public class StockBillServiceImpl implements IStockBillService
     @Override
     public int Out(StockBillVo stockBillVo) {
         //查询出库存数量,如果库存数为0提示不能出库,否则从库存数量减少相应数量
-        List<GoodsVo> goods = stockBillVo.getGoods();
+        List<GoodsVo> goods = stockBillVo.getBillsList();
         for (GoodsVo good : goods) {
             Long id = good.getId();
             Goods goodsById = goodsService.selectGoodsById(id);

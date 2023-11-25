@@ -99,8 +99,11 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
     {
         // 校验
         GoodsCategory goodsCategory = selectGoodsCategoryById(id);
-
-        List<GoodsCategory> goodsCategories = goodsCategoryMapper.selectGoodsCategoryList(goodsCategory);
+        int size1 = goodsService.selectGoodsByCategoryId(id).size();
+        if (size1 > 0 && (goodsCategory.getParentId() == 0|| goodsCategory.getParentId() == null)){
+            throw new RuntimeException("该分类下有物品,不能删除");
+        }
+        List<GoodsCategory> goodsCategories = goodsCategoryMapper.selectGoodsCategoryListById(goodsCategory.getId());
         goodsCategories.forEach(goodsCategory1 -> {
             int size = goodsService.selectGoodsByCategoryId(String.valueOf(goodsCategory1.getId())).size();
             if (size > 0){
@@ -108,8 +111,7 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
             }
             goodsCategoryMapper.deleteGoodsCategoryById(String.valueOf(goodsCategory1.getId()));
         });
-
-        return 1;
+        return goodsCategoryMapper.deleteGoodsCategoryById(id);
     }
 
     /**

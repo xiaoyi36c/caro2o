@@ -22,10 +22,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <if test="params.keyword != null and params.keyword != ''">
  and (category_name like concat('%', #{params.keyword}, '%')
  or category_desc like concat('%', #{params.keyword}, '%'))</if>
- <if test="parentId != null and parentId != ''"> and parent_id = #{parentId}</if>
-
-
-
+ <if test="parentId != null and parentId != ''">
+  and parent_id = #{parentId}</if>
         </where>
     </select>
     
@@ -38,6 +36,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select *
         from goods_category
         where parent_id = #{parentId}
+    </select>
+    <select id="selectGoodsCategoryListById" resultType="cn.wolfcode.item.sort.domain.GoodsCategory">
+        select *
+        from goods_category
+        where parent_id = #{id}
     </select>
 
     <insert id="insertGoodsCategory" parameterType="GoodsCategory">
