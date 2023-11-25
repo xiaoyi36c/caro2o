@@ -39,5 +39,5 @@ public class StockBillVo extends BaseEntity
 
     private String remark;
 
-    private List<GoodsVo> goods;
+    private List<GoodsVo> billsList;
 }
