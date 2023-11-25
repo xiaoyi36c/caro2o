@@ -63,4 +63,6 @@ public interface IGoodsService
     public int deleteGoodsById(Long id);
 
     List<Subsidiary> selectSubsidiaryByGoodsId(Long id);
+
+    void updateGoodsSpec(Long id, String amounts);
 }

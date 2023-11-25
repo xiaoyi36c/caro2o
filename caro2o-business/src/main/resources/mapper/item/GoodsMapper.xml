@@ -97,6 +97,9 @@
         </trim>
         where id = #{id}
     </update>
+    <update id="updateGoodsSpec">
+        update goods set spec = spec + #{amounts} WHERE id = #{id}
+    </update>
 
     <delete id="deleteGoodsById" parameterType="Long">
         delete from goods where id = #{id}

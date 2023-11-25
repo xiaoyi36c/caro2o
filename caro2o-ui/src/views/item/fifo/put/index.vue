@@ -15,10 +15,10 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="入库时间" prop="operateDate">
+              <el-form-item label="入库时间" prop="busiDate">
                 <el-date-picker clearable w
                                 style="width: 240px"
-                                v-model="form.operateDate"
+                                v-model="form.busiDate"
                                 type="date"
                                 value-format="yyyy-MM-dd"
                                 placeholder="请选择入库时间">
@@ -139,8 +139,8 @@ function Person(id, goodsName) {
   this.goodsName = goodsName;
 }
 
-function Qo(operateDate, remark, storeId,billsList) {
-  this.operateDate = operateDate;
+function Qo(busiDate, remark, storeId,billsList) {
+  this.busiDate = busiDate;
   this.remark = remark;
   this.storeId = storeId;
   this.billsList = billsList; // 新添加的集合，可以是数组或其他集合类型
@@ -235,7 +235,7 @@ export default {
           return;
         }
       }
-      const myQo = new Qo(this.form.operateDate, this.form.remark, this.form.storeId,this.billsList);
+      const myQo = new Qo(this.form.busiDate, this.form.remark, this.form.storeId,this.billsList);
       putK(myQo).then(res=>{
         this.$modal.msgSuccess("入库成功");
 

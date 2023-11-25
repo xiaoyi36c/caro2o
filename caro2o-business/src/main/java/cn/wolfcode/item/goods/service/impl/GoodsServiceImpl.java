@@ -159,4 +159,9 @@ public class GoodsServiceImpl implements IGoodsService
     public List<Subsidiary> selectSubsidiaryByGoodsId(Long id) {
                 return goodsMapper.selectSubsidiaryByGoodsId(id);
     }
+
+    @Override
+    public void updateGoodsSpec(Long id, String amounts) {
+        goodsMapper.updateGoodsSpec(id, amounts);
+    }
 }
