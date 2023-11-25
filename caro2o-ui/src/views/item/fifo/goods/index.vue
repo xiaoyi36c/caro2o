@@ -208,7 +208,7 @@ export default {
     getTreeselect() {
       listSort().then(response => {
         this.sortOptions = [];
-        const data = { id: 0, categoryName: '顶级节点', children: [] };
+        const data = { id: 0, categoryName: '顶级分类', children: [] };
         data.children = this.handleTree(response.data, "id", "parentId");
         this.sortOptions.push(data);
       });
