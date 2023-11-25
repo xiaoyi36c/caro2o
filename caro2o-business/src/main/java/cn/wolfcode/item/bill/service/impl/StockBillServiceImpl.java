@@ -115,12 +115,48 @@ public class StockBillServiceImpl implements IStockBillService
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int voidBill(Long id) {
         //需减少对应的物品库存，当有物品库存数量不足的情况，提示有物品库存数量不足
-        //如果是入库状态,作废减少入库增加的数量,
-        //如果是出库状态,作废恢复出库减少的数量
         StockBill stockBill = stockBillMapper.selectStockBillById(id);
-
+        Assert.notNull(stockBill,"参数错误");
+        //如果是入库状态,作废减少入库增加的数量,
+        if (stockBill.getType()==0){
+            //根据单据billid查询出单据明细表信息，再从中获取物品id
+            List<StockBillItem> stockBillItem = stockBillItemService.selectStockBillItemByBillIdList(id);
+            for (StockBillItem billItem : stockBillItem) {
+                String goodsId = billItem.getGoodsId();//获取物品id
+                Long amounts = billItem.getAmounts();
+                //根据物品id去查询库存数量
+                String spec = goodsService.selectGoodsById(Long.valueOf(goodsId)).getSpec();
+                //从库存数量减去入库数量
+                Long num = Long.valueOf(spec) - amounts;//入库数量
+                if (num<0){
+                    throw new RuntimeException("当前库存不足不能作废");
+                }
+                Goods goods1 = new Goods();
+                goods1.setId(Long.valueOf(goodsId));
+                goods1.setSpec(String.valueOf(num));
+                goodsService.updateGoods(goods1);
+            }
+        }
+        //如果是出库状态,作废恢复出库减少的数量
+        if (stockBill.getType()==1){
+            //根据单据billid查询出单据明细表信息，再从中获取物品id
+            List<StockBillItem> stockBillItem = stockBillItemService.selectStockBillItemByBillIdList(id);
+            Assert.notNull(stockBillItem,"参数错误");
+            for (StockBillItem billItem : stockBillItem) {
+                String goodsId = billItem.getGoodsId();//获取物品id
+                Long amounts = billItem.getAmounts();
+                //根据物品id去查询库存数量
+                String spec = goodsService.selectGoodsById(Long.valueOf(goodsId)).getSpec();
+                Long num = Integer.valueOf(spec) + amounts;//出库数量
+                Goods goods1 = new Goods();
+                goods1.setId(Long.valueOf(goodsId));
+                goods1.setSpec(String.valueOf(num));
+                goodsService.updateGoods(goods1);
+            }
+        }
         //修改状态为-1（作废）
         stockBillMapper.voidBillitem(id);
         return stockBillMapper.voidBill(id);
