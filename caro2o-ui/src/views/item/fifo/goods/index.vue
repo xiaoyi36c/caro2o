@@ -157,7 +157,8 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      dataList: []
     };
   },
   created() {
@@ -175,6 +176,8 @@ export default {
     sendData(row) {
       // 将数据存储到本地存储
       localStorage.setItem('rowData', JSON.stringify(row));
+      // 将数据存储到dataList中
+      this.dataList.push(row);
 
     },
     /** 查询物品信息列表 */

@@ -39,18 +39,9 @@
             plain
             icon="el-icon-plus"
             size="mini"
-            @click="openDialog = true"
+            @click="handleOpenDialog()"
             v-hasPermi="['item:bill:add']"
           >添加明细
-          </el-button>
-          <el-button
-            type="primary"
-            plain
-            icon="el-icon-plus"
-            size="mini"
-            @click="addDetail2"
-            v-hasPermi="['item:bill:add']"
-          >添加明细到列表
           </el-button>
           <el-table :data="billsList">
             <el-table-column label="序号" align="center" prop="id"/>
@@ -100,8 +91,8 @@
       </el-main>
 
 <!--打开窗口 显示Goods组件-->
-      <el-dialog :title="title" :visible.sync="openDialog" width="60%" append-to-body>
-        <Goods   @submit="submitForm"/>
+      <el-dialog :title="title" :visible.sync="openDialog" width="60%"  append-to-body>
+        <Goods  ref="goods" />
       </el-dialog>
 
 
@@ -188,11 +179,15 @@ export default {
     };
   },
   created() {
-
+    this.openDialog =true;
     listBarnAll().then(response => {
       this.barnList = response.rows;
     });
   },
+  mounted() {
+    this.openDialog= false;
+  },
+
   methods: {
     //删除
     handleDelete(row) {
@@ -204,19 +199,6 @@ export default {
         this.billsList.splice(indexToDelete, 1);
       }
     },
-    //添加明细到列表
-    addDetail2(){
-      // 获取本地存储中的数据
-      const storedData = localStorage.getItem('rowData');
-// 解析 JSON 字符串
-      const rowData = JSON.parse(storedData);
-// 在控制台打印数据（实际应用中可用于将数据渲染到页面）
-      const newItem = new Person(rowData.id, rowData.goodsName);
-      this.billsList.push(newItem)
-// 清除本地存储中的数据，确保下次使用时不会再次获取
-      localStorage.removeItem('rowData');
-    },
-    // 取消按钮,回跳页面
     cancel() {
       this.billsList = []
       let url = "plug"
@@ -225,6 +207,9 @@ export default {
       this.$tab.closeOpenPage(obj).then(() => {
         this.$router.push(url);
       })
+    },
+    handleOpenDialog() {
+      this.openDialog = true;
     },
     //确定
     submitForm() {
@@ -263,6 +248,23 @@ export default {
       };
       this.resetForm("form");
     },
+  },
+  watch: {
+    openDialog(val) {
+      let dataList = this.$refs.goods.dataList;
+      let data = Array.from(new Set(dataList));
+      if (!val) {
+        if (this.billsList.length > 0) {
+          let number = this.billsList.push(...data);
+          // 去重
+          this.billsList = Array.from(new Set(this.billsList));
+
+        } else {
+          this.billsList = data;
+        }
+        this.openDialog = false;
+      }
+    }
   }
 };
 </script>
