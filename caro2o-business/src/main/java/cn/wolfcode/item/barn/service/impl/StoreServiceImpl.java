@@ -1,13 +1,23 @@
 package cn.wolfcode.item.barn.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import cn.wolfcode.common.utils.SecurityUtils;
+import cn.wolfcode.common.utils.bean.BeanUtils;
+import cn.wolfcode.item.bill.domain.StockBill;
+import cn.wolfcode.item.bill.domain.vo.StockBillVo;
+import cn.wolfcode.item.bill.service.IStockBillService;
+import cn.wolfcode.item.goods.domain.Goods;
+import cn.wolfcode.item.goods.domain.vo.GoodsVo;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.barn.mapper.StoreMapper;
 import cn.wolfcode.item.barn.domain.Store;
 import cn.wolfcode.item.barn.service.IStoreService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -21,6 +31,8 @@ public class StoreServiceImpl implements IStoreService
 {
     @Autowired
     private StoreMapper storeMapper;
+    @Autowired
+    private IStockBillService stockBillService;
 
     /**
      * 查询仓库信息
@@ -108,5 +120,28 @@ public class StoreServiceImpl implements IStoreService
 
 
         return storeMapper.deleteStoreById(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int put(StockBillVo stockBillVo) {
+        //出入库管理表
+        StockBill stockBill = new StockBill();
+        BeanUtils.copyBeanProp(stockBill,stockBillVo);
+        stockBill.setOperateDate(new Date());
+        stockBill.setOperatorId(SecurityUtils.getUserId());
+        stockBill.setStatus(0);
+        stockBill.setType(0);
+        stockBillService.insertStockBill(stockBill);
+        //stock_bill_item中间表
+        System.out.println(stockBill.getId());
+        for (GoodsVo goodsVo : stockBillVo.getBillsList()) {
+            goodsVo.setState(0);
+            goodsVo.setStockBillId(stockBill.getId());
+            storeMapper.insertStockBillItem(goodsVo);
+        }
+        //goods表
+
+        return 0;
     }
 }

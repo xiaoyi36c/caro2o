@@ -54,6 +54,9 @@
             <if test="state != null">#{state},</if>
         </trim>
     </insert>
+    <insert id="insertStockBillItem">
+        insert into stock_bill_item (goods_id,amounts,price,bill_id,state) values (#{id},#{amounts},#{price},#{stockBillId},#{state})
+    </insert>
 
     <update id="updateStore" parameterType="Store">
         update store

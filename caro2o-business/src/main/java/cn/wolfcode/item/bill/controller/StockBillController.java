@@ -2,6 +2,8 @@ package cn.wolfcode.item.bill.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.wolfcode.item.bill.domain.vo.StockBillVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,6 +91,15 @@ public class StockBillController extends BaseController
     public AjaxResult edit(@RequestBody StockBill stockBill)
     {
         return toAjax(stockBillService.updateStockBill(stockBill));
+    }
+    /**
+     * 出库
+     */
+    @Log(title = "出库", businessType = BusinessType.UPDATE)
+    @PutMapping("/out")
+    public AjaxResult out(@RequestBody StockBillVo stockBillVo)
+    {
+        return toAjax(stockBillService.Out(stockBillVo));
     }
 
     //点击作废按钮修改状态

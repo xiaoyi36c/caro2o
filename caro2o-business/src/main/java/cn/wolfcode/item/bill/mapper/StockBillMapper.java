@@ -2,6 +2,7 @@ package cn.wolfcode.item.bill.mapper;
 
 import java.util.List;
 import cn.wolfcode.item.bill.domain.StockBill;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 出入库单据Mapper接口
@@ -9,6 +10,7 @@ import cn.wolfcode.item.bill.domain.StockBill;
  * @author ruoyi
  * @date 2023-11-23
  */
+@Mapper
 public interface StockBillMapper 
 {
     /**

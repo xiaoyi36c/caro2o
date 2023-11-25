@@ -2,6 +2,7 @@ package cn.wolfcode.item.barn.mapper;
 
 import java.util.List;
 import cn.wolfcode.item.barn.domain.Store;
+import cn.wolfcode.item.goods.domain.vo.GoodsVo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -68,4 +69,6 @@ public interface StoreMapper
      * @return
      */
     List<Long> selectGoodsByStoreId(Long id);
+
+    void insertStockBillItem(GoodsVo goodsVo);
 }

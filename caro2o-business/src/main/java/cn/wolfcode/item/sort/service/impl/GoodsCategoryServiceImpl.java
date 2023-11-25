@@ -115,12 +115,21 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
     /**
      * 迁移
      *
-     * @param id1 需要移动的分类
-     * @param id2 移动通道的id
+     * @param id1     需要移动的分类
+     * @param id2     移动通道的id
+     * @param checked
      * @return 结束
      */
     @Override
-    public int putPuIn(Long id1, Long id2) {
+    public int putPuIn(Long id1, Long id2, Boolean checked) {
+        if (!checked){
+            GoodsCategory goodsCategory = goodsCategoryMapper.selectGoodsCategoryById(id1.toString());
+            Long parentId = goodsCategory.getParentId();
+            List<GoodsCategory> subclass= goodsCategoryMapper.selectPathList(id1);
+            for (GoodsCategory category : subclass) {
+                goodsCategoryMapper.putPuIn(category.getId(), parentId);
+            }
+        }
         goodsCategoryMapper.putPuIn(id1,id2);
         return 1;
     }

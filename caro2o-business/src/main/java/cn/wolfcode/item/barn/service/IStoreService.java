@@ -2,6 +2,7 @@ package cn.wolfcode.item.barn.service;
 
 import java.util.List;
 import cn.wolfcode.item.barn.domain.Store;
+import cn.wolfcode.item.bill.domain.vo.StockBillVo;
 
 /**
  * 仓库信息Service接口
@@ -58,4 +59,6 @@ public interface IStoreService
      * @return 结果
      */
     public int deleteStoreById(Long id);
+
+    int put(StockBillVo stockBillVo);
 }

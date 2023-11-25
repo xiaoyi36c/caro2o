@@ -40,6 +40,22 @@ export function updateBarn(data) {
     data: data
   })
 }
+// 出库
+export function outK(data) {
+  return request({
+    url: '/item/bill/out',
+    method: 'put',
+    data: data
+  })
+}
+// 入库
+export function putK(data) {
+  return request({
+    url: '/barn/barn/put',
+    method: 'put',
+    data: data
+  })
+}
 
 // 删除仓库信息
 export function delBarn(id) {

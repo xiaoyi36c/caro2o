@@ -105,9 +105,9 @@ public class GoodsCategoryController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('sort:sort:dateSort')")
     @Log(title = "物品分类信息", businessType = BusinessType.UPDATE)
-    @PutMapping("/{id1}/{id2}")
-    public AjaxResult putPuIn( @PathVariable Long id1, @PathVariable Long id2)
+    @PutMapping("/{id1}/{id2}/{checked}")
+    public AjaxResult putPuIn( @PathVariable Long id1, @PathVariable Long id2,@PathVariable Boolean checked)
     {
-        return toAjax(goodsCategoryService.putPuIn(id1,id2));
+        return toAjax(goodsCategoryService.putPuIn(id1,id2,checked));
     }
 }
