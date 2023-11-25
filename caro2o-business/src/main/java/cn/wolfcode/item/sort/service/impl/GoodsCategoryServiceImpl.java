@@ -1,11 +1,14 @@
 package cn.wolfcode.item.sort.service.impl;
 
 import java.util.List;
+
+import cn.wolfcode.item.goods.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.wolfcode.item.sort.mapper.GoodsCategoryMapper;
 import cn.wolfcode.item.sort.domain.GoodsCategory;
 import cn.wolfcode.item.sort.service.IGoodsCategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 物品分类信息Service业务层处理
@@ -18,6 +21,10 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
 {
     @Autowired
     private GoodsCategoryMapper goodsCategoryMapper;
+
+
+    @Autowired
+    private IGoodsService goodsService;
 
     /**
      * 查询物品分类信息
@@ -69,14 +76,26 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService
 
     /**
      * 批量删除物品分类信息
-     * 
-     * @param ids 需要删除的物品分类信息主键
+     *
+     * @param id 需要删除的物品分类信息主键
      * @return 结果
      */
     @Override
-    public int deleteGoodsCategoryByIds(String[] ids)
+    @Transactional
+    public int deleteGoodsCategoryByIds(String id)
     {
-        return goodsCategoryMapper.deleteGoodsCategoryByIds(ids);
+        // 校验
+        GoodsCategory goodsCategory = selectGoodsCategoryById(id);
+
+        List<GoodsCategory> goodsCategories = goodsCategoryMapper.selectGoodsCategoryList(goodsCategory);
+        goodsCategories.forEach(goodsCategory1 -> {
+            int size = goodsService.selectGoodsByCategoryId(String.valueOf(goodsCategory1.getId())).size();
+            if (size > 0){
+                throw new RuntimeException("该分类下有物品,不能删除");
+            }
+            goodsCategoryMapper.deleteGoodsCategoryById(String.valueOf(goodsCategory1.getId()));
+        });
+        return goodsCategoryMapper.deleteGoodsCategoryById(id);
     }
 
     /**

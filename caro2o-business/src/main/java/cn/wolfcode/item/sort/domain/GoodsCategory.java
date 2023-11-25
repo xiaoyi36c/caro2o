@@ -30,12 +30,4 @@ public class GoodsCategory extends TreeEntity
     @Excel(name = "描述")
     private String categoryDesc;
 
-    /** id层级结构 */
-    private String busiPath;
-
-
-
-
-
-
 }
