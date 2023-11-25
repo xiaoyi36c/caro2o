@@ -176,9 +176,6 @@ export default {
       // 将数据存储到本地存储
       localStorage.setItem('rowData', JSON.stringify(row));
 
-      // 跳转到页面B
-      let url = "put"
-      this.$router.push(url);
     },
     /** 查询物品信息列表 */
     getList() {
