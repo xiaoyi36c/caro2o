@@ -14,6 +14,16 @@
         <treeselect aria-label="分类" style="width: 200px" v-model="queryParams.categoryId" :options="sortOptions" :normalizer="normalizer" placeholder="请选择分类" />
       </el-form-item>
 
+      <el-form-item label="仓库" prop="storeId" style="display: inline-block;">
+        <el-select v-model="queryParams.params.storeId" placeholder="请选择仓库" clearable style="width: 200px">
+          <el-option
+            v-for="dict in barnList"
+            :key="dict.id"
+            :label="dict.storeName"
+            :value="dict.id"
+          />
+        </el-select>
+      </el-form-item>
 
 
       <el-form-item>
@@ -114,12 +124,14 @@ import { listGoods, getGoods, delGoods, addGoods, updateGoods } from "@/api/item
 import Treeselect from "@riophae/vue-treeselect";
 import {listSort} from "@/api/item/sort";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import {listBarnAll} from "@/api/item/barn";
 
 export default {
   name: "Goods",
   components: {Treeselect},
   data() {
     return {
+      barnList:[],
       // 遮罩层
       loading: true,
       // 选中数组
@@ -169,6 +181,9 @@ export default {
       this.sortLists = response.data;
     });
     this.getTreeselect();
+    listBarnAll().then(response => {
+      this.barnList = response.rows;
+    });
 
   },
   methods: {

@@ -68,6 +68,26 @@
         select goods.* from goods where category_id = #{id}
     </select>
 
+
+    <select id="selectGoodsListByStoreId" resultType="cn.wolfcode.item.goods.domain.Goods">
+        SELECT g.*
+        FROM goods g
+        JOIN stock_bill_item sbi ON g.id = sbi.goods_id
+        JOIN stock_bill sb ON sbi.bill_id = sb.id
+        <where>
+            <if test="params.keyword != null and params.keyword != ''">
+                and (goods_name like concat('%', #{params.keyword}, '%')
+                or brand like concat('%', #{params.keyword}, '%')
+                or spec like concat('%', #{params.keyword}, '%')
+                or goods_desc like concat('%', #{params.keyword}, '%'))
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and category_id = #{categoryId}
+            </if>
+            and sb.type = 0 AND sb.store_id = #{params.storeId}
+        </where>
+    </select>
+
     <insert id="insertGoods" parameterType="Goods" useGeneratedKeys="true" keyProperty="id">
         insert into goods
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -3,6 +3,7 @@ package cn.wolfcode.item.goods.service.impl;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import cn.wolfcode.common.config.RuoYiConfig;
 import cn.wolfcode.item.goods.domain.Goods;
@@ -48,7 +49,12 @@ public class GoodsServiceImpl implements IGoodsService
     @Override
     public List<Goods> selectGoodsList(Goods goods)
     {
-        return goodsMapper.selectGoodsList(goods);
+        Map<String, Object> params = goods.getParams();
+        if (params.get("storeId" )== null){
+            return goodsMapper.selectGoodsList(goods);
+        }else {
+            return goodsMapper.selectGoodsListByStoreId(goods);
+        }
     }
 
     /**

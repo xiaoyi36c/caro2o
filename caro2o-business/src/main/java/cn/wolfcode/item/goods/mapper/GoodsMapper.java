@@ -72,4 +72,6 @@ public interface GoodsMapper
     Collection<Goods> selectGoodsByCategoryId(String id);
 
     void updateGoodsSpec(@Param("id") Long id, @Param("amounts") String amounts);
+
+    List<Goods> selectGoodsListByStoreId(Goods goods);
 }
