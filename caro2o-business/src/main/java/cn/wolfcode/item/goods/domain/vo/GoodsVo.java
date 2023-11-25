@@ -24,7 +24,6 @@ public class GoodsVo extends BaseEntity
     @NotNull(message = "物品名称不能为空")
     private String goodsName;
 
-
     /** 数量 */
 
     private String amounts;

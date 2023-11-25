@@ -2,6 +2,7 @@ package cn.wolfcode.item.bill.service;
 
 import java.util.List;
 import cn.wolfcode.item.bill.domain.StockBill;
+import cn.wolfcode.item.bill.domain.vo.StockBillVo;
 import cn.wolfcode.item.goods.domain.vo.GoodsVo;
 
 /**
@@ -61,5 +62,7 @@ public interface IStockBillService
     public int deleteStockBillById(Long id);
 
     int voidBill(Long id);
+
+    int Out(StockBillVo stockBillVo);
 
 }

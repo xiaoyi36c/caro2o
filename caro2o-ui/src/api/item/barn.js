@@ -43,7 +43,7 @@ export function updateBarn(data) {
 // 出库
 export function outK(data) {
   return request({
-    url: '/barn/barn/out',
+    url: '/item/bill/out',
     method: 'put',
     data: data
   })
