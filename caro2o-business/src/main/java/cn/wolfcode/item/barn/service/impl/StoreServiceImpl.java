@@ -140,8 +140,6 @@ public class StoreServiceImpl implements IStoreService
             goodsVo.setStockBillId(stockBill.getId());
             storeMapper.insertStockBillItem(goodsVo);
         }
-        //goods表
-
-        return 0;
+        return 1;
     }
 }

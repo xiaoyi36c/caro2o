@@ -15,10 +15,10 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="出库时间" prop="operateDate">
+              <el-form-item label="出库时间" prop="busiDate">
                 <el-date-picker clearable w
                                 style="width: 240px"
-                                v-model="form.operateDate"
+                                v-model="form.busiDate"
                                 type="date"
                                 value-format="yyyy-MM-dd"
                                 placeholder="请选择入库时间">
@@ -139,16 +139,12 @@ function Person(id, goodsName) {
   this.goodsName = goodsName;
 }
 
-function Qo(operateDate, remark, storeId) {
-  this.operateDate = operateDate;
+function Qo(busiDate, remark, storeId,billsList) {
+  this.busiDate = busiDate;
   this.remark = remark;
   this.storeId = storeId;
-  this.billsList = []; // 新添加的集合，可以是数组或其他集合类型
+  this.billsList = billsList; // 新添加的集合，可以是数组或其他集合类型
 }
-// 在 Qo 对象的原型上添加方法，用于操作集合
-Qo.prototype.addToCollection = function(item) {
-  this.billsList.push(item);
-};
 export default {
   name: "Bills",
   components: {
@@ -189,7 +185,6 @@ export default {
     };
   },
   created() {
-
     listBarnAll().then(response => {
       this.barnList = response.rows;
     });
@@ -239,12 +234,10 @@ export default {
           return;
         }
       }
-      const myQo = new Qo(this.form.operateDate, this.form.remark, this.form.storeId);
-      myQo.addToCollection(this.billsList);
+      const myQo = new Qo(this.form.busiDate, this.form.remark, this.form.storeId,this.billsList);
       outK(myQo).then(res=>{
         this.$modal.msgSuccess("出库成功");
       })
-
     },
     // 表单重置
     reset() {

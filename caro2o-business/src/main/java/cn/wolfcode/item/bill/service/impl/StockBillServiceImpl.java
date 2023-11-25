@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import cn.wolfcode.item.bill.mapper.StockBillMapper;
 import cn.wolfcode.item.bill.domain.StockBill;
 import cn.wolfcode.item.bill.service.IStockBillService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -114,20 +115,28 @@ public class StockBillServiceImpl implements IStockBillService
     }
 
     //出库
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int Out(StockBillVo stockBillVo) {
         //查询出库存数量,如果库存数为0提示不能出库,否则从库存数量减少相应数量
-        List<GoodsVo> goods = stockBillVo.getGoods();
+        List<GoodsVo> goods = stockBillVo.getBillsList();
+        goods.forEach(System.out::println);
         for (GoodsVo good : goods) {
             Long id = good.getId();
             Goods goodsById = goodsService.selectGoodsById(id);
+            //物品表中的库存数
             Integer spec =Integer.valueOf(goodsById.getSpec());
-            if (spec < 0) {
+            //如果没有库存不能操作
+            if (spec <= 0) {
                 continue;
             }
-                int idSpec = Integer.valueOf(goodsById.getSpec());
+            //前端传入的数量
+                int idSpec = Integer.valueOf(good.getAmounts());
                 //剩下库存
                 Integer num = spec - idSpec;
+                if (num<0){
+                    continue;
+                }
                 Goods goods1 = new Goods();
                 goods1.setId(id);
                 //物品名
@@ -138,7 +147,7 @@ public class StockBillServiceImpl implements IStockBillService
                 //将
             StockBill stockBill = new StockBill();
             stockBill.setStoreId(stockBillVo.getStoreId());
-            stockBill.setOperateDate(stockBillVo.getOperateDate());
+            stockBill.setOperateDate(stockBillVo.getBusiDate());
             stockBill.setRemark(stockBillVo.getRemark());
             stockBillService.updateStockBill(stockBill);
         }

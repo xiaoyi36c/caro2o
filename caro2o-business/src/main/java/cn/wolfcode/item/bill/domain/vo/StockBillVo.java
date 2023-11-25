@@ -35,7 +35,7 @@ public class StockBillVo extends BaseEntity
     /** 时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date operateDate;
+    private Date busiDate;
 
     private String remark;
 
