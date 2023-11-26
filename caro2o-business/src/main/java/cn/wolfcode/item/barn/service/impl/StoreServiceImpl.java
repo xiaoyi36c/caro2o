@@ -120,8 +120,6 @@ public class StoreServiceImpl implements IStoreService
 
         List<Long> goodsId=   storeMapper.selectGoodsByStoreId(id);
         Assert.state(goodsId.isEmpty(),"该仓库下还有商品，不能删除");
-
-
         return storeMapper.deleteStoreById(id);
     }
 
